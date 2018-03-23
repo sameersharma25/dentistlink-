@@ -1,0 +1,25 @@
+#loginForm{
+    padding: 3em 10em;
+}
+.cust_input{
+    width: 100%;
+    padding: 8px 10px;
+    font-size: 16px;
+    position: relative;
+    color: #666;
+    border: 1px solid #b1b1b1;
+    font-weight: 500;
+}
+.cust_input:focus{
+    outline: none;
+    box-shadow: none;
+}
+.label_txt{
+    color: #7b7b7b;
+    font-size: 16px;
+    font-weight: 500;
+}
+/* .btn.comp_btn{padding: 10px 35px;font-weight: 500;font-size: 1.2em;font-weight: 600;}
+.btn.comp_btn:hover{box-shadow: 0 3px 8px 0 rgba(0,0,0,0.2), 0 0 0 1px rgba(0,0,0,0.08);}
+.btn.comp_btn.reset{background: none;border: 2px solid #5491cd;color: #5491cd;}
+.btn.comp_btn.submit{background: #4d88d5;color: #fff;} */

@@ -1,0 +1,66 @@
+<link rel="stylesheet" type="text/css" media="screen" href="css/grid-list.css" />
+<link rel="stylesheet" type="text/css" media="screen" href="css/appointment-list.css" />
+<div class="">
+    <div class="header-info"></div>
+    <div class="grid-info">
+        Patients reffered by me
+    </div>
+    <div class="grid_list_wrapper">
+        <div class="grid_row grid_list_header">
+            <div class="grid_cell cw1">Patient Name</div>
+            <div class="grid_cell cw2">Age 
+            <!-- <i class="glyphicon glyphicon-chevron-up"></i> -->
+            </div>
+            <div class="grid_cell cw3">Appointment Date</div>
+            <div class="grid_cell cw4">Appointment Status</div>
+            <div class="grid_cell cw5">Refered By</div>
+            <div class="grid_cell cw6">Action</div>
+        </div>
+        <div class="grid_list_body">
+            <div class="grid_row" data-ng-if="false" style="justify-content:center;font-weight:700;">No Appointments Found.</div>
+            <div class="grid_row bdr_btm" data-ng-repeat="appointment in [1,2,3,5]">
+                <div class="grid_cell cw1">{{appointment}}</div>
+                <div class="grid_cell cw2">Appointment 1</div>
+                <div class="grid_cell cw3">25</div>
+                <div class="grid_cell cw4">23-12-2012</div>
+                <div class="grid_cell cw5">Active</div>
+                <div class="grid_cell cw6">
+                    <select class="form-control cust-select" data-ng-model="userAction" ng-options="userAction for userAction in ['Edit','Completed','Pending']">
+                        <option value="">--select action--</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="_clearfix vm"></div>
+    <div class="grid-info">
+        Patients reffered to me
+    </div>
+    <div class="grid_list_wrapper">
+            <div class="grid_row grid_list_header">
+                <div class="grid_cell cw1">Patient Name</div>
+                <div class="grid_cell cw2">Age 
+                <!-- <i class="glyphicon glyphicon-chevron-up"></i> -->
+                </div>
+                <div class="grid_cell cw3">Appointment Date</div>
+                <div class="grid_cell cw4">Appointment Status</div>
+                <div class="grid_cell cw5">Refered By</div>
+                <div class="grid_cell cw6">Action</div>
+            </div>
+            <div class="grid_list_body">
+                <div class="grid_row" data-ng-if="false" style="justify-content:center;font-weight:700;">No Appointments Found.</div>
+                <div class="grid_row bdr_btm" data-ng-repeat="appointment in [1,2,3,5]">
+                    <div class="grid_cell cw1">{{appointment}}</div>
+                    <div class="grid_cell cw2">Appointment 1</div>
+                    <div class="grid_cell cw3">25</div>
+                    <div class="grid_cell cw4">23-12-2012</div>
+                    <div class="grid_cell cw5">Active</div>
+                    <div class="grid_cell cw6">
+                        <select class="form-control cust-select" data-ng-model="userAction" ng-options="userAction for userAction in ['Edit','Completed','Pending']">
+                            <option value="">--select action--</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
