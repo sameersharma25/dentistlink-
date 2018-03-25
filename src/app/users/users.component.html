@@ -1,0 +1,49 @@
+<div class="_clearfix"></div>
+<div class="form-wrapper" style="padding:0 10em;">
+    <h3>New User</h3>
+    <form id="createUserForm" [formGroup]="createUserForm" autocomplete="off" (ngSubmit)="submitForm()">
+        <div class="row">
+            <div class="col-sm-6">
+                <div><label class="label_txt" for="">User Name</label></div>
+                <div>
+                    <input type="text" class="cust_input" formControlName="name"  placeholder="User Name">
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div><label class="label_txt" for="">Email</label></div>
+                <div>
+                    <input type="text" class="cust_input" formControlName="email"  placeholder="Email">
+                </div>
+            </div>
+        </div>
+        <div class="_clearfix"></div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div><label class="label_txt" for="">Password</label></div>
+                <div>
+                    <input type="password" class="cust_input" formControlName="password"  placeholder="Password">
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div><label class="label_txt" for="">Confirm Password</label></div>
+                <div>
+                    <input type="text" class="cust_input" formControlName="confirmPassword"  placeholder="Confirm Password">
+                </div>
+            </div>
+        </div>
+        <div class="_clearfix"></div>
+        <div class="row">
+            <div class="col-sm-6"> 
+                <input type="checkbox" id="admin" class="form-control" formControlName="isAdmin">
+                <label for="admin">Admin</label>         
+            </div>
+            <div class="col-xs-6">&nbsp;</div>
+        </div>
+        <div class="_clearfix"></div>
+        <div class="row">
+            <div class="col-sm-12">
+                <button type="submit" class="btn cust_btn">Create User</button>
+            </div>
+        </div>
+    </form>
+</div>

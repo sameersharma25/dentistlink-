@@ -1,0 +1,50 @@
+/* Styles go here */
+:root{
+    --border-color: #d7d7d7;
+  }
+  .grid_list_wrapper{
+      border:1px solid var(--border-color);
+      margin:0 10px;
+    }
+    .grid_list_header{
+      font-weight:600;
+      border-bottom:1px solid var(--border-color);
+      height:40px;
+      padding-right:17px;
+      background: #ebebeb;
+      color: #333;
+      font-size:14px;
+    }
+    .grid_list_body{
+      min-height:70px;
+      height:150px;
+      overflow:scroll;
+    }
+    .grid_list_footer{
+        height:40px;
+        border-top:1px solid #ccc;
+    }
+    .grid_row{
+      display:flex;
+      width:100%;
+    }
+    .grid_cell{
+      display: flex;
+      flex:1;
+      vertical-align: middle;
+      text-align: left;
+      position:relative;
+      padding-left:5px;
+      align-items: center;
+      word-break:break-word;
+    }
+    .grid_cell:last-child{border:none!important;}
+    .cw1,.cw2,.cw3,.cw4,.cw5,.cw6,.cw7,.cw8,.cw9,.cw10{
+      border-right: 1px solid var(--border-color);
+    }
+    .grid_list_body .grid_row:nth-child(2n){background:rgba(0,0,0,0.02);}
+    .grid_list_body .grid_row:nth-child(2n+1){background:rgba(0,0,0,0.03);}
+    .grid_list_body .grid_row{height:35px;}
+    .grid_list_body .grid_row:hover{background:#fff;transition:all 0.3s linear;}
+ 
+    

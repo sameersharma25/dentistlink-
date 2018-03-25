@@ -1,0 +1,36 @@
+<app-welcome-navbar></app-welcome-navbar>
+<div class="body-wrapper clearfix" style="margin:0;">
+        <section class="fSection">
+            <div class="row">
+                <div class="col-sm-5">
+                    <div>
+                        <img style="width:100%" src="http://dentistlink.org/wp-content/uploads/2017/10/Hero-image-02-1024x683.jpg">
+                    </div>
+                </div>
+                <div class="col-sm-7">
+                    <form id="loginForm" [formGroup]="loginForm" autocomplete="off" (ngSubmit)="onSubmit()">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <label class="label_txt" for="userName">User Name</label>
+                                <input type="text" class="cust_input" formControlName="userName"  placeholder="Enter Name">
+                            </div>
+                        </div>
+                        <div class="_clearfix"></div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <label class="label_txt" for="userPassword">Password</label>
+                                <input type="password" class="cust_input" formControlName="userPassword"  placeholder="Enter Password">
+                            </div>
+                        </div>
+                        <div class="_clearfix"></div>
+                        <div class="row">
+                            <div class="col-sm-12 text-right">
+                                <button type="submit" class="btn cust_btn submit">Log In</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </div>
+    
