@@ -18,8 +18,11 @@ body{position: relative;overflow-x: hidden;}
     color: #00aec7 !important;
     font-weight: 600;
 }
-.navbar-nav .active >a{
+.navbar-nav .active >a, .navbar-nav a.active{
     color: #666666 !important;
+}
+.navbar-nav a.active{
+	background: #e7e7e7;
 }
 /* common styles */
 .bdr_btm{border-bottom:1px solid #d7d7d7;}

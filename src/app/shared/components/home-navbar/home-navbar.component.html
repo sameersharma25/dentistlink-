@@ -11,16 +11,16 @@
               </a>
               <ul class="dropdown-menu">
                   <li><a>{{loggedUserInfo}}</a></li>
-                  <li><a routerLink="/admin">Admin</a></li>
+                  <li><a routerLink="/admin" routerLinkActive="active">Admin</a></li>
                   <li><a (click)="logout()">Logout</a></li>
               </ul>
           </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-          <li><a routerLink="/appointment">Appointment</a></li>
-          <li class="active"><a routerLink="/healthcoverage">Apple Health Coverage</a></li>
-          <li><a routerLink="aboutus">About Us</a></li>
-          <li><a routerLink="contactus">Contact Us</a></li>
+          <li><a routerLink="/appointment" routerLinkActive="active">Appointment</a></li>
+          <li><a routerLink="/healthcoverage" routerLinkActive="active">Apple Health Coverage</a></li>
+          <li><a routerLink="/aboutus" routerLinkActive="active">About Us</a></li>
+          <li><a routerLink="/contactus" routerLinkActive="active">Contact Us</a></li>
           <!-- <li><a routerLink="english">English</a></li>
           <li><a routerLink="espanol">Espanol</a></li> -->
       </ul>
