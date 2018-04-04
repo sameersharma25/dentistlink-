@@ -6,8 +6,7 @@ import { CurrentUserService } from '../shared/services/current-user.service';
 @Component({
   selector: 'app-appointment',
   templateUrl: './appointment.component.html',
-  styleUrls: ['./appointment.component.scss'],
-  providers:[DataSourceService]
+  styleUrls: ['./appointment.component.scss']
 })
 
 export class AppointmentComponent implements OnInit {

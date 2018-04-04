@@ -21,8 +21,10 @@ import { HomeNavbarComponent } from './shared/components/home-navbar/home-navbar
 import { FooterComponent } from './shared/components/footer/footer.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { CurrentUserService } from './shared/services/current-user.service';
+import { DataSourceService } from './shared/services/data-source.service';
 import { JwtService } from './shared/services/jwt.service';
 import { CreateAppointmentComponent } from './create-appointment/create-appointment.component';
+
 
 @NgModule({
   declarations: [
@@ -45,7 +47,7 @@ import { CreateAppointmentComponent } from './create-appointment/create-appointm
     ReactiveFormsModule,
     AppRoutingModule
   ],
-  providers: [UserAuthService, JwtService ,CurrentUserService, 
+  providers: [UserAuthService, JwtService ,CurrentUserService,DataSourceService, 
     { 
       provide: HTTP_INTERCEPTORS, 
       useClass: ApiInterceptor, 

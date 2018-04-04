@@ -29,28 +29,28 @@
             <div class="row">
                 <div class="col-sm-12">
                   <label class="label_txt" for="firstName">Patient's first name:?<sup>*</sup></label>
-                  <input type="text" class="cust_input" formControlName="patientFirstName"  placeholder="Enter First Name" required/>
+                  <input type="text" class="cust_input" formControlName="first_name"  placeholder="Enter First Name" required/>
                 </div>
             </div>
             <div class="_clearfix"></div>
             <div class="row">
                 <div class="col-sm-12">
                     <label class="label_txt" for="lastName">Patient's last name:?<sup>*</sup></label>
-                    <input type="text" class="cust_input" formControlName="patientLastName"  placeholder="Enter Last Name" required/>
+                    <input type="text" class="cust_input" formControlName="last_name"  placeholder="Enter Last Name" required/>
                 </div>
             </div>
             <div class="_clearfix"></div>
             <div class="row">
                 <div class="col-sm-12">
                     <label class="label_txt">Patient Phone Number:?<sup>*</sup></label>
-                    <input type="text" class="cust_input" formControlName="patientPhoneNumber" placeholder="Phone Number" required>
+                    <input type="text" class="cust_input" formControlName="patient_phone" placeholder="Phone Number" required>
                 </div>
             </div>
             <div class="_clearfix"></div>
             <div class="row">
                 <div class="col-sm-12">
-                    <label class="label_txt">The reason for this visit is:?<sup>*</sup></label>
-                    <select class="cust_input" formControlName="visitReason" required>
+                    <label class="label_txt">Healthcare coverage:?<sup>*</sup></label>
+                    <select class="cust_input" formControlName="reason_for_visit" required>
                         <option *ngFor="let vr of visitList" [ngValue]="vr">{{vr}}</option>
                     </select>
                 </div>
@@ -59,7 +59,7 @@
             <div class="row">
                 <div class="col-sm-12">
                     <label class="label_txt">Patient ID number for the coverage?<sup>*</sup></label>
-                    <input type="text" class="cust_input" formControlName="patientCoverageId" placeholder="Patient Id number" required>
+                    <input type="text" class="cust_input" formControlName="Patient_coverage" placeholder="Patient Id number" required>
                 </div>
             </div>
             <div class="_clearfix"></div>

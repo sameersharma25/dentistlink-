@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { CurrentUserService } from '../shared/services/current-user.service';
+import { DataSourceService } from '../shared/services/data-source.service';
 
 @Component({
   selector: 'app-create-appointment',
@@ -12,9 +13,10 @@ export class CreateAppointmentComponent implements OnInit {
   relations:String[];
   visitList: String[];
   newAppointmentForm: FormGroup;
-  reqObj:any;
+  reqObj:any = {};
+  response: any = {};
 
-  constructor(private fb: FormBuilder, private cs: CurrentUserService, private router: Router) { 
+  constructor(private fb: FormBuilder, private cs: CurrentUserService, private router: Router, private ds: DataSourceService) { 
     this.createForm();
   }
 
@@ -26,17 +28,25 @@ export class CreateAppointmentComponent implements OnInit {
 
   createForm(){
     this.newAppointmentForm = this.fb.group({
-      patientPhoneNumber:['', Validators.required],
-      patientFirstName: ['', Validators.required],
-      patientLastName: ['', Validators.required],
-      visitReason:['', Validators.required],
-      patientCoverageId: ['', Validators.required]
+      patient_phone:['', Validators.required],
+      first_name: ['', Validators.required],
+      last_name: ['', Validators.required],
+      reason_for_visit:['', Validators.required],
+      Patient_coverage: ['', Validators.required]
     })
   }
   createAppointment(){
     this.reqObj = this.newAppointmentForm.value;
     this.reqObj.email = this.cs.getCurrentUser();
     console.log(this.reqObj)
+    this.ds.create(this.reqObj).subscribe(response =>{
+      this.response = response;
+      if(this.response.status == 'ok'){
+        alert(this.response.message)
+      }
+    }, err => {
+      console.log(err);
+    });
     this.router.navigate(['/appointment'])
   }
 

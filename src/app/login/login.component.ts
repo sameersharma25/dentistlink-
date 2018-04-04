@@ -54,6 +54,9 @@ export class LoginComponent implements OnInit {
     }
   };
 
+  guest(){
+    this.router.navigate(['/create-appointment']);
+  }
 
 }
 
