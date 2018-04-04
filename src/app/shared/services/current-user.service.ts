@@ -27,66 +27,40 @@ export class CurrentUserService {
   populate() {
     // If JWT detected, attempt to get & store user's info
     if (this.jwtService.getToken()) {
-      // this.apiService.getData('/user',)
-      // .subscribe(
-      //   data => this.setAuth(data.user),
-      //   err => this.purgeAuth()
-      // );
+      return true;
     } else {
       // Remove any potential remnants of previous auth states
       this.purgeAuth();
+      return false;
     }
-  }
+  };
 
   setAuth(user: any) {
     // Save JWT sent from server in localstorage
     this.jwtService.saveToken(user.authentication_token);
+    this.jwtService.saveCurrentUser(user.email);
     // Set current user data into observable
     this.currentUserSubject.next(user);
     // Set isAuthenticated to true
     this.isAuthenticatedSubject.next(true);
+  };
+
+  getAutToken(){
+    return this.jwtService.getToken();
   }
 
   purgeAuth() {
     // Remove JWT from localstorage
     this.jwtService.destroyToken();
+    // remove current user
+    this.jwtService.removeUser();
     // Set current user to an empty object
     this.currentUserSubject.next({});
     // Set auth status to false
     this.isAuthenticatedSubject.next(false);
-  }
-
-  // attemptAuth(type, credentials): Observable<User> {
-  //   const route = (type === 'login') ? '/login' : '';
-  //   return this.apiService.post('/users' + route, {user: credentials})
-  //   .map(
-  //     data => {
-  //       this.setAuth(data.user);
-  //       return data;
-  //     }
-  //   );
-  // }
+  };
 
   getCurrentUser(): any {
-    return this.currentUserSubject.value;
-  }
-
-  
-
-  // Update the user on the server (email, pass, etc)
-  // update(user): Observable<User> {
-  //   return this.apiService
-  //   .put('/user', { user })
-  //   .map(data => {
-  //     // Update the currentUser observable
-  //     this.currentUserSubject.next(data.user);
-  //     return data.user;
-  //   });
-  // }
-
-  // setuserDetails(){
-  //
-  // }
-
-
+    return this.jwtService.getCurrentUser();
+  };
 }

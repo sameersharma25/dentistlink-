@@ -14,8 +14,7 @@ export class ApiInterceptor implements HttpInterceptor {
   public authToken = this.jwtService.getToken();
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if (req.url.indexOf("data") < 0 || true) {
-     
+    if (req.url.indexOf("login") < 0 || true) {
       req = req.clone({
         setHeaders: {
           Authorization: `Bearer ${this.jwtService.getToken()}`

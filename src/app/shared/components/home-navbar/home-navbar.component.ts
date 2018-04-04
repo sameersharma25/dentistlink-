@@ -12,11 +12,7 @@ export class HomeNavbarComponent implements OnInit {
   constructor(private cs: CurrentUserService, private router:Router) { }
 
   ngOnInit() {
-    this.cs.isAuthenticated.subscribe(res =>{
-      this.loggedUserInfo = this.cs.getCurrentUser();
-     
-      console.log(this.loggedUserInfo);
-    });
+    this.loggedUserInfo = this.cs.getCurrentUser();
   }
 
   // logout

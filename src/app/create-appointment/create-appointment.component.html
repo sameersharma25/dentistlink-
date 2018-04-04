@@ -1,0 +1,76 @@
+<app-home-navbar></app-home-navbar>
+<div class="body-wrapper clearfix">
+  <section class="fSection">
+    <div class="row form-field-wrapper">
+      <div class="col-sm-12">
+        <!-- <form name="appointmentForm" [formGroup]="appointmentForm">
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="ques">
+                <div class="ques-label">
+                  <div class="ques-num">1<span>></span></div>
+                  <div>Who are you scheduling a dental appointment for?<sup>*</sup></div>
+                </div>
+                <div class="ques-sub-label">Only one appointment can be scheduled at a time.</div>
+              </div>
+              <ul class="option-wrapper">
+                <li>
+                  <div class="txt-option"><span>A</span></div>
+                  <div class="txt-label">Myself</div>
+                  <div class="option-staus"></div>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="_clearfix"></div>
+        </form> -->
+        <form id="appointmentForm" [formGroup]="newAppointmentForm" autocomplete="off" (ngSubmit)="createAppointment()">
+
+            <div class="row">
+                <div class="col-sm-12">
+                  <label class="label_txt" for="firstName">Patient's first name:?<sup>*</sup></label>
+                  <input type="text" class="cust_input" formControlName="patientFirstName"  placeholder="Enter First Name" required/>
+                </div>
+            </div>
+            <div class="_clearfix"></div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <label class="label_txt" for="lastName">Patient's last name:?<sup>*</sup></label>
+                    <input type="text" class="cust_input" formControlName="patientLastName"  placeholder="Enter Last Name" required/>
+                </div>
+            </div>
+            <div class="_clearfix"></div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <label class="label_txt">Patient Phone Number:?<sup>*</sup></label>
+                    <input type="text" class="cust_input" formControlName="patientPhoneNumber" placeholder="Phone Number" required>
+                </div>
+            </div>
+            <div class="_clearfix"></div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <label class="label_txt">The reason for this visit is:?<sup>*</sup></label>
+                    <select class="cust_input" formControlName="visitReason" required>
+                        <option *ngFor="let vr of visitList" [ngValue]="vr">{{vr}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="_clearfix"></div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <label class="label_txt">Patient ID number for the coverage?<sup>*</sup></label>
+                    <input type="text" class="cust_input" formControlName="patientCoverageId" placeholder="Patient Id number" required>
+                </div>
+            </div>
+            <div class="_clearfix"></div>
+            <div class="row">
+                <div class="col-sm-12 text-right">
+                    <button type="submit" class="btn cust_btn submit">Submit</button>
+                </div>
+            </div>
+        </form>
+      </div>
+    </div>
+  </section>
+</div>
+<app-footer></app-footer>

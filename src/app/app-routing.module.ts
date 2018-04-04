@@ -7,12 +7,17 @@ import { HomeComponent } from './home/home.component'
 import { AdminComponent } from './admin/admin.component'
 import { UsersComponent } from './users/users.component'
 import { AppointmentComponent } from './appointment/appointment.component';
+import { CreateAppointmentComponent } from './create-appointment/create-appointment.component';
 
 const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
     component: WelcomeComponent
+  },
+  {
+    path: 'create-appointment',
+    component: CreateAppointmentComponent
   },
   {
     path: 'login',

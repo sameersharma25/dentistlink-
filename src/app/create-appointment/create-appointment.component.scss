@@ -1,0 +1,48 @@
+.fSection{
+    padding: 50px 15px;
+}
+.form-field-wrapper{
+    max-width: 435px;
+    height: auto;
+    margin: auto;
+}
+.ques-label{
+    font-size: 20px;
+    font-weight: 500;
+}
+.ques-num{
+    display: inline-block;
+    float: left;
+    margin-right: 15px;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.7;
+}
+.ques-sub-label{
+    padding: 5px 33px;
+    font-size: 14px;
+    color: #7e7c7c;
+}
+ul.option-wrapper{
+    margin: 0;
+    list-style-type: none;
+}
+
+.cust_input{
+    width: 100%;
+    padding: 8px 10px;
+    font-size: 16px;
+    position: relative;
+    color: #666;
+    border: 1px solid #b1b1b1;
+    font-weight: 500;
+}
+.cust_input:focus{
+    outline: none;
+    box-shadow: none;
+}
+.label_txt{
+    color: #7b7b7b;
+    font-size: 16px;
+    font-weight: 600;
+}

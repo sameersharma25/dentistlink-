@@ -34,9 +34,16 @@
     font-weight: 500;
 }
 
-/* --- style for custome check box ----- */
+/* custome check box    */
 input[type=checkbox]{display: none;}
 input[type=checkbox] + label{color: #666666;}
 input[type=checkbox] + label:before{content: "";background-color: white;border: 1px solid #ccc;display: inline-block;font-size: 12px;height: 16px;width: 16px;line-height: 16px;
 vertical-align: middle;text-align: center;cursor:pointer;color: rgb(92,92,92);margin-right: 7px;}
 input[type=checkbox]:checked + label:before{content: "\2714";}
+
+/* custome radio box */
+input[type=radio]{display: none;}
+input[type=radio] + label{color: #666666;}
+input[type=radio] + label:before{content: "";background-color: white;border: 1px solid #ccc;display: inline-block;height: 19px;width: 19px;line-height: 14px;
+vertical-align: middle;text-align: center;cursor:pointer;color: rgb(92,92,92);margin-right: 7px;border-radius: 50%;}
+input[type=radio]:checked + label:before{/*content: "\25CF";*/font-size: 24px;color: #3c763d;border-color: #3c763d;box-shadow: inset 0px 0px 6px 3px;transition: all 0.2s ease-in-out;}

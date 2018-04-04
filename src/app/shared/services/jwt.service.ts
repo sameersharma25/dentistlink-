@@ -16,4 +16,15 @@ export class JwtService {
     window.localStorage.removeItem('jwtToken');
   }
 
+  saveCurrentUser(userEmail){
+    window.localStorage.setItem('userEmail',userEmail);
+  }
+
+  getCurrentUser(){
+    return window.localStorage.getItem('userEmail');
+  }
+
+  removeUser(){
+    window.localStorage.removeItem('userEmail');
+  }
 }

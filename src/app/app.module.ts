@@ -22,6 +22,7 @@ import { FooterComponent } from './shared/components/footer/footer.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { CurrentUserService } from './shared/services/current-user.service';
 import { JwtService } from './shared/services/jwt.service';
+import { CreateAppointmentComponent } from './create-appointment/create-appointment.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { JwtService } from './shared/services/jwt.service';
     WelcomeNavbarComponent,
     HomeNavbarComponent,
     FooterComponent,
-    ResetPasswordComponent
+    ResetPasswordComponent,
+    CreateAppointmentComponent
   ],
   imports: [
     BrowserModule,

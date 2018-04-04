@@ -15,6 +15,7 @@ export class LoginComponent implements OnInit {
   userInfo :loginType;
   reqTokenObj = <authType>{};
   token = String;
+  response:any;
 
   constructor(private fb: FormBuilder, private router: Router, private uAuthService: UserAuthService, private cs: CurrentUserService) { 
     this.createForm();
@@ -37,13 +38,13 @@ export class LoginComponent implements OnInit {
     if(this.userInfo.userName && this.userInfo.userPassword){
       this.reqTokenObj.email = this.userInfo.userName;
       this.reqTokenObj.password = this.userInfo.userPassword;
-      this.uAuthService.getAuthToken(this.reqTokenObj).subscribe(success => {
-        console.log(success);
-        
-        //this.cs.setAuth(res);
-        //let _user =this.cs.getCurrentUser();
-        this.router.navigate(['/home']);
-
+      this.uAuthService.getAuthToken(this.reqTokenObj).subscribe(res => {
+        this.response = res;
+        if(this.response.authentication_token){
+          this.router.navigate(['/home']);
+        }else{
+          alert(this.response.message)
+        }
       }, err => {
         console.log(err) 
       });
@@ -64,3 +65,10 @@ interface authType{
   email: String,
   password: String
 }
+interface authTokenType{
+  application_representative: any,
+  authentication_token: String,
+  cc: any,
+  email: String,
+  pcp: any
+ }

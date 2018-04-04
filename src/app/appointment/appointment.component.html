@@ -16,10 +16,10 @@
         <div class="grid_list_body">
             <div class="grid_row" *ngIf="false" style="justify-content:center;font-weight:700;">No Appointments Found.</div>
             <div class="grid_row bdr_btm" *ngFor="let appointment of appointmentList">
-                <div class="grid_cell cw1">{{appointment}}</div>
-                <div class="grid_cell cw2">Appointment 1</div>
-                <div class="grid_cell cw3">25</div>
-                <div class="grid_cell cw4">23-12-2012</div>
+                <div class="grid_cell cw1">{{appointment.patientInfo.patient_name}}</div>
+                <div class="grid_cell cw2">{{appointment.patientInfo.patient_dob?appointment.patientInfo.patient_dob:'--'}}</div>
+                <div class="grid_cell cw3">{{appointment.date_of_appointment}}</div>
+                <div class="grid_cell cw4">&nbsp;</div>
                 <div class="grid_cell cw5">Active</div>
                 <div class="grid_cell cw6">
                     <select class="form-control cust-select" [(value)]="userAction">
