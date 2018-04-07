@@ -1,5 +1,10 @@
+/**
+ * Author: @om prakash
+ */
 import { Component, OnInit } from '@angular/core';
+import { Router} from '@angular/router';
 import { CurrentUserService } from './shared/services/current-user.service';
+
 
 @Component({
   selector: 'app-root',
@@ -8,18 +13,22 @@ import { CurrentUserService } from './shared/services/current-user.service';
 })
 export class AppComponent implements OnInit {
   title = 'app';
-  isValid:boolean = false;
-  constructor(private cus: CurrentUserService){}
+  isValid: boolean = false;
+  path: string;
+  constructor(private cus: CurrentUserService, private router: Router){}
   ngOnInit(){
-    //this.checkSession();
+    this.checkSession();
   }
   checkSession(){
     if(this.cus.populate()){
       this.isValid = this.cus.populate();
-      alert("valid session")
+      this.path = this.cus.getRedirectUrl();
+      this.router.navigate([this.path]);
+      console.log("valid session")
     }else{
       this.isValid = this.cus.populate();
-      alert("invalid session")
+      this.router.navigate(['']);
+      console.log("Invalid session");
     }
   }
 }

@@ -18,7 +18,7 @@ export class HomeNavbarComponent implements OnInit {
   // logout
   logout(){
     this.cs.purgeAuth();
-    this.router.navigate(['login']);
+    this.router.navigate(['/login']);
   };
 }
 

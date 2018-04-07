@@ -21,11 +21,6 @@ export class LoginComponent implements OnInit {
     this.createForm();
   }
   ngOnInit() {
-    // this.cs.isAuthenticated.subscribe(res =>{
-    //   this.token = this.cs.getCurrentUser();
-     
-    //   console.log(this.loggedUserInfo);
-    // });
   }
   createForm(){
     this.loginForm = this.fb.group({
