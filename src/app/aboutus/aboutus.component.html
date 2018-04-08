@@ -1,4 +1,5 @@
-<app-welcome-navbar></app-welcome-navbar>
+<app-welcome-navbar *ngIf="!isAuthUser"></app-welcome-navbar>
+<app-home-navbar *ngIf="isAuthUser"></app-home-navbar>
 <div class="body-wrapper clearfix">
   <section class="fSection">
       <div class="row">

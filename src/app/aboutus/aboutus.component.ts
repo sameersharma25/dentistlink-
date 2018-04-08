@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CurrentUserService } from '../shared/services/current-user.service';
 
 @Component({
   selector: 'app-aboutus',
@@ -6,10 +7,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./aboutus.component.scss']
 })
 export class AboutusComponent implements OnInit {
-
-  constructor() { }
+  public isAuthUser:boolean = false;
+  constructor(private cus: CurrentUserService) { }
 
   ngOnInit() {
+    if(this.cus.populate()){
+      this.isAuthUser = this.cus.populate();
+    }
   }
 
 }
