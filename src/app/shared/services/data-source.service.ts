@@ -11,7 +11,7 @@ import { CurrentUserService } from '../services/current-user.service';
 export class DataSourceService {
   token:any;
   httpOptions:any;
-  
+
   constructor(private http: HttpClient, private cs: CurrentUserService) {
     this.token = this.cs.getAutToken();
     this.setHeaderOption();
@@ -24,19 +24,19 @@ export class DataSourceService {
   }
   // get appointment list
   getAppointments(reqObj): Observable<Object>{
-    return this.http.post("http://dev7.resourcestack.com/api/get_user_appointments", reqObj, this.httpOptions).map(res =>{
+    return this.http.post("http://http://70d160ba.ngrok.io/api/get_user_appointments", reqObj, this.httpOptions).map(res =>{
       return res;
     });
   };
   // create new appointment
   create(reqObj): Observable<Object>{
-    return this.http.post('http://dev7.resourcestack.com/api/create_appointment', reqObj, this.httpOptions).map(res =>{
+    return this.http.post('http://70d160ba.ngrok.io/api/create_appointment', reqObj, this.httpOptions).map(res =>{
       return res;
     });
   };
   // create new user
   createNewUser(reqOobj): Observable<Object>{
-    return this.http.post('http://dev7.resourcestack.com/api/create_user', reqOobj, this.httpOptions).map(res =>{
+    return this.http.post('http://70d160ba.ngrok.io/api/create_user', reqOobj, this.httpOptions).map(res =>{
       return res;
     });
   };

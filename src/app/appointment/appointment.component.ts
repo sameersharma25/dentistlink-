@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 //import { FormsModule } from '@angular/forms';
 import { DataSourceService } from '../shared/services/data-source.service';
 import { CurrentUserService } from '../shared/services/current-user.service';
+import { DataCommService } from '../shared/services/data-comm.service';
 
 @Component({
   selector: 'app-appointment',
@@ -15,8 +17,12 @@ export class AppointmentComponent implements OnInit {
   currentUserInfo:any;
   reqObj:any ={};
   response: any = {};
- 
-  constructor(private ds: DataSourceService, private cus: CurrentUserService) {
+  appointmentAction: string = '';
+  constructor(
+    private ds: DataSourceService, 
+    private cus: CurrentUserService, 
+    private dcs: DataCommService,
+    private router: Router) {
     
   }
 
@@ -32,14 +38,15 @@ export class AppointmentComponent implements OnInit {
     this.ds.getAppointments(this.reqObj).subscribe(res =>{
       this.response = res;
       if(this.response.status == 'ok'){
-        this.appointmentList = this.getAppointmentList(this.response);
+        this.appointmentList = this.response.details_array;
+        //this.appointmentList = this.getAppointmentList(this.response);
         console.log(res)
         console.dir(this.appointmentList)
       }
     }, err =>{
       console.log(err);
     });
-  }
+  };
 
   getAppointmentList(response){
     if((response.appointments.length || response.details_array.length) && (response.appointments.length == response.details_array.length)){
@@ -55,6 +62,15 @@ export class AppointmentComponent implements OnInit {
     }else{
       return [];
     }
-  }
+  };
+
+  checkModelValue(event){
+    this.appointmentAction = event.currentTarget.value;
+    console.log(event.currentTarget.value);
+    this.dcs.setAppointmentAction(this.appointmentAction);
+    if(this.appointmentAction === 'Edit'){
+      this.router.navigate(['/create-appointment']);
+    }
+  };
 
 }

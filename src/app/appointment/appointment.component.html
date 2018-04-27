@@ -1,12 +1,12 @@
 <app-home-navbar></app-home-navbar>
-<div class="line-gap" style="margin-top:10px;"></div>
+<!-- <div class="line-gap" style="margin-top:10px;"></div>
 <div class="">
     <div class="header-info"></div>
     <div class="grid_list_wrapper">
         <div class="grid_row grid_list_header">
             <div class="grid_cell cw1">Patient Name</div>
             <div class="grid_cell cw2">Age 
-            <!-- <i class="glyphicon glyphicon-chevron-up"></i> -->
+        // <i class="glyphicon glyphicon-chevron-up"></i>
             </div>
             <div class="grid_cell cw3">Appointment Date</div>
             <div class="grid_cell cw4">Appointment Status</div>
@@ -22,11 +22,77 @@
                 <div class="grid_cell cw4">&nbsp;</div>
                 <div class="grid_cell cw5">Active</div>
                 <div class="grid_cell cw6">
-                    <select class="form-control cust-select" [(value)]="userAction">
+                    <select class="form-control cust-select" [(value)]="userAction" (change)="checkModelValue($event)">
                         <option *ngFor="let uAction of ['Edit','Completed','Pending']" [ngValue]="uAction">{{uAction}}</option>
                     </select>
                 </div>
             </div>
+        </div>
+    </div>
+</div> -->
+
+<div class="appointment-wrapper">
+    <div class="side-bar">
+        <ul>
+            <li class="active"><a>Appointments</a></li>
+            <li><a>Settings</a></li>
+        </ul>
+    </div>
+    <div class="mid-section">
+        <div class="ap-header">
+            <div class="pull-left h-txt pd_L7">Appointments</div>
+            <div class="pull-right">
+                <button class="btn btn-info">New Appointment</button>
+            </div>
+        </div>
+        <div class="ap-body">
+            <div class="sub-header">
+                <div class="sub-menu active">Active</div>
+                <div class="sub-menu">Past</div>
+            </div>
+            <div class="list-wrapper">
+                <div class="table-row b-txt">
+                    <div class="table-cell c1">APPT. DATE</div>
+                    <div class="table-cell c2">PATIENT NAME</div>
+                    <div class="table-cell c3">REFERRED BY</div>
+                    <div class="table-cell c4">REASON FOR VISIT</div>
+                    <div class="table-cell c5">NOTIFICATIONS</div>
+                </div>
+                <div class="lists">
+                    <div class="table-row n-txt" *ngFor="let alist of appointmentList">
+                        <div class="table-cell c1">April 10, 2018</div>
+                        <div class="table-cell c2">{{alist.patient_name}}</div>
+                        <div class="table-cell c3">XYC Center</div>
+                        <div class="table-cell c4">Infection, Pain</div>
+                        <div class="table-cell c5">--</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="right-section">
+        <h2>Edit Appointment</h2>
+        <div class="section clearfix">
+            <label>Notifications</label>
+            <div>
+                <div class="section-row">
+                    <div class="txt-cell">Patient Information Changed</div>
+                    <div class="action-cell text-center"><button class="btn cust_btn">Dismiss</button></div>
+                </div>
+                <div class="section-row">
+                    <div class="txt-cell">Patient Information Changed</div>
+                    <div class="action-cell text-center"><button class="btn cust_btn">Dismiss</button></div>
+                </div>
+                <div class="section-row">
+                    <div class="txt-cell">Patient Information Changed</div>
+                    <div class="action-cell text-center"><button class="btn cust_btn">Dismiss</button></div>
+                </div>
+            </div>
+        </div>
+        <div class="_clearfix"></div>
+        <div class="section">
+            <label>Patient Details</label>
+           
         </div>
     </div>
 </div>

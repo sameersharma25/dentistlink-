@@ -1,0 +1,154 @@
+<div class="form-wrapper">
+    <form id="appointmentEditForm" [formGroup]="appointmentEditForm" autocomplete="off" ng-submit="editInfo()">
+        <div class="row">
+            <div class="col-sm-6">
+                <div><label class="label_txt" for="userName">First Name</label></div>
+            <div>
+                <input type="text" class="cust_input" formControlName="firstName"  placeholder="Enter First Name">
+            </div>
+            </div>
+            <div class="col-sm-6">
+                <div><label class="label_txt" for="lastName">Last Name</label></div>
+                <div>
+                    <input type="text" class="cust_input" formControlName="lastName"  placeholder="Enter Last Name">
+                </div>
+            </div>
+        </div>
+        <div class="_clearfix"></div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div><label class="label_txt" for="phoneNumber">Phone Number</label></div>
+            <div>
+                <input type="text" class="cust_input" formControlName="phoneNumber"  placeholder="Enter Mobile Number">
+            </div>
+            </div>
+            <div class="col-sm-6">
+                <div><label class="label_txt" for="email">Email</label></div>
+                <div>
+                    <input type="text" class="cust_input" formControlName="email"  placeholder="Enter EmailId">
+                </div>
+            </div>
+        </div>
+        <div class="_clearfix"></div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div>
+                    <label class="label_txt">Zip</label>
+                </div>
+                <div>
+                    <input type="text" class="cust_input" formControlName="zip"  placeholder="Enter Zip code"/>
+                </div>
+            </div>
+            <div class="col-sm-6">&nbsp;</div>
+        </div>
+        <div class="_clearfix"></div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div>
+                    <label class="label_txt">Date of Birth</label>
+                </div>
+                <div>
+                    <div class="input-group">
+                        <input type="date" class="cust_input" formControlName="dateofBirth"  placeholder="Enter Date of Birth"/>
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">&nbsp;</div>
+        </div>
+        <div class="_clearfix"></div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div>
+                    <label class="label_txt">Mode of Contact</label>
+                </div>
+                <div>
+                    <div class="col-sm-4">
+                        <input type="checkbox" id="textMode" class="form-control" formControlName="text">
+                        <label for="textMode">Text</label>
+                    </div>
+                    <div class="col-sm-4">
+                        <input type="checkbox" id="textCall" class="form-control" formControlName="call">
+                        <label for="textCall">Call</label>
+                    </div>
+                    <div class="col-sm-4">
+                        <input type="checkbox" id="textEmail" class="form-control" formControlName="contactEmail">
+                        <label for="textEmail">Email</label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">&nbsp;</div>
+        </div>
+        <div class="_clearfix"></div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div>
+                    <label class="label_txt" for="visitReason">Reason For Visit</label>
+                </div>
+                <div>
+                    <select class="cust_input" formControlName="visitReason" ng-options="visit for visit in ['Pain','CleanUp','Dentures']">
+                        <option value="">Select Reason</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-sm-6">&nbsp;</div>
+        </div>
+        <div class="_clearfix"></div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div>
+                    <label class="label_txt" for="patientCoverage">Patient's Coverage</label>
+                </div>
+                <div>
+                    <select class="cust_input" formControlName="patientCoverage">
+                        <option *ngFor="let coverage of coverageType" [ngValue]>{{coverage}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-sm-6">&nbsp;</div>
+        </div>
+        <div class="_clearfix"></div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div>
+                    <label class="label_txt" for="patientCoverageId">Patient Coverage Id</label>
+                </div>
+                <div>
+                    <input type="text" class="cust_input" formControlName="patientCoverageId"  placeholder=""/>
+                </div>
+            </div>
+            <div class="col-sm-6">&nbsp;</div>
+        </div>
+        <div class="_clearfix"></div>
+        <div class="row">
+            <div class="col-sm-12">
+                <button type="submit" class="btn cust_btn submit">Save</button>
+                <button type="reset" class="btn cust_btn submit">Cancel</button>
+                <button type="button" class="btn cust_btn submit">Add Note</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div>
+                    <h4>Notes</h4>
+                </div>
+                <div>
+                    <textarea class="cust_input" formControlName="notes" rows="4" cols="4"></textarea>
+                </div>
+            </div>
+            <div class="col-sm-6">&nbsp;</div>
+        </div>
+        <div class="_clearfix"></div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div>
+                    <label class="label_txt" for="userName">John Doe</label>
+                </div>
+                <div>
+                    <input type="text" class="cust_input" formControlName="users"  placeholder="Patient changed the appointment date."/>
+                </div>
+            </div>
+            <div class="col-sm-6">&nbsp;</div>
+        </div>
+    </form>
+</div>

@@ -23,10 +23,12 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
 import { CurrentUserService } from './shared/services/current-user.service';
 import { DataSourceService } from './shared/services/data-source.service';
 import { JwtService } from './shared/services/jwt.service';
+import { DataCommService } from './shared/services/data-comm.service';
 import { CreateAppointmentComponent } from './create-appointment/create-appointment.component';
 import { AboutusComponent } from './aboutus/aboutus.component';
 import { ContactusComponent } from './contactus/contactus.component';
 import { AuthGuardGuard } from './shared/services/auth-guard.guard';
+import { AppointmentEditComponent } from './appointment-edit/appointment-edit.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +45,8 @@ import { AuthGuardGuard } from './shared/services/auth-guard.guard';
     ResetPasswordComponent,
     CreateAppointmentComponent,
     AboutusComponent,
-    ContactusComponent
+    ContactusComponent,
+    AppointmentEditComponent
   ],
   imports: [
     BrowserModule,
@@ -51,7 +54,7 @@ import { AuthGuardGuard } from './shared/services/auth-guard.guard';
     ReactiveFormsModule,
     AppRoutingModule
   ],
-  providers: [AuthGuardGuard,UserAuthService, JwtService ,CurrentUserService,DataSourceService, 
+  providers: [AuthGuardGuard,UserAuthService, JwtService ,CurrentUserService,DataSourceService,DataCommService,
     { 
       provide: HTTP_INTERCEPTORS, 
       useClass: ApiInterceptor, 

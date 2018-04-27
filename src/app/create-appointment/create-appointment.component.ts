@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { CurrentUserService } from '../shared/services/current-user.service';
 import { DataSourceService } from '../shared/services/data-source.service';
+import { DataCommService } from '../shared/services/data-comm.service';
 
 @Component({
   selector: 'app-create-appointment',
@@ -15,15 +16,21 @@ export class CreateAppointmentComponent implements OnInit {
   newAppointmentForm: FormGroup;
   reqObj:any = {};
   response: any = {};
+  appointmentAction: string = '';
 
-  constructor(private fb: FormBuilder, private cs: CurrentUserService, private router: Router, private ds: DataSourceService) { 
+  constructor(
+    private fb: FormBuilder, 
+    private cs: CurrentUserService, 
+    private router: Router, 
+    private ds: DataSourceService,
+    private cds: DataCommService) { 
     this.createForm();
   }
 
   ngOnInit() {
     this.relations = ["Myself","Child","Spouse/Partner","Parent","Other"];
     this.visitList = ["Apple Health(Medicaid)","Aenta","Cigna","Delta Dental of WA","Premera Blue Cross","United Healthcare","No Insurance","Other"];
-
+    this.appointmentAction = this.cds.getAppointmentAction();
   }
 
   createForm(){
