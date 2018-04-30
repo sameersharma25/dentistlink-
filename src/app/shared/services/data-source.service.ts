@@ -24,19 +24,25 @@ export class DataSourceService {
   }
   // get appointment list
   getAppointments(reqObj): Observable<Object>{
-    return this.http.post("http://http://70d160ba.ngrok.io/api/get_user_appointments", reqObj, this.httpOptions).map(res =>{
+    return this.http.post("http://8c521ac3.ngrok.io/api/get_user_appointments", reqObj, this.httpOptions).map(res =>{
       return res;
     });
   };
   // create new appointment
   create(reqObj): Observable<Object>{
-    return this.http.post('http://70d160ba.ngrok.io/api/create_appointment', reqObj, this.httpOptions).map(res =>{
+    return this.http.post('http://8c521ac3.ngrok.io/api/create_appointment', reqObj, this.httpOptions).map(res =>{
       return res;
     });
   };
   // create new user
   createNewUser(reqOobj): Observable<Object>{
-    return this.http.post('http://70d160ba.ngrok.io/api/create_user', reqOobj, this.httpOptions).map(res =>{
+    return this.http.post('http://8c521ac3.ngrok.io/api/create_user', reqOobj, this.httpOptions).map(res =>{
+      return res;
+    });
+  };
+  // get user list
+  getUsers(reqObj): Observable<Object>{
+    return this.http.post("http://8c521ac3.ngrok.io/api/get_all_users", reqObj, this.httpOptions).map(res =>{
       return res;
     });
   };
