@@ -1,5 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 @import './app/shared/css/grid-list.scss';
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
 html, body {
 	padding: 0;
@@ -33,6 +34,7 @@ body{position: relative;overflow-x: hidden;}
 .disable{pointer-events: none!important;opacity: 0.5;}
 .txt-wrap{white-space: nowrap;text-overflow: ellipsis;overflow: hidden;}
 .pd-LR30{padding-left: 30px;padding-right: 30px;}
+.pd_L7{padding-left: 7px;}
 .txt_bold{color: #666666;font-weight: 600;font-size: 30px;}
 .f_col{color: #666666;}
 ._clearfix:after,._clearfix:before{content: '';display: table;clear: both;margin:5px auto;}
