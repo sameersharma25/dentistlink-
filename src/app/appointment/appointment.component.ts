@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 //import { FormsModule } from '@angular/forms';
 import { DataSourceService } from '../shared/services/data-source.service';
 import { CurrentUserService } from '../shared/services/current-user.service';
@@ -18,11 +19,15 @@ export class AppointmentComponent implements OnInit {
   reqObj:any ={};
   response: any = {};
   appointmentAction: string = '';
+  appointmentEditForm: FormGroup;
+  dateOfBirth: any ={};
+  
   constructor(
     private ds: DataSourceService, 
     private cus: CurrentUserService, 
     private dcs: DataCommService,
-    private router: Router) {
+    private router: Router,
+    private fb: FormBuilder) {
     
   }
 
@@ -31,8 +36,49 @@ export class AppointmentComponent implements OnInit {
     //   this.currentUserInfo = this.cus.getCurrentUser();
     //   console.log(this.currentUserInfo);
     // });
+    this.dateOfBirth.months = [
+      {value:'january', viewValue:'JANUARY'},
+      {value:'febuary', viewValue:'FEBUARY'},
+      {value:'march', viewValue:'MARCH'},
+      {value:'april', viewValue:'APRIL'},
+      {value:'may', viewValue:'MAY'},
+      {value:'june', viewValue:'JUNE'},
+      {value:'july', viewValue:'JULY'},
+      {value:'august', viewValue:'AUGUST'},
+      {value:'sepetember', viewValue:'SEPTEMBER'},
+      {value:'october', viewValue:'OCTOBER'},
+      {value:'november', viewValue:'NOVEMBER'},
+      {value:'december', viewValue:'DECEMBER'}
+    ];
+    this.dateOfBirth.days = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30];
+    this.dateOfBirth.years = [1985,1986,1987,1998,1999,2000];
+    this.createForm();
     this.getAppointments();
   }
+  createForm(){
+    this.appointmentEditForm = this.fb.group({
+      firstName:[''],
+      lastName:[''],
+      phoneNumber:[''],
+      email:[''],
+      month: [''],
+      day: [''],
+      year: [''],
+      preferredContact: [''],
+      aptMonth: [''],
+      aptDay: [''],
+      aptYear: [''],
+      cleaning:[''],
+      surgery: [''],
+      pain: [''],
+      dentures: [''],
+      infection: [''],
+      damage: [''],
+      patientCoverage: [''],
+      patientCoverageId: [''],
+      notes: ['']
+    })
+  };
   getAppointments(){
     this.reqObj.email = this.cus.getCurrentUser();
     this.ds.getAppointments(this.reqObj).subscribe(res =>{
@@ -72,5 +118,7 @@ export class AppointmentComponent implements OnInit {
       this.router.navigate(['/create-appointment']);
     }
   };
-
+  editAppointment(){
+    console.log(this.appointmentEditForm.value)
+  }
 }

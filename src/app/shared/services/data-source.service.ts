@@ -11,7 +11,7 @@ import { CurrentUserService } from '../services/current-user.service';
 export class DataSourceService {
   token:any;
   httpOptions:any;
-
+  
   constructor(private http: HttpClient, private cs: CurrentUserService) {
     this.token = this.cs.getAutToken();
     this.setHeaderOption();
@@ -40,7 +40,7 @@ export class DataSourceService {
       return res;
     });
   };
-  // get user list
+   // get user list
   getUsers(reqObj): Observable<Object>{
     return this.http.post("http://8c521ac3.ngrok.io/api/get_all_users", reqObj, this.httpOptions).map(res =>{
       return res;

@@ -9,11 +9,29 @@
 .side-bar{
     width: 150px;
     background-color: #071f47;
+    position: relative;
+    transition: all 0.5s ease-in-out;
+}
+.side-bar.collapsed{
+    width: 0px;
+    transition: all 0.5s ease-in-out;
+}
+.side-bar.collapsed ul{
+    overflow: hidden;
+    transition: all 0.5s ease-in-out;
+}
+.toggle-sidebar{
+    background: #b9babc;
+    padding: 4px 10px 0px 10px;
+    cursor: pointer;
 }
 .side-bar ul{
+    width: 100%;
+    overflow: auto;
     margin: 0px;
     padding: 10px 0px;
     list-style-type: none;
+    transition: all 0.5s ease-in-out;
 }
 .side-bar ul li{
     display: block;
@@ -32,12 +50,21 @@
     width: 55%;
     background-color: #e2e8e7;
     padding: 0 10px;
+    transition: all 0.5s ease-in-out;
+}
+.mid-section.expanded{
+    width: calc(55% + 150px);
+    transition: all 0.5s ease-in-out;
+}
+.mid-section.expanded .toggle-sidebar{
+    background: initial !important;
 }
 .right-section{
     width: calc(45% - 150px);
     height: 100%;
     float: right;
     padding: 0 15px; 
+    overflow-y: auto;
 }
 .ap-header{
     width: 100%;
@@ -127,4 +154,28 @@
 .btn.cust_btn:hover{
     background: #37c4dc;
     color: #fff;
+}
+.left-field, .right-field{
+    width: 50%;
+    float: left;
+}
+.sub-label{
+    font-size: 13px;
+    color: #bbb;
+}
+.font-color{
+    color: #5bc0de;
+}
+/* mat radio & checkbox */
+::ng-deep .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle{
+    border-color: #5bc0de !important;
+}
+::ng-deep .mat-radio-button.mat-accent .mat-radio-inner-circle {
+    background-color: #5bc0de !important;
+}
+::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-background, .mat-checkbox-indeterminate.mat-accent .mat-checkbox-background{
+    background-color: #5bc0de !important;
+}
+::ng-deep .mat-ripple-element {
+    background-color:#7db7c8 !important;
 }

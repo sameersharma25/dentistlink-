@@ -2,6 +2,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule,HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { MatCheckboxModule, MatInputModule, MatSelectModule, MatRadioModule } from '@angular/material';
 
 import { ApiInterceptor } from './shared/services/api-interceptor';
 
@@ -50,9 +52,14 @@ import { AppointmentEditComponent } from './appointment-edit/appointment-edit.co
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     HttpClientModule,
     ReactiveFormsModule,
-    AppRoutingModule
+    AppRoutingModule,
+    MatCheckboxModule,
+    MatInputModule,
+    MatSelectModule,
+    MatRadioModule
   ],
   providers: [AuthGuardGuard,UserAuthService, JwtService ,CurrentUserService,DataSourceService,DataCommService,
     { 

@@ -16,10 +16,10 @@ export class UserAuthService {
 
   constructor(private http:HttpClient, private cs: CurrentUserService) { }
 
-  // get token
+  // get token 
   getAuthToken(reqObj): Observable<Object>{
     let headers = new Headers({ 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' });
-    return this.http.post("http://70d160ba.ngrok.io/api/sessions", reqObj, httpOptions).map(res =>{
+    return this.http.post("http://8c521ac3.ngrok.io/api/sessions", reqObj, httpOptions).map(res =>{
       console.log(res);
       this.cs.setAuth(res);
       return res;
