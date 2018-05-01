@@ -21,7 +21,9 @@ export class AppointmentComponent implements OnInit {
   appointmentAction: string = '';
   appointmentEditForm: FormGroup;
   dateOfBirth: any ={};
-  isCollapsed:Boolean = true;
+  isCollapsed: Boolean = false;
+  appointments: any = {};
+  isAppointmentEdit: Boolean = false;
 
   constructor(
     private ds: DataSourceService,
@@ -37,6 +39,8 @@ export class AppointmentComponent implements OnInit {
     //   this.currentUserInfo = this.cus.getCurrentUser();
     //   console.log(this.currentUserInfo);
     // });
+    this.appointments.label = "";
+    this.appointments.collapsed = false;
     this.dateOfBirth.months = [
       {value:'january', viewValue:'JANUARY'},
       {value:'febuary', viewValue:'FEBUARY'},
@@ -111,6 +115,7 @@ export class AppointmentComponent implements OnInit {
     }
   };
 
+
   checkModelValue(event){
     this.appointmentAction = event.currentTarget.value;
     console.log(event.currentTarget.value);
@@ -118,8 +123,63 @@ export class AppointmentComponent implements OnInit {
     if(this.appointmentAction === 'Edit'){
       this.router.navigate(['/create-appointment']);
     }
-  };
-  editAppointment(){
+  }
+
+  openAppointmentAction(data) {
+    if (data) {
+      this.appointments.label = 'Edit';
+      this.getAppointmentDetails(data);
+      console.log(data);
+      this.isAppointmentEdit = true;
+    } else {
+      this.appointments.label = 'Create';
+      this.isAppointmentEdit = false;
+      this.createForm();
+    }
+    this.appointments.collapsed = true;
+  }
+  editAppointment() {
     console.log(this.appointmentEditForm.value)
+    this.appointments.label = 'Edit';
+    if (this.isAppointmentEdit) {
+      this.reqObj.email = this.cus.getCurrentUser();
+       this.reqObj.first_name =  this.appointmentEditForm.value.firstName;
+      console.log(this.reqObj);
+        this.ds.updateAppointment(this.reqObj).subscribe(res => {
+          this.response = res;
+          console.log(res);
+          if (this.response.status === 'ok') {
+
+          }
+        });
+    } else {
+      this.reqObj = {};
+    }
+    this.appointments.collapsed = false;
+  }
+
+  createAppointment() {
+
+  }
+
+  getAppointmentDetails(data: any) {
+    this.reqObj.email = this.cus.getCurrentUser();
+    this.reqObj.appointment_id = data.appointment_id;
+    this.ds.getAppointmentDetails(this.reqObj).subscribe(res => {
+      this.response = res;
+      console.log(res);
+      if (this.response.status === 'ok') {
+        const apptDetails = this.response.appointment_hash;
+        (<FormGroup>this.appointmentEditForm)
+          .patchValue({firstName: apptDetails.first_name}, {onlySelf: true});
+        (<FormGroup>this.appointmentEditForm)
+          .patchValue({lastName: apptDetails.last_name}, {onlySelf: true});
+        (<FormGroup>this.appointmentEditForm)
+          .patchValue({phoneNumber: apptDetails.phone_number}, {onlySelf: true});
+        console.log(this.appointmentEditForm.value);
+      }
+    }, err => {
+      console.log(err);
+    });
   }
 }

@@ -7,16 +7,16 @@
     height: 100%;
 }
 .side-bar{
-    width: 150px;
+    width: 0px;
     background-color: #071f47;
     position: relative;
     transition: all 0.5s ease-in-out;
 }
-.side-bar.collapsed{
-    width: 0px;
+.side-bar.expanded{
+    width: 150px;
     transition: all 0.5s ease-in-out;
 }
-.side-bar.collapsed ul{
+.side-bar.expanded ul{
     overflow: hidden;
     transition: all 0.5s ease-in-out;
 }
@@ -47,24 +47,37 @@
     text-decoration: none;
 }
 .mid-section{
-    width: 55%;
+    width: 100%;
     background-color: #e2e8e7;
     padding: 0 10px;
     transition: all 0.5s ease-in-out;
 }
-.mid-section.expanded{
-    width: calc(55% + 150px);
+.mid-section.left-collapsed{
+    width: calc(100% - 150px);
     transition: all 0.5s ease-in-out;
 }
-.mid-section.expanded .toggle-sidebar{
+.mid-section.right-collapsed{
+    width: calc(100% - 40%);
+    transition: all 0.5s ease-in-out;
+}
+.mid-section.left-collapsed.righ-collapsed, .mid-section.right-collapsed.left-collapsed{
+    width: calc(100% - 40% - 150px);
+    transition: all 0.5s ease-in-out;
+}
+
+.mid-section.left-collapsed .toggle-sidebar{
     background: initial !important;
 }
 .right-section{
-    width: calc(45% - 150px);
+    width: 0%;
     height: 100%;
     float: right;
     padding: 0 15px; 
     overflow-y: auto;
+}
+.right-section.expanded{
+    width: 40%;
+    transition: all 0.5s ease-in-out;
 }
 .ap-header{
     width: 100%;
