@@ -5,7 +5,7 @@
     <div class="grid_list_wrapper">
         <div class="grid_row grid_list_header">
             <div class="grid_cell cw1">Patient Name</div>
-            <div class="grid_cell cw2">Age 
+            <div class="grid_cell cw2">Age
         // <i class="glyphicon glyphicon-chevron-up"></i>
             </div>
             <div class="grid_cell cw3">Appointment Date</div>
@@ -45,7 +45,7 @@
             </div>
             <div class="pull-left h-txt pd_L7" style="padding-left: 20px;">Appointments</div>
             <div class="pull-right">
-                <button class="btn btn-info" (click)="openAppointmentAction()">New Appointment</button>
+                <button class="btn btn-info" (click)="openAppointmentAction(null)">New Appointment</button>
             </div>
         </div>
         <div class="ap-body">
@@ -109,7 +109,7 @@
                     </div>
                 </div>
                 <div class="_clearfix"></div>
-                
+
                 <div class="section-row">
                     <label>Date of Birth</label>
                     <div class="_clearfix"></div>
@@ -230,7 +230,7 @@
                         <mat-form-field class="">
                             <input matInput placeholder="Patients CoverageId" formControlName="patientCoverageId">
                         </mat-form-field>
-                    </div>  
+                    </div>
                 </div>
                 <div class="_clearfix"></div>
                 <label class="sub-label">Notes</label>
