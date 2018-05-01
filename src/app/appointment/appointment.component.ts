@@ -21,14 +21,15 @@ export class AppointmentComponent implements OnInit {
   appointmentAction: string = '';
   appointmentEditForm: FormGroup;
   dateOfBirth: any ={};
-  
+  isCollapsed:Boolean = true;
+
   constructor(
-    private ds: DataSourceService, 
-    private cus: CurrentUserService, 
+    private ds: DataSourceService,
+    private cus: CurrentUserService,
     private dcs: DataCommService,
     private router: Router,
     private fb: FormBuilder) {
-    
+
   }
 
   ngOnInit() {
