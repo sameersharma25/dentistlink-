@@ -41,6 +41,13 @@
             </div>
             <div class="_clearfix"></div>
             <div class="row">
+              <div class="col-sm-12">
+                <label class="label_txt">Patient's Date of Birth:?<sup>*</sup></label>
+                <input type="text" class="cust_input" formControlName="dob" placeholder="mm/dd/yyyy" required>
+              </div>
+            </div>
+            <div class="_clearfix"></div>
+            <div class="row">
                 <div class="col-sm-12">
                     <label class="label_txt">Patient Phone Number:?<sup>*</sup></label>
                     <input type="text" class="cust_input" formControlName="patient_phone" placeholder="Phone Number" required>
@@ -48,9 +55,32 @@
             </div>
             <div class="_clearfix"></div>
             <div class="row">
+              <div class="col-sm-12">
+                <label class="label_txt">Patient Email:?<sup>*</sup></label>
+                <input type="text" class="cust_input" formControlName="patient_email" placeholder="Phone Email" required>
+              </div>
+            </div>
+
+            <div class="_clearfix"></div>
+            <div class="row">
+              <div class="col-sm-12">
+                <label class="label_txt" for="zipCode">Patient's Zipcode?<sup>*</sup></label>
+                <input type="text" class="cust_input" formControlName="zipcode"  placeholder="Enter your zipcode" required/>
+              </div>
+            </div>
+           <div class="_clearfix"></div>
+            <div class="row">
+              <div class="col-sm-12">
+                <label class="label_txt" for="reasonForVisit">Reason For Visit?<sup>*</sup></label>
+                <input type="text" class="cust_input" formControlName="reason_for_visit"  placeholder="Reason for visit" required/>
+              </div>
+            </div>
+
+            <div class="_clearfix"></div>
+            <div class="row">
                 <div class="col-sm-12">
                     <label class="label_txt">Healthcare coverage:?<sup>*</sup></label>
-                    <select class="cust_input" formControlName="reason_for_visit" required>
+                    <select class="cust_input" formControlName="healthcare_coverage" required>
                         <option *ngFor="let vr of visitList" [ngValue]="vr">{{vr}}</option>
                     </select>
                 </div>
@@ -59,7 +89,7 @@
             <div class="row">
                 <div class="col-sm-12">
                     <label class="label_txt">Patient ID number for the coverage?<sup>*</sup></label>
-                    <input type="text" class="cust_input" formControlName="Patient_coverage" placeholder="Patient Id number" required>
+                    <input type="text" class="cust_input" formControlName="patient_coverage" placeholder="Patient Id number" required>
                 </div>
             </div>
             <div class="_clearfix"></div>

@@ -63,10 +63,10 @@
                 </div>
                 <div class="lists">
                     <div class="table-row n-txt" *ngFor="let alist of appointmentList" (click)="openAppointmentAction(alist)">
-                        <div class="table-cell c1">April 10, 2018</div>
+                        <div class="table-cell c1">{{alist.date_of_appointment}}</div>
                         <div class="table-cell c2">{{alist.patient_name}}</div>
                         <div class="table-cell c3">XYC Center</div>
-                        <div class="table-cell c4">Infection, Pain</div>
+                        <div class="table-cell c4">{{alist.rov}}</div>
                         <div class="table-cell c5">--</div>
                     </div>
                 </div>
@@ -146,7 +146,7 @@
                     </div>
                     <div class="right-field">
                         <mat-form-field class="">
-                            <input matInput placeholder="Email" formControlName="email">
+                            <input matInput placeholder="Email" formControlName="patientEmail">
                         </mat-form-field>
                     </div>
                 </div>

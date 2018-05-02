@@ -65,7 +65,7 @@ export class AppointmentComponent implements OnInit {
       firstName:[''],
       lastName:[''],
       phoneNumber:[''],
-      email:[''],
+      patientEmail:[''],
       month: [''],
       day: [''],
       year: [''],
@@ -106,11 +106,11 @@ export class AppointmentComponent implements OnInit {
       for(let i =0; i<response.details_array.length;++i){
         var pi:any = {};
         pi.patient_name = response.details_array[i]['patient_name'];
-        pi.patient_dob= response.details_array[i]['patient_dob'];
+        pi.patient_dob = response.details_array[i]['patient_dob'];
         apl[i]['patientInfo'] = pi;
       }
       return apl;
-    }else{
+    } else {
       return [];
     }
   };
@@ -120,7 +120,7 @@ export class AppointmentComponent implements OnInit {
     this.appointmentAction = event.currentTarget.value;
     console.log(event.currentTarget.value);
     this.dcs.setAppointmentAction(this.appointmentAction);
-    if(this.appointmentAction === 'Edit'){
+    if (this.appointmentAction === 'Edit') {
       this.router.navigate(['/create-appointment']);
     }
   }
@@ -176,6 +176,8 @@ export class AppointmentComponent implements OnInit {
           .patchValue({lastName: apptDetails.last_name}, {onlySelf: true});
         (<FormGroup>this.appointmentEditForm)
           .patchValue({phoneNumber: apptDetails.phone_number}, {onlySelf: true});
+        (<FormGroup>this.appointmentEditForm)
+          .patchValue({patientEmail: apptDetails.patient_email}, {onlySelf: true});
         console.log(this.appointmentEditForm.value);
       }
     }, err => {

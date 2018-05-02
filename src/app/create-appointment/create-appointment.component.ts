@@ -19,11 +19,11 @@ export class CreateAppointmentComponent implements OnInit {
   appointmentAction: string = '';
 
   constructor(
-    private fb: FormBuilder, 
-    private cs: CurrentUserService, 
-    private router: Router, 
+    private fb: FormBuilder,
+    private cs: CurrentUserService,
+    private router: Router,
     private ds: DataSourceService,
-    private cds: DataCommService) { 
+    private cds: DataCommService) {
     this.createForm();
   }
 
@@ -39,7 +39,11 @@ export class CreateAppointmentComponent implements OnInit {
       first_name: ['', Validators.required],
       last_name: ['', Validators.required],
       reason_for_visit:['', Validators.required],
-      Patient_coverage: ['', Validators.required]
+      patient_coverage: ['', Validators.required],
+      healthcare_coverage: ['', Validators.required],
+      zipcode: ['', Validators.required],
+      dob: ['', Validators.required],
+      patient_email: ['', Validators.required]
     })
   }
   createAppointment(){
