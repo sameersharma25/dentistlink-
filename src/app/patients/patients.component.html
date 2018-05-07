@@ -1,0 +1,120 @@
+<app-home-navbar></app-home-navbar>
+<div class="appointment-wrapper">
+    <div class="side-bar" [class.expanded]="isCollapsed">
+        <ul>
+            <li class="active"><a>Patients</a></li>
+            <li><a>Settings</a></li>
+        </ul>
+    </div>
+    <div class="mid-section" [class.left-collapsed]="isCollapsed" [class.right-collapsed]="patientAction.collapsed">
+        <div class="ap-header">
+            <div class="toggle-sidebar pull-left" (click)="isCollapsed = !isCollapsed">
+                <i class="material-icons">reorder</i>
+            </div>
+            <div class="pull-left h-txt pd_L7" style="padding-left: 20px;">Patients</div>
+            <div class="pull-right">
+                <button class="btn btn-info" (click)="openPatientAction(null)">New Patients</button>
+            </div>
+        </div>
+        <div class="ap-body">
+            <!-- <div class="sub-header">
+                <div class="sub-menu active">Active</div>
+                <div class="sub-menu">Past</div>
+            </div> -->
+            <div class="list-wrapper">
+                <div class="table-row b-txt">
+                    <div class="table-cell c1">PATIENT NAME</div>
+                    <div class="table-cell c2">REFERRED FROM</div>
+                    <div class="table-cell c3">REFERRALS</div>
+                    <div class="table-cell c4">NOTIFICATIONS</div>
+                </div>
+                <div class="lists">
+                    <div class="table-row n-txt" *ngFor="let plist of patientList; let index=index" (click)="openPatientAction(plist)">
+                        <div class="table-cell c1">{{plist.first_name}} {{plist.last_name}}</div>
+                        <div class="table-cell c2">Health Alliance</div>
+                        <div class="table-cell c3">XYC Center</div>
+                        <div class="table-cell c4">
+                            <span *ngIf="index ==0"><span class="status-cir"></span>Remind</span>
+                            <span *ngIf="index>0">""</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="right-section" [class.expanded]="patientAction.collapsed">
+        <div class="p-detaitls-wrapper">
+            <mat-list>
+                <mat-list-item class="label_txt"> {{selectedPatient.first_name}} {{selectedPatient.last_name}}</mat-list-item>
+            </mat-list>
+            <div class="_clearfix"></div>
+            <mat-accordion>
+                <mat-expansion-panel>
+                  <mat-expansion-panel-header>
+                    <mat-panel-title class="label_txt">
+                      Patient Details
+                    </mat-panel-title>
+                    <!-- <mat-panel-description>
+                      Type your name and age
+                    </mat-panel-description> -->
+                  </mat-expansion-panel-header>
+                  <mat-panel-description>
+                    patient details will goes here....
+                  </mat-panel-description>
+              
+                  <!-- <mat-form-field>
+                    <input matInput placeholder="First name">
+                  </mat-form-field> -->
+                </mat-expansion-panel>
+
+                <div class="_clearfix"></div>
+
+                <mat-expansion-panel class="mat-expanded">
+                    <mat-expansion-panel-header>
+                      <mat-panel-title class="label_txt">
+                        Appointments
+                      </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <mat-panel-description>
+                        <mat-list>
+                            <mat-list-item> 
+                                <div class="s1 label_txt">TBD</div>
+                                <div class="s2">Provider Name</div>
+                                <div class="s3">Reason for Visit</div>
+                                <div class="s4 label_txt">Edit</div> 
+                            </mat-list-item>
+                            <mat-list-item>
+                                <div class="s1 label_txt">04/20/2018</div>
+                                <div class="s2">Provider Name</div>
+                                <div class="s3">Reason for Visit</div>
+                                <div class="s4 label_txt">Edit</div>
+                            </mat-list-item>
+                            <mat-list-item>
+                                <div class="s1 label_txt">7/05/2018</div>
+                                <div class="s2">Provider Name</div>
+                                <div class="s3">Reason for Visit</div>
+                                <div class="s4 label_txt">Edit</div>
+                            </mat-list-item>
+                        </mat-list>
+                    </mat-panel-description>
+                    <div class="_clearfix"></div>
+                    <mat-list>
+                        <mat-list-item class="label_txt" style="font-size: 13px;">NEW APPOINTMENT <span class="act-cir" routerLink="/appointment"></span></mat-list-item>
+                    </mat-list>
+                    <div class="_clearfix"></div>
+                    <form [formGroup]="patientEditForm">
+                        <label class="label_txt">Notes</label>
+                        <div class="section-row">
+                            <mat-form-field>
+                                <textarea matInput placeholder="" formControlName="notes"></textarea>
+                            </mat-form-field>
+                        </div>
+                    </form>
+
+                    <div class="_clearfix"></div>
+                </mat-expansion-panel>
+               
+            </mat-accordion>
+        </div>
+    </div>
+</div>
