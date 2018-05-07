@@ -15,8 +15,9 @@ export class PatientsComponent implements OnInit {
   public patientAction: any = {};
   public selectedPatient: any = {};
   public patientList: any = [];
-  public panelOpenState: boolean = true;
+  public panelOpenState: Boolean = true;
   public patientEditForm: FormGroup;
+  isCollapsed: Boolean = false;
 
   constructor(
     private cus: CurrentUserService,
@@ -30,7 +31,7 @@ export class PatientsComponent implements OnInit {
     this.getAllPatients();
     this.createForm();
   }
-  
+
   createForm(){
     this.patientEditForm = this.fb.group({
       notes: ['']

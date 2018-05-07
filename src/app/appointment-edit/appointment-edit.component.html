@@ -1,14 +1,14 @@
 <div class="form-wrapper">
-    <form id="appointmentEditForm" [formGroup]="appointmentEditForm" autocomplete="off" ng-submit="editInfo()">
+    <form id="appointmentEditForm" [formGroup]="" autocomplete="off" ng-submit="editInfo()">
         <div class="row">
             <div class="col-sm-6">
-                <div><label class="label_txt" for="userName">First Name</label></div>
+                <div><label class="label_txt" >First Name</label></div>
             <div>
                 <input type="text" class="cust_input" formControlName="firstName"  placeholder="Enter First Name">
             </div>
             </div>
             <div class="col-sm-6">
-                <div><label class="label_txt" for="lastName">Last Name</label></div>
+                <div><label class="label_txt" >Last Name</label></div>
                 <div>
                     <input type="text" class="cust_input" formControlName="lastName"  placeholder="Enter Last Name">
                 </div>
@@ -17,13 +17,13 @@
         <div class="_clearfix"></div>
         <div class="row">
             <div class="col-sm-6">
-                <div><label class="label_txt" for="phoneNumber">Phone Number</label></div>
+                <div><label class="label_txt" >Phone Number</label></div>
             <div>
                 <input type="text" class="cust_input" formControlName="phoneNumber"  placeholder="Enter Mobile Number">
             </div>
             </div>
             <div class="col-sm-6">
-                <div><label class="label_txt" for="email">Email</label></div>
+                <div><label class="label_txt">Email</label></div>
                 <div>
                     <input type="text" class="cust_input" formControlName="email"  placeholder="Enter EmailId">
                 </div>
@@ -83,7 +83,7 @@
         <div class="row">
             <div class="col-sm-6">
                 <div>
-                    <label class="label_txt" for="visitReason">Reason For Visit</label>
+                    <label class="label_txt">Reason For Visit</label>
                 </div>
                 <div>
                     <select class="cust_input" formControlName="visitReason" ng-options="visit for visit in ['Pain','CleanUp','Dentures']">
@@ -97,7 +97,7 @@
         <div class="row">
             <div class="col-sm-6">
                 <div>
-                    <label class="label_txt" for="patientCoverage">Patient's Coverage</label>
+                    <label class="label_txt" >Patient's Coverage</label>
                 </div>
                 <div>
                     <select class="cust_input" formControlName="patientCoverage">
@@ -111,7 +111,7 @@
         <div class="row">
             <div class="col-sm-6">
                 <div>
-                    <label class="label_txt" for="patientCoverageId">Patient Coverage Id</label>
+                    <label class="label_txt" >Patient Coverage Id</label>
                 </div>
                 <div>
                     <input type="text" class="cust_input" formControlName="patientCoverageId"  placeholder=""/>
