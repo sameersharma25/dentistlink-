@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule,HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import { MatCheckboxModule, MatInputModule, MatSelectModule, MatRadioModule } from '@angular/material';
+import { MatCheckboxModule, MatInputModule, MatSelectModule, MatRadioModule, MatExpansionModule, MatListModule } from '@angular/material';
 
 import { ApiInterceptor } from './shared/services/api-interceptor';
 
@@ -31,6 +31,7 @@ import { AboutusComponent } from './aboutus/aboutus.component';
 import { ContactusComponent } from './contactus/contactus.component';
 import { AuthGuardGuard } from './shared/services/auth-guard.guard';
 import { AppointmentEditComponent } from './appointment-edit/appointment-edit.component';
+import { PatientsComponent } from './patients/patients.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,8 @@ import { AppointmentEditComponent } from './appointment-edit/appointment-edit.co
     CreateAppointmentComponent,
     AboutusComponent,
     ContactusComponent,
-    AppointmentEditComponent
+    AppointmentEditComponent,
+    PatientsComponent
   ],
   imports: [
     BrowserModule,
@@ -59,7 +61,9 @@ import { AppointmentEditComponent } from './appointment-edit/appointment-edit.co
     MatCheckboxModule,
     MatInputModule,
     MatSelectModule,
-    MatRadioModule
+    MatRadioModule,
+    MatExpansionModule, 
+    MatListModule
   ],
   providers: [AuthGuardGuard,UserAuthService, JwtService ,CurrentUserService,DataSourceService,DataCommService,
     { 

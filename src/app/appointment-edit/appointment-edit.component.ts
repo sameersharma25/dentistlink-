@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import {FormGroup} from "@angular/forms";
 
 @Component({
   selector: 'app-appointment-edit',
@@ -9,9 +8,8 @@ import {FormGroup} from "@angular/forms";
 export class AppointmentEditComponent implements OnInit {
 
   public coverageType: string[] = [];
-  appointmentEditForm: FormGroup;
 
-  constructor() {
+  constructor() { 
     this.coverageType = ['Aenta','Cigna','Blue Cross','No Insurance'];
   }
 

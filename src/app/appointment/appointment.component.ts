@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators, FormArray} from '@angular/forms';
 //import { FormsModule } from '@angular/forms';
 import { DataSourceService } from '../shared/services/data-source.service';
 import { CurrentUserService } from '../shared/services/current-user.service';
@@ -73,12 +73,14 @@ export class AppointmentComponent implements OnInit {
       aptMonth: [''],
       aptDay: [''],
       aptYear: [''],
-      cleaning:[''],
-      surgery: [''],
-      pain: [''],
-      dentures: [''],
-      infection: [''],
-      damage: [''],
+      reasonForVisit: this.fb.group({
+        cleaning: false,
+        surgery: false,
+        pain: false,
+        dentures: false,
+        infection: false,
+        damage: false,
+      }),
       patientCoverage: [''],
       patientCoverageId: [''],
       notes: ['']
@@ -91,8 +93,6 @@ export class AppointmentComponent implements OnInit {
       if(this.response.status == 'ok'){
         this.appointmentList = this.response.details_array;
         //this.appointmentList = this.getAppointmentList(this.response);
-        console.log(res)
-        console.dir(this.appointmentList)
       }
     }, err =>{
       console.log(err);
@@ -106,11 +106,11 @@ export class AppointmentComponent implements OnInit {
       for(let i =0; i<response.details_array.length;++i){
         var pi:any = {};
         pi.patient_name = response.details_array[i]['patient_name'];
-        pi.patient_dob = response.details_array[i]['patient_dob'];
+        pi.patient_dob= response.details_array[i]['patient_dob'];
         apl[i]['patientInfo'] = pi;
       }
       return apl;
-    } else {
+    }else{
       return [];
     }
   };
@@ -118,9 +118,8 @@ export class AppointmentComponent implements OnInit {
 
   checkModelValue(event){
     this.appointmentAction = event.currentTarget.value;
-    console.log(event.currentTarget.value);
     this.dcs.setAppointmentAction(this.appointmentAction);
-    if (this.appointmentAction === 'Edit') {
+    if(this.appointmentAction === 'Edit'){
       this.router.navigate(['/create-appointment']);
     }
   }
@@ -139,23 +138,47 @@ export class AppointmentComponent implements OnInit {
     this.appointments.collapsed = true;
   }
   editAppointment() {
-    console.log(this.appointmentEditForm.value)
     this.appointments.label = 'Edit';
     if (this.isAppointmentEdit) {
       this.reqObj.email = this.cus.getCurrentUser();
        this.reqObj.first_name =  this.appointmentEditForm.value.firstName;
-      console.log(this.reqObj);
         this.ds.updateAppointment(this.reqObj).subscribe(res => {
           this.response = res;
-          console.log(res);
           if (this.response.status === 'ok') {
-
+            alert("appointment updated successfully.");
           }
         });
     } else {
-      this.reqObj = {};
+      const appointFormData: any = this.appointmentEditForm.value;
+      this.reqObj = {
+        email: this.cus.getCurrentUser(),
+        first_name: appointFormData.firstName,
+        last_name: appointFormData.lastName,
+        patient_phone: appointFormData.phoneNumber,
+        reason_for_visit: this.getVisitList(appointFormData.reasonForVisit),
+        patient_coverage: appointFormData.patientCoverage
+      };
+      this.ds.create(this.reqObj).subscribe((response)=>{
+        let res:any = response;
+        console.log(res)
+        if(res.status == 'ok'){
+          this.getAppointments();
+          alert("Appointment Created Successfully.");
+        }
+      }, (err)=>{
+        console.log("Error in fetching data from server::" + err)
+      })
     }
     this.appointments.collapsed = false;
+  }
+  getVisitList(visitData){
+    var visits: string ='';
+    for(let vd in visitData){
+      if(visitData[vd]){
+        visits += vd + ',';
+      }
+    }
+    return visits = visits.slice(0, visits.length-1);
   }
 
   createAppointment() {

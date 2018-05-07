@@ -65,8 +65,8 @@
                     <div class="table-row n-txt" *ngFor="let alist of appointmentList" (click)="openAppointmentAction(alist)">
                         <div class="table-cell c1">{{alist.date_of_appointment}}</div>
                         <div class="table-cell c2">{{alist.patient_name}}</div>
-                        <div class="table-cell c3">XYC Center</div>
-                        <div class="table-cell c4">{{alist.rov}}</div>
+                        <div class="table-cell c3">{{alist.referred_by}}</div>
+                        <div class="table-cell c4">{{alist.rov? alist.rov:'--'}}</div>
                         <div class="table-cell c5">--</div>
                     </div>
                 </div>
@@ -191,7 +191,7 @@
                     </div>
                 </div>
                 <div class="_clearfix"></div>
-                <div class="section-row">
+                <div class="section-row" formGroupName="reasonForVisit">
                     <label class="sub-label">Reason for Visit</label>
                     <div class="_clearfix"></div>
                     <div class="section-row clearfix">

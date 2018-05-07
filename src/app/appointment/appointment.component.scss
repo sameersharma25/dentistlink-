@@ -1,6 +1,7 @@
 .appointment-wrapper{
     width: 100%;
     height: calc(100vh - 107.6px);
+    overflow: hidden;
 }
 .side-bar, .mid-section{
     float: left;
@@ -70,13 +71,16 @@
 }
 .right-section{
     width: 0%;
-    height: 100%;
+    height: 0px;
+    display: none;
     float: right;
     padding: 0 15px; 
     overflow-y: auto;
 }
 .right-section.expanded{
     width: 40%;
+    height: 100%;
+    display: block;
     transition: all 0.5s ease-in-out;
 }
 .ap-header{
@@ -128,7 +132,7 @@
 .b-txt{
     font-size: 12px;
     font-weight: 600;
-    color: #071f47;
+    color: #07307a;
 }
 .n-txt{
     font-size: 12px;

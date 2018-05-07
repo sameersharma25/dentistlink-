@@ -61,4 +61,11 @@ export class DataSourceService {
       return res;
     });
   }
+
+  /* patients api's */
+  getAllPatientList(reqObj): Observable<Object> {
+    return this.http.post('https://dev7.resourcestack.com/api/patients_list', reqObj, this.httpOptions).map(res => {
+      return res;
+    });
+  }
 }

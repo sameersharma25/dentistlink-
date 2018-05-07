@@ -11,6 +11,7 @@ import { CreateAppointmentComponent } from './create-appointment/create-appointm
 import { AboutusComponent } from './aboutus/aboutus.component';
 import { ContactusComponent } from './contactus/contactus.component';
 import { AuthGuardGuard } from './shared/services/auth-guard.guard';
+import { PatientsComponent } from './patients/patients.component';
 
 const routes: Routes = [
   {
@@ -40,6 +41,11 @@ const routes: Routes = [
     path: 'appointment',
     canActivate: [AuthGuardGuard],
     component: AppointmentComponent
+  },
+  {
+    path: 'patients',
+    canActivate: [AuthGuardGuard],
+    component: PatientsComponent
   },
   {
     path: 'create-appointment',
