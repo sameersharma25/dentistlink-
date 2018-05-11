@@ -38,6 +38,7 @@ body{position: relative;overflow-x: hidden;}
 .txt_bold{color: #666666;font-weight: 600;font-size: 30px;}
 .label_txt{color: #000;font-weight: 600;}
 .f_col{color: #666666;}
+.dif_bg{ background: #e2e8e7;}
 ._clearfix:after,._clearfix:before{content: '';display: table;clear: both;margin:5px auto;}
 ._clearfix.vm{margin: 10px auto!important;}
 ._clearfix.lvm{margin: 20px auto!important;}
@@ -46,6 +47,7 @@ body{position: relative;overflow-x: hidden;}
 .cust_btn:hover{box-shadow: 0 3px 8px 0 rgba(0,0,0,0.2), 0 0 0 1px rgba(0,0,0,0.08);}
 .cust_btn a:hover,.cust_btn a:focus{text-decoration: none;}
 .body-wrapper{margin-bottom: 285px;}
+.al{color: #42bed3;}
 #site-content {
 	min-height: 100%;
 	min-height: 100vh;

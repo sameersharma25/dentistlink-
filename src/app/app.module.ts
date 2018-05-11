@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule,HTTP_INTERCEPTORS } from '@angular/common/http';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { MatCheckboxModule, MatInputModule, MatSelectModule, MatRadioModule, MatExpansionModule, MatListModule } from '@angular/material';
 
@@ -56,6 +56,7 @@ import { PatientsComponent } from './patients/patients.component';
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
+    FormsModule,
     ReactiveFormsModule,
     AppRoutingModule,
     MatCheckboxModule,

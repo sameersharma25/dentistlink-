@@ -13,11 +13,15 @@ import {Email} from '../shared/model/common-model';
 export class PatientsComponent implements OnInit {
 
   public patientAction: any = {};
+  public patientAptAction: any = {};
   public selectedPatient: any = {};
+  public dateOfBirth: any = {};
   public patientList: any = [];
-  public panelOpenState: Boolean = true;
+  public panelOpenState: boolean = true;
   public patientEditForm: FormGroup;
-  isCollapsed: Boolean = false;
+  public patientDetailsEditForm: FormGroup;
+  public patientAppointmentForm: FormGroup;
+  public searchPatients: string;
 
   constructor(
     private cus: CurrentUserService,
@@ -27,14 +31,60 @@ export class PatientsComponent implements OnInit {
 
   ngOnInit() {
     this.patientAction.label = "";
+    this.patientAptAction.label = "";
+    this.patientAction.isOpened = false;
     this.patientAction.collapsed = false;
+    this.dateOfBirth.months = [
+      {value:'january', viewValue:'JANUARY'},
+      {value:'febuary', viewValue:'FEBUARY'},
+      {value:'march', viewValue:'MARCH'},
+      {value:'april', viewValue:'APRIL'},
+      {value:'may', viewValue:'MAY'},
+      {value:'june', viewValue:'JUNE'},
+      {value:'july', viewValue:'JULY'},
+      {value:'august', viewValue:'AUGUST'},
+      {value:'sepetember', viewValue:'SEPTEMBER'},
+      {value:'october', viewValue:'OCTOBER'},
+      {value:'november', viewValue:'NOVEMBER'},
+      {value:'december', viewValue:'DECEMBER'}
+    ];
+    this.dateOfBirth.days = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30];
+    this.dateOfBirth.years = [1985,1986,1987,1998,1999,2000];
     this.getAllPatients();
     this.createForm();
   }
-
+  
   createForm(){
     this.patientEditForm = this.fb.group({
       notes: ['']
+    });
+
+    this.patientDetailsEditForm = this.fb.group({
+      firstName: [''],
+      lastName: [''],
+      month: [''],
+      day: [''],
+      year: [''],
+      phoneNumber: [''],
+      email: [''],
+      preferredContact: [''],
+    });
+
+    this.patientAppointmentForm = this.fb.group({
+      firstName:[''],
+      lastName:[''],
+      phoneNumber:[''],
+      email:[''],
+      month: [''],
+      day: [''],
+      year: [''],
+      preferredContact: [''],
+      aptMonth: [''],
+      aptDay: [''],
+      aptYear: [''],
+      reasonForVisit: [''],
+      patientCoverage: [''],
+      patientCoverageId: [''],
     });
   };
 
@@ -58,6 +108,10 @@ export class PatientsComponent implements OnInit {
     if (data) {
       this.patientAction.label = 'Edit';
       this.selectedPatient = data;
+      (<FormGroup>this.patientDetailsEditForm)
+          .patchValue({firstName: data.first_name}, {onlySelf: true});
+      (<FormGroup>this.patientDetailsEditForm)
+          .patchValue({lastName: data.last_name}, {onlySelf: true});
       //this.getAppointmentDetails(data);
       console.log(data);
       //this.isAppointmentEdit = true;
@@ -67,5 +121,14 @@ export class PatientsComponent implements OnInit {
       //this.createForm();
     }
     this.patientAction.collapsed = true;
+  }
+  openPatientAppointment(status){
+    this.patientAction.isOpened = true;
+    if(status === 'new'){
+      this.patientAptAction.label = "new";
+
+    } else if(status === 'create'){
+      this.patientAptAction.label = "edit";
+    }
   }
 }
