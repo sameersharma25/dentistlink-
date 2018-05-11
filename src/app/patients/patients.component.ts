@@ -17,11 +17,12 @@ export class PatientsComponent implements OnInit {
   public selectedPatient: any = {};
   public dateOfBirth: any = {};
   public patientList: any = [];
-  public panelOpenState: boolean = true;
+  public panelOpenState: Boolean = true;
   public patientEditForm: FormGroup;
   public patientDetailsEditForm: FormGroup;
   public patientAppointmentForm: FormGroup;
   public searchPatients: string;
+  isCollapsed: Boolean = false;
 
   constructor(
     private cus: CurrentUserService,
@@ -53,7 +54,7 @@ export class PatientsComponent implements OnInit {
     this.getAllPatients();
     this.createForm();
   }
-  
+
   createForm(){
     this.patientEditForm = this.fb.group({
       notes: ['']
@@ -131,4 +132,8 @@ export class PatientsComponent implements OnInit {
       this.patientAptAction.label = "edit";
     }
   }
+
+  editAppointment() {}
+
+  editPatientInfo() {}
 }
