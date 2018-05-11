@@ -68,4 +68,18 @@ export class DataSourceService {
       return res;
     });
   }
+
+  getPatientsAppointments(reqObj): Observable<Object> {
+    return this.http.post('https://dev7.resourcestack.com/api/patient_appointments', reqObj, this.httpOptions).map(res => {
+      return res;
+    });
+  }
+
+  getPatientsDetails(reqObj): Observable<Object> {
+    return this.http.post('https://dev7.resourcestack.com/api/patient_details', reqObj, this.httpOptions).map(res => {
+      return res;
+    });
+  }
+
+
 }

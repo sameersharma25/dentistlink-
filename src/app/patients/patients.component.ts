@@ -23,6 +23,8 @@ export class PatientsComponent implements OnInit {
   public patientAppointmentForm: FormGroup;
   public searchPatients: string;
   isCollapsed: Boolean = false;
+  reqObj:any ={};
+  appointmentList: any[];
 
   constructor(
     private cus: CurrentUserService,
@@ -91,10 +93,9 @@ export class PatientsComponent implements OnInit {
 
   getAllPatients(){
     let currentUserMail: Email;
-    let reqObj: any = {};
     currentUserMail = this.cus.getCurrentUser();
-    reqObj.email = currentUserMail;
-    this.dss.getAllPatientList(reqObj).subscribe(res =>{
+    this.reqObj.email = currentUserMail;
+    this.dss.getAllPatientList(this.reqObj).subscribe(res =>{
       const response:any = res;
       if(response.status == 'ok'){
         this.patientList = response.patients_details;
@@ -109,11 +110,9 @@ export class PatientsComponent implements OnInit {
     if (data) {
       this.patientAction.label = 'Edit';
       this.selectedPatient = data;
-      (<FormGroup>this.patientDetailsEditForm)
-          .patchValue({firstName: data.first_name}, {onlySelf: true});
-      (<FormGroup>this.patientDetailsEditForm)
-          .patchValue({lastName: data.last_name}, {onlySelf: true});
-      //this.getAppointmentDetails(data);
+      this.getPatientsDetails(data);
+
+      this.getAppointments(data);
       console.log(data);
       //this.isAppointmentEdit = true;
     } else {
@@ -133,7 +132,54 @@ export class PatientsComponent implements OnInit {
     }
   }
 
+  getPatientsDetails(data: any) {
+    this.reqObj.email = this.cus.getCurrentUser();
+    this.reqObj.patient_id = data.patient_id;
+    this.dss.getPatientsDetails(this.reqObj).subscribe(res => {
+      const response: any = res;
+      console.log(res);
+       if (response.status === 'ok') {
+        const details = response.patients_details;
+        (<FormGroup>this.patientDetailsEditForm)
+          .patchValue({firstName: details.first_name}, {onlySelf: true});
+        (<FormGroup>this.patientDetailsEditForm)
+          .patchValue({lastName: details.last_name}, {onlySelf: true});
+
+        (<FormGroup>this.patientDetailsEditForm)
+          .patchValue({phoneNumber: details.ph_number}, {onlySelf: true});
+
+        (<FormGroup>this.patientDetailsEditForm)
+          .patchValue({email: details.patient_email}, {onlySelf: true});
+
+        const d = details.date_of_birth;
+        const newDate = new Date(d);
+
+        const month = newDate.toLocaleString('en-us', { month: 'long' });
+        console.log(month);
+      }
+    }, err => {
+      console.log(err);
+    });
+  }
+
   editAppointment() {}
 
   editPatientInfo() {}
+
+
+  getAppointments(patient){
+    this.reqObj.patient_id = patient.patient_id;
+    this.reqObj.email = this.cus.getCurrentUser();
+    this.dss.getPatientsAppointments(this.reqObj).subscribe(res => {
+      const response: any = res;
+      if (response.status === 'ok') {
+        this.appointmentList = response.details_array;
+      }
+    }, err => {
+      console.log(err);
+    });
+  }
+
+
+
 }

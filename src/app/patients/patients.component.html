@@ -38,8 +38,7 @@
                         <div class="table-cell c2">432-532-2123</div>
                         <div class="table-cell c3">Emily R.</div>
                         <div class="table-cell c4">
-                            <span *ngIf="index ==0"><span class="status-cir"></span>Remind</span>
-                            <span *ngIf="index>0">""</span>
+                            <span *ngIf="plist.active_notification"><span class="status-cir"></span>Remind</span>
                         </div>
                     </div>
                 </div>
@@ -64,7 +63,7 @@
                   </mat-expansion-panel-header>
                   <mat-panel-description>
                         <form [formGroup]="patientDetailsEditForm" (ngSubmit)="editPatientInfo()">
-                            
+
                             <div class="section-row">
                                 <div class="left-field">
                                     <mat-form-field class="">
@@ -128,7 +127,7 @@
                             </div>
                         </form>
                   </mat-panel-description>
-              
+
                   <!-- <mat-form-field>
                     <input matInput placeholder="First name">
                   </mat-form-field> -->
@@ -144,22 +143,10 @@
                     </mat-expansion-panel-header>
                     <mat-panel-description>
                         <mat-list>
-                            <mat-list-item> 
-                                <div class="s1 label_txt">TBD</div>
-                                <div class="s2">Provider Name</div>
-                                <div class="s3">Reason for Visit</div>
-                                <div class="s4 label_txt" (click)="openPatientAppointment('edit')">Edit</div> 
-                            </mat-list-item>
-                            <mat-list-item>
-                                <div class="s1 label_txt">04/20/2018</div>
-                                <div class="s2">Provider Name</div>
-                                <div class="s3">Reason for Visit</div>
-                                <div class="s4 label_txt" (click)="openPatientAppointment('edit')">Edit</div>
-                            </mat-list-item>
-                            <mat-list-item>
-                                <div class="s1 label_txt">7/05/2018</div>
-                                <div class="s2">Provider Name</div>
-                                <div class="s3">Reason for Visit</div>
+                            <mat-list-item *ngFor="let item of appointmentList; let index=index">
+                                <div class="s1 label_txt">{{item.date_of_appointment || 'TBD'}} </div>
+                                <div class="s2">{{item.appointment_status || '-'}}</div>
+                                <div class="s3">{{item.rov || '-'}}</div>
                                 <div class="s4 label_txt" (click)="openPatientAppointment('edit')">Edit</div>
                             </mat-list-item>
                         </mat-list>
@@ -180,7 +167,7 @@
 
                     <div class="_clearfix"></div>
                 </mat-expansion-panel>
-               
+
             </mat-accordion>
             <div class="_clearfix"></div>
             <div class="apt-form-wrapper" *ngIf="patientAction.isOpened">
@@ -199,7 +186,7 @@
                             </div>
                         </div>
                         <div class="_clearfix"></div>
-        
+
                         <div class="section-row">
                             <label>Date of Birth</label>
                             <div class="_clearfix"></div>
@@ -294,7 +281,7 @@
                                     <mat-radio-button value="damage">Damage</mat-radio-button>
                                 </mat-radio-group>
                             </div>
-                           
+
                         </div>
                         <div class="_clearfix"></div>
                         <div class="section-row">
