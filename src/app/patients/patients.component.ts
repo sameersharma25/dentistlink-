@@ -4,6 +4,7 @@ import { FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import { CurrentUserService } from '../shared/services/current-user.service';
 import { DataSourceService } from '../shared/services/data-source.service';
 import {Email} from '../shared/model/common-model';
+import {MatSelect} from "@angular/material";
 
 @Component({
   selector: 'app-patients',
@@ -12,19 +13,22 @@ import {Email} from '../shared/model/common-model';
 })
 export class PatientsComponent implements OnInit {
 
-  public patientAction: any = {};
-  public patientAptAction: any = {};
-  public selectedPatient: any = {};
-  public dateOfBirth: any = {};
-  public patientList: any = [];
-  public panelOpenState: Boolean = true;
-  public patientEditForm: FormGroup;
-  public patientDetailsEditForm: FormGroup;
-  public patientAppointmentForm: FormGroup;
-  public searchPatients: string;
+  patientAction: any = {};
+  patientAptAction: any = {};
+  selectedPatient: any = {};
+  dateOfBirth: any = {};
+  patientList: any = [];
+  panelOpenState: Boolean = true;
+  patientEditForm: FormGroup;
+  patientDetailsEditForm: FormGroup;
+  patientAppointmentForm: FormGroup;
+  searchPatients: string;
   isCollapsed: Boolean = false;
   reqObj:any ={};
   appointmentList: any[];
+  patientDetails:any = {};
+  patientId: number;
+  selectedAppointment: any;
 
   constructor(
     private cus: CurrentUserService,
@@ -38,18 +42,18 @@ export class PatientsComponent implements OnInit {
     this.patientAction.isOpened = false;
     this.patientAction.collapsed = false;
     this.dateOfBirth.months = [
-      {value:'january', viewValue:'JANUARY'},
-      {value:'febuary', viewValue:'FEBUARY'},
-      {value:'march', viewValue:'MARCH'},
-      {value:'april', viewValue:'APRIL'},
-      {value:'may', viewValue:'MAY'},
-      {value:'june', viewValue:'JUNE'},
-      {value:'july', viewValue:'JULY'},
-      {value:'august', viewValue:'AUGUST'},
-      {value:'sepetember', viewValue:'SEPTEMBER'},
-      {value:'october', viewValue:'OCTOBER'},
-      {value:'november', viewValue:'NOVEMBER'},
-      {value:'december', viewValue:'DECEMBER'}
+      {value: 1, viewValue:'JANUARY'},
+      {value: 2, viewValue:'FEBUARY'},
+      {value: 3, viewValue:'MARCH'},
+      {value: 4, viewValue:'APRIL'},
+      {value: 5, viewValue:'MAY'},
+      {value: 6, viewValue:'JUNE'},
+      {value: 7, viewValue:'JULY'},
+      {value: 8, viewValue:'AUGUST'},
+      {value: 9, viewValue:'SEPTEMBER'},
+      {value: 10, viewValue:'OCTOBER'},
+      {value: 11, viewValue:'NOVEMBER'},
+      {value: 12, viewValue:'DECEMBER'}
     ];
     this.dateOfBirth.days = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30];
     this.dateOfBirth.years = [1985,1986,1987,1998,1999,2000];
@@ -65,7 +69,7 @@ export class PatientsComponent implements OnInit {
     this.patientDetailsEditForm = this.fb.group({
       firstName: [''],
       lastName: [''],
-      month: [''],
+      month:[''],
       day: [''],
       year: [''],
       phoneNumber: [''],
@@ -74,20 +78,13 @@ export class PatientsComponent implements OnInit {
     });
 
     this.patientAppointmentForm = this.fb.group({
-      firstName:[''],
-      lastName:[''],
-      phoneNumber:[''],
-      email:[''],
       month: [''],
       day: [''],
       year: [''],
-      preferredContact: [''],
-      aptMonth: [''],
-      aptDay: [''],
-      aptYear: [''],
       reasonForVisit: [''],
       patientCoverage: [''],
       patientCoverageId: [''],
+      notes: ['']
     });
   };
 
@@ -106,6 +103,7 @@ export class PatientsComponent implements OnInit {
     });
   };
 
+  // right panel action for patient
   openPatientAction(data) {
     if (data) {
       this.patientAction.label = 'Edit';
@@ -113,61 +111,171 @@ export class PatientsComponent implements OnInit {
       this.getPatientsDetails(data);
 
       this.getAppointments(data);
-      console.log(data);
       //this.isAppointmentEdit = true;
     } else {
       this.patientAction.label = 'Create';
       //this.isAppointmentEdit = false;
-      //this.createForm();
+      this.createForm();
     }
     this.patientAction.collapsed = true;
   }
-  openPatientAppointment(status){
+
+  // open appoint form for patient
+  openPatientAppointment(status,data){
+
+    this.selectedAppointment = data;
     this.patientAction.isOpened = true;
     if(status === 'new'){
+      this.createForm();
       this.patientAptAction.label = "new";
 
-    } else if(status === 'create'){
+    } else if(status === 'edit'){
+      (<FormGroup>this.patientAppointmentForm)
+        .reset( {onlySelf: true});
       this.patientAptAction.label = "edit";
     }
   }
 
   getPatientsDetails(data: any) {
+    this.patientId = data.patient_id;
     this.reqObj.email = this.cus.getCurrentUser();
-    this.reqObj.patient_id = data.patient_id;
+    this.reqObj.patient_id = this.patientId;
     this.dss.getPatientsDetails(this.reqObj).subscribe(res => {
       const response: any = res;
       console.log(res);
        if (response.status === 'ok') {
-        const details = response.patients_details;
+        this.patientDetails = response.patients_details;
         (<FormGroup>this.patientDetailsEditForm)
-          .patchValue({firstName: details.first_name}, {onlySelf: true});
+          .patchValue({firstName: this.patientDetails.first_name}, {onlySelf: true});
         (<FormGroup>this.patientDetailsEditForm)
-          .patchValue({lastName: details.last_name}, {onlySelf: true});
+          .patchValue({lastName: this.patientDetails.last_name}, {onlySelf: true});
 
         (<FormGroup>this.patientDetailsEditForm)
-          .patchValue({phoneNumber: details.ph_number}, {onlySelf: true});
+          .patchValue({phoneNumber: this.patientDetails.ph_number}, {onlySelf: true});
 
         (<FormGroup>this.patientDetailsEditForm)
-          .patchValue({email: details.patient_email}, {onlySelf: true});
+          .patchValue({email: this.patientDetails.patient_email}, {onlySelf: true});
 
-        const d = details.date_of_birth;
+        const d = this.patientDetails.date_of_birth;
         const newDate = new Date(d);
 
         const month = newDate.toLocaleString('en-us', { month: 'long' });
         console.log(month);
-      }
+        console.log(this.dateOfBirth.months[3]);
+         (<FormGroup>this.patientDetailsEditForm).controls['month'].value = this.dateOfBirth.months[3];
+           // .setValue({month: this.dateOfBirth.months[3]}, {onlySelf: true});
+       }
     }, err => {
       console.log(err);
     });
   }
 
-  editAppointment() {}
+  patientAppointment(appointmentData) {
+    if(this.patientAptAction.label == 'new'){
+      let reqObj: any = {
+        email: this.cus.getCurrentUser(),
+        patient_id: this.patientId,
+        date_of_appointment: this.getDate(this.patientAppointmentForm.value),
+        reason_for_visit: this.patientAppointmentForm.value.reasonForVisit
+      };
+      this.dss.createPatientAppoint(reqObj).subscribe(res => {
+        let response:any = res;
+        if(response.status == 'ok'){
+          this.getAllPatients()
+          alert(response.message);
+          this.patientAction.collapsed = false;
+        }
+      }, err => {
+        console.log("Error in fetching data from server::" + err);
+      })
+    }else if(this.patientAptAction.label == 'edit'){
+      let patientName = this.selectedAppointment.patient_name.split(' ');
+      let reqObj: any = {
+        email: this.cus.getCurrentUser(),
+        reason_for_visit: this.patientAppointmentForm.value.reasonForVisit,
+        appointment_id: this.selectedAppointment.appointment_id,
+        date_of_appointment: this.getDate(this.patientAppointmentForm.value),
+        first_name: patientName[0],
+        last_name: patientName[1],
+        patient_phone: this.selectedPatient.ph_number,
+        dob: this.selectedAppointment.patient_dob,
+        healthcare_coverage: this.patientAppointmentForm.value.patientCoverage
+      };
 
-  editPatientInfo() {}
+      this.dss.updateAppointment(reqObj).subscribe(res => {
+        let response:any = res;
+        if(response.status == 'ok'){
+          this.getAllPatients()
+          alert(response.message);
+          this.patientAction.collapsed = false;
+        }
+      }, err => {
+        console.log("Error in fetching data from server::" + err)
+      });
+    }
+  }
+
+  // create & update patient info
+  editPatientInfo() {
+    if(this.patientAction.label == 'Create'){
+      let patient_dob = this.getDate(this.patientDetailsEditForm.value);
+      let reqObj: any = {
+        email: this.cus.getCurrentUser(),
+        first_name: this.patientDetailsEditForm.value.firstName,
+        last_name: this.patientDetailsEditForm.value.lastName,
+        date_of_birth: patient_dob,
+        patient_email: this.patientDetailsEditForm.value.email,
+        patient_phone: this.patientDetailsEditForm.value.phoneNumber,
+        patient_coverage_id: null,
+        healthcare_coverage: null,
+        mode_of_contact: this.patientDetailsEditForm.value.preferredContact,
+        patient_zipcode: null
+      };
+      this.dss.createPatient(reqObj).subscribe(res => {
+        let response:any = res;
+        if(response.status == 'ok'){
+          this.getAllPatients()
+          alert(response.message);
+          this.patientAction.collapsed = false;
+        }
+      }, err => {
+        console.log(err)
+      });
+    }else{
+      var patientObj:any;
+      patientObj = this.getPatientUpdate(this.patientDetailsEditForm, this.patientDetails);
+      this.dss.updatePatient(patientObj).subscribe(res =>{
+        let response:any = res;
+        if(response.status == 'ok'){
+          this.getAllPatients()
+          alert(response.message);
+          this.patientAction.collapsed = false;
+        }
+      }, err =>{
+        console.log("Error in fetching data from server::" + err);
+      })
+    }
+
+  }
+  getPatientUpdate(formData, patientDetails){
+    let patientObj:any = {};
+    patientObj.patient_id = this.patientId;
+    patientObj.first_name = formData.value.firstName;
+    patientObj.last_name = formData.value.lastName;
+    patientObj.date_of_birth = this.getDate(formData.value)? this.getDate(formData.value):patientDetails.date_of_birth;
+    patientObj.patient_email = formData.value.email? formData.value.email : patientDetails.patient_email;
+    patientObj.patient_phone = formData.value.phoneNumber? formData.value.phoneNumber : patientDetails.patient_phone;
+    patientObj.patient_coverage_id = patientDetails.patient_coverage_id;
+    patientObj.healthcare_coverage = patientDetails.healthcare_coverage;
+    patientObj.mode_of_contact = formData.value.preferredContact;
+    patientObj.patient_zipcode = null;
+
+    return patientObj;
+  }
 
 
   getAppointments(patient){
+    this.reqObj = {};
     this.reqObj.patient_id = patient.patient_id;
     this.reqObj.email = this.cus.getCurrentUser();
     this.dss.getPatientsAppointments(this.reqObj).subscribe(res => {
@@ -180,6 +288,13 @@ export class PatientsComponent implements OnInit {
     });
   }
 
-
+  // date format
+  getDate(value){
+    if(!value.day && !value.month && !value.year)
+      return false;
+    let tempDate: string ='';
+    tempDate = `${value.year}-${value.month}-${value.day}`;
+    return new Date(tempDate);
+  }
 
 }

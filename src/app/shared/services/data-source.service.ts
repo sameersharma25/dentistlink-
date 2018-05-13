@@ -11,6 +11,7 @@ import { CurrentUserService } from '../services/current-user.service';
 export class DataSourceService {
   token: any;
   httpOptions: any;
+  baseUrl: string = 'https://dev7.resourcestack.com/api';
 
   constructor(private http: HttpClient, private cs: CurrentUserService) {
     this.token = this.cs.getAutToken();
@@ -24,60 +25,85 @@ export class DataSourceService {
   }
   // get appointment list
   getAppointments(reqObj): Observable<Object> {
-    return this.http.post('https://dev7.resourcestack.com/api/get_user_appointments', reqObj, this.httpOptions).map(res =>{
+    return this.http.post(`${this.baseUrl}/get_user_appointments`, reqObj, this.httpOptions).map(res =>{
       return res;
     });
   }
   // create new appointment
   create(reqObj): Observable<Object> {
-    return this.http.post('https://dev7.resourcestack.com/api/create_appointment', reqObj, this.httpOptions).map(res => {
+    return this.http.post(`${this.baseUrl}/create_appointment`, reqObj, this.httpOptions).map(res => {
       return res;
     });
   }
 
   // create new user
   createNewUser(reqOobj): Observable<Object> {
-    return this.http.post('https://dev7.resourcestack.com/api/create_user', reqOobj, this.httpOptions).map(res => {
+    return this.http.post(`${this.baseUrl}/create_user`, reqOobj, this.httpOptions).map(res => {
       return res;
     });
   }
    // get user list
   getUsers(reqObj): Observable<Object> {
-    return this.http.post('https://dev7.resourcestack.com/api/get_all_users', reqObj, this.httpOptions).map(res => {
+    return this.http.post(`${this.baseUrl}/get_all_users`, reqObj, this.httpOptions).map(res => {
       return res;
     });
   }
 
   // get appointment list
   getAppointmentDetails(reqObj): Observable<Object> {
-    return this.http.post('https://dev7.resourcestack.com/api/edit_appointment', reqObj, this.httpOptions).map(res => {
+    return this.http.post(`${this.baseUrl}/edit_appointment`, reqObj, this.httpOptions).map(res => {
       return res;
     });
   }
 
-  // get appointment list
+  // update appointment
   updateAppointment(reqObj): Observable<Object> {
-    return this.http.post('https://dev7.resourcestack.com/api/update_appointment', reqObj, this.httpOptions).map(res => {
+    return this.http.post(`${this.baseUrl}/update_appointment`, reqObj, this.httpOptions).map(res => {
       return res;
     });
   }
 
   /* patients api's */
+
+  // get patient list
   getAllPatientList(reqObj): Observable<Object> {
-    return this.http.post('https://dev7.resourcestack.com/api/patients_list', reqObj, this.httpOptions).map(res => {
+    return this.http.post(`${this.baseUrl}/patients_list`, reqObj, this.httpOptions).map(res => {
       return res;
     });
   }
 
+  // get patient appointmets
   getPatientsAppointments(reqObj): Observable<Object> {
-    return this.http.post('https://dev7.resourcestack.com/api/patient_appointments', reqObj, this.httpOptions).map(res => {
+    return this.http.post(`${this.baseUrl}/patient_appointments`, reqObj, this.httpOptions).map(res => {
       return res;
     });
   }
 
+  // get patient details
   getPatientsDetails(reqObj): Observable<Object> {
-    return this.http.post('https://dev7.resourcestack.com/api/patient_details', reqObj, this.httpOptions).map(res => {
+    return this.http.post(`${this.baseUrl}/patient_details`, reqObj, this.httpOptions).map(res => {
       return res;
+    });
+  }
+
+  // update patient details
+  updatePatient(reqObj): Observable<Object>{
+    return this.http.post(`${this.baseUrl}/update_patient`, reqObj, this.httpOptions).map(res => {
+      return res;
+    });
+  }
+
+  // create appoint for particular patient
+  createPatientAppoint(reqObj): Observable<Object>{
+    return this.http.post(`${this.baseUrl}/crete_appointment_for_patient`, reqObj, this.httpOptions).map(res => {
+      return res;
+    });
+  }
+
+  // create new patient
+  createPatient(reqObj): Observable<Object>{
+    return this.http.post(`${this.baseUrl}/create_patient`, reqObj, this.httpOptions).map(res => {
+      return res; // need to change url
     });
   }
 

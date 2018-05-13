@@ -2,7 +2,7 @@
 <div class="appointment-wrapper">
     <div class="side-bar" [class.expanded]="isCollapsed">
         <ul>
-            <li class=""><a>Settings</a></li>
+            <li class=""><a>Appointments</a></li>
             <li class="active"><a>Patients</a></li>
             <li><a>Settings</a></li>
         </ul>
@@ -35,7 +35,7 @@
                     <div class="table-row n-txt" *ngFor="let plist of patientList; let index=index" (click)="openPatientAction(plist)">
                         <div class="table-cell c1">{{plist.first_name}} {{plist.last_name}}</div>
                         <div class="table-cell c2">Needs Care</div>
-                        <div class="table-cell c2">432-532-2123</div>
+                        <div class="table-cell c2">{{plist.ph_number}}</div>
                         <div class="table-cell c3">Emily R.</div>
                         <div class="table-cell c4">
                             <span *ngIf="plist.active_notification"><span class="status-cir"></span>Remind</span>
@@ -46,10 +46,12 @@
         </div>
     </div>
     <div class="right-section" [class.expanded]="patientAction.collapsed">
+        <mat-list class="header def_bg">
+            <mat-list-item *ngIf="patientAction.label == 'Edit'" class="label_txt"> {{selectedPatient.first_name}} {{selectedPatient.last_name}}</mat-list-item>
+            <mat-list-item *ngIf="patientAction.label == 'Create'" class="label_txt">New Patient</mat-list-item>
+            <i class="material-icons close_btn" (click)="patientAction.collapsed = false;">clear</i>
+        </mat-list>
         <div class="p-detaitls-wrapper">
-            <mat-list>
-                <mat-list-item class="label_txt"> {{selectedPatient.first_name}} {{selectedPatient.last_name}}</mat-list-item>
-            </mat-list>
             <div class="_clearfix"></div>
             <mat-accordion>
                 <mat-expansion-panel>
@@ -125,6 +127,11 @@
                                     </mat-radio-group>
                                 </div>
                             </div>
+                            <div class="_clearfix"></div>
+                            <div class="section-row">
+                                <button type="submit" class="btn cust_btn success" *ngIf="patientAction.label == 'Create'">Create</button>
+                                <button type="submit" class="btn cust_btn success" *ngIf="patientAction.label == 'Edit'">Update</button>
+                            </div>
                         </form>
                   </mat-panel-description>
 
@@ -143,27 +150,28 @@
                     </mat-expansion-panel-header>
                     <mat-panel-description>
                         <mat-list>
+                            <mat-list-item *ngIf="!appointmentList">No Appointments Found</mat-list-item>
                             <mat-list-item *ngFor="let item of appointmentList; let index=index">
-                                <div class="s1 label_txt">{{item.date_of_appointment || 'TBD'}} </div>
-                                <div class="s2">{{item.appointment_status || '-'}}</div>
-                                <div class="s3">{{item.rov || '-'}}</div>
-                                <div class="s4 label_txt" (click)="openPatientAppointment('edit')">Edit</div>
+                                <div class="s1 label_txt">{{item.date_of_appointment | date:'mediumDate'  || '--'}} </div>
+                                <div class="s2">{{item.appointment_status || '--'}}</div>
+                                <div class="s3">{{item.rov || '--'}}</div>
+                                <div class="s4 label_txt" (click)="openPatientAppointment('edit', item)">Edit</div>
                             </mat-list-item>
                         </mat-list>
                     </mat-panel-description>
                     <div class="_clearfix"></div>
                     <mat-list>
-                        <mat-list-item class="label_txt" style="font-size: 13px;" (click)="openPatientAppointment('new')">NEW APPOINTMENT <span class="act-cir"></span></mat-list-item>
+                        <mat-list-item class="label_txt" style="font-size: 13px;" (click)="openPatientAppointment('new', null)">NEW APPOINTMENT <span class="act-cir"></span></mat-list-item>
                     </mat-list>
                     <div class="_clearfix"></div>
-                    <form [formGroup]="patientEditForm">
+                    <!-- <form [formGroup]="patientEditForm">
                         <label class="label_txt">Notes</label>
                         <div class="section-row">
                             <mat-form-field>
                                 <textarea matInput placeholder="" formControlName="notes"></textarea>
                             </mat-form-field>
                         </div>
-                    </form>
+                    </form> -->
 
                     <div class="_clearfix"></div>
                 </mat-expansion-panel>
@@ -171,8 +179,8 @@
             </mat-accordion>
             <div class="_clearfix"></div>
             <div class="apt-form-wrapper" *ngIf="patientAction.isOpened">
-                <form [formGroup]="patientAppointmentForm" (ngSubmit)="editAppointment()">
-                        <label>Patient Details</label>
+                <form [formGroup]="patientAppointmentForm" (ngSubmit)="patientAppointment()">
+                        <!-- <label>Patient Details</label>
                         <div class="section-row">
                             <div class="left-field">
                                 <mat-form-field class="">
@@ -236,7 +244,7 @@
                                     <mat-radio-button value="email">Email</mat-radio-button>
                                 </mat-radio-group>
                             </div>
-                        </div>
+                        </div> -->
                         <div class="_clearfix"></div>
                         <label>Appointment Details</label>
                         <div class="_clearfix"></div>
@@ -245,21 +253,21 @@
                             <div class="_clearfix"></div>
                             <div>
                                 <div class="pull-left" style="width: 100px;margin-right: 10px;">
-                                    <mat-select placeholder="Month" formControlName="aptMonth">
+                                    <mat-select placeholder="Month" formControlName="month">
                                         <mat-option *ngFor="let month of dateOfBirth.months" [value]="month.value">
                                             {{ month.viewValue }}
                                         </mat-option>
                                     </mat-select>
                                 </div>
                                 <div class="pull-left" style="width: 50px;margin-right: 10px;">
-                                    <mat-select placeholder="Day" formControlName="aptDay">
+                                    <mat-select placeholder="Day" formControlName="day">
                                         <mat-option *ngFor="let day of dateOfBirth.days" [value]="day">
                                             {{ day }}
                                         </mat-option>
                                     </mat-select>
                                 </div>
                                 <div class="pull-left" style="width: 50px;margin-right: 10px;">
-                                    <mat-select placeholder="Year" formControlName="aptYear">
+                                    <mat-select placeholder="Year" formControlName="year">
                                         <mat-option *ngFor="let year of dateOfBirth.years" [value]="year">
                                             {{ year }}
                                         </mat-option>
@@ -307,7 +315,8 @@
                         </div>
                         <div class="_clearfix"></div>
                         <div class="section-row">
-                            <button class="btn btn-info" type="submit">Save</button>
+                            <button class="btn btn-info" type="submit" *ngIf="patientAptAction.label == 'new'">Create</button>
+                            <button class="btn btn-info" type="submit" *ngIf="patientAptAction.label == 'edit'">Update</button>
                         </div>
                     </form>
             </div>
