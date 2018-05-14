@@ -123,12 +123,13 @@ export class PatientsComponent implements OnInit {
   openPatientAppointment(status,data){
     this.selectedAppointment = data;
     this.patientAction.isOpened = true;
-    let dateObj: any = this.getDateObject(this.selectedAppointment.date_of_appointment);
+
     if(status === 'new'){
       this.createForm();
       this.patientAptAction.label = "new";
 
     } else if(status === 'edit'){
+      let dateObj: any = this.getDateObject(this.selectedAppointment.date_of_appointment);
       this.patientAptAction.label = "edit";
       (<FormGroup>this.patientAppointmentForm)
       .patchValue({day: dateObj.day}, {onlySelf: true});
