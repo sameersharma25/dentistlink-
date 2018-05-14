@@ -54,8 +54,21 @@ export class PatientsComponent implements OnInit {
       {value: 11, viewValue:'NOVEMBER'},
       {value: 12, viewValue:'DECEMBER'}
     ];
-    this.dateOfBirth.days = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30];
-    this.dateOfBirth.years = [1985,1986,1987,1998,1999,2000];
+    this.dateOfBirth.days = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31];
+    this.dateOfBirth.years = [];
+    let year = new Date().getFullYear();
+
+    if (year < 1900) {
+      year = year + 1900;
+    }
+    let date = year - 101;
+    let future = year + 100;
+    while (date < future) {
+      this.dateOfBirth.years.push(date);
+      date++;
+    }
+
+
     this.getAllPatients();
     this.createForm();
   }
@@ -313,7 +326,7 @@ export class PatientsComponent implements OnInit {
       let tempDate:any = date;
       let dateObj: any = {
         day: new Date(tempDate).getDate(),
-        month: new Date(tempDate).getMonth(),
+        month: new Date(tempDate).getMonth() + 1,
         year: new Date(tempDate).getFullYear()
       };
       return dateObj;

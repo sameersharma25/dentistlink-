@@ -34,7 +34,7 @@
                 <div class="lists">
                     <div class="table-row n-txt" *ngFor="let plist of patientList; let index=index" (click)="openPatientAction(plist)">
                         <div class="table-cell c1">{{plist.first_name}} {{plist.last_name}}</div>
-                        <div class="table-cell c2">Needs Care</div>
+                        <div class="table-cell c2">{{plist.p_status}}</div>
                         <div class="table-cell c2">{{plist.ph_number}}</div>
                         <div class="table-cell c3">Emily R.</div>
                         <div class="table-cell c4">
