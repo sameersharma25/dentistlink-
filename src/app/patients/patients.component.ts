@@ -16,6 +16,7 @@ export class PatientsComponent implements OnInit {
   patientAptAction: any = {};
   selectedPatient: any = {};
   dateOfBirth: any = {};
+  dateOfAppointment: any = {};
   patientList: any = [];
   panelOpenState: Boolean = true;
   patientEditForm: FormGroup;
@@ -56,6 +57,7 @@ export class PatientsComponent implements OnInit {
     ];
     this.dateOfBirth.days = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31];
     this.dateOfBirth.years = [];
+    this.dateOfAppointment.years = [2017,2018,2019,2020,2021];
     let year = new Date().getFullYear();
 
     if (year < 1900) {
