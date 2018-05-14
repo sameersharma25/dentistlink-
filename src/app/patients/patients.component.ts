@@ -4,7 +4,6 @@ import { FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import { CurrentUserService } from '../shared/services/current-user.service';
 import { DataSourceService } from '../shared/services/data-source.service';
 import {Email} from '../shared/model/common-model';
-import {MatSelect} from "@angular/material";
 
 @Component({
   selector: 'app-patients',
@@ -69,7 +68,7 @@ export class PatientsComponent implements OnInit {
     this.patientDetailsEditForm = this.fb.group({
       firstName: [''],
       lastName: [''],
-      month:[''],
+      month: [''],
       day: [''],
       year: [''],
       phoneNumber: [''],
@@ -114,26 +113,34 @@ export class PatientsComponent implements OnInit {
       //this.isAppointmentEdit = true;
     } else {
       this.patientAction.label = 'Create';
-      //this.isAppointmentEdit = false;
       this.createForm();
+      this.reset();
     }
     this.patientAction.collapsed = true;
   }
 
   // open appoint form for patient
   openPatientAppointment(status,data){
-
     this.selectedAppointment = data;
     this.patientAction.isOpened = true;
+    let dateObj: any = this.getDateObject(this.selectedAppointment.date_of_appointment);
     if(status === 'new'){
       this.createForm();
       this.patientAptAction.label = "new";
 
     } else if(status === 'edit'){
-      (<FormGroup>this.patientAppointmentForm)
-        .reset( {onlySelf: true});
       this.patientAptAction.label = "edit";
-    }
+      (<FormGroup>this.patientAppointmentForm)
+      .patchValue({day: dateObj.day}, {onlySelf: true});
+      (<FormGroup>this.patientAppointmentForm)
+          .patchValue({month: dateObj.month}, {onlySelf: true});
+      (<FormGroup>this.patientAppointmentForm)
+          .patchValue({year: dateObj.year}, {onlySelf: true});
+      // (<FormGroup>this.patientAppointmentForm)
+      //     .patchValue({reasonForVisit: this.selectedAppointment.rov}, {onlySelf: true});
+      (<FormGroup>this.patientAppointmentForm)
+          .patchValue({reasonForVisit: this.selectedAppointment.rov}, {onlySelf: true});
+        }
   }
 
   getPatientsDetails(data: any) {
@@ -156,15 +163,18 @@ export class PatientsComponent implements OnInit {
         (<FormGroup>this.patientDetailsEditForm)
           .patchValue({email: this.patientDetails.patient_email}, {onlySelf: true});
 
-        const d = this.patientDetails.date_of_birth;
-        const newDate = new Date(d);
+        const dateObj: any = this.getDateObject(this.patientDetails.date_of_birth);
 
-        const month = newDate.toLocaleString('en-us', { month: 'long' });
-        console.log(month);
-        console.log(this.dateOfBirth.months[3]);
-         (<FormGroup>this.patientDetailsEditForm).controls['month'].value = this.dateOfBirth.months[3];
-           // .setValue({month: this.dateOfBirth.months[3]}, {onlySelf: true});
-       }
+         (<FormGroup>this.patientDetailsEditForm)
+           .patchValue({day: dateObj.day}, {onlySelf: true});
+         (<FormGroup>this.patientDetailsEditForm)
+           .patchValue({month: dateObj.month}, {onlySelf: true});
+         (<FormGroup>this.patientDetailsEditForm)
+           .patchValue({year: dateObj.year}, {onlySelf: true});
+
+         (<FormGroup>this.patientDetailsEditForm)
+           .patchValue({preferredContact: this.patientDetails.mode_of_contact}, {onlySelf: true});
+      }
     }, err => {
       console.log(err);
     });
@@ -295,6 +305,26 @@ export class PatientsComponent implements OnInit {
     let tempDate: string ='';
     tempDate = `${value.year}-${value.month}-${value.day}`;
     return new Date(tempDate);
+  }
+  // get day,month & year by date format
+  getDateObject(date){
+    if(date){
+      let tempDate:any = date;
+      let dateObj: any = {
+        day: new Date(tempDate).getDate(),
+        month: new Date(tempDate).getMonth(),
+        year: new Date(tempDate).getFullYear()
+      };
+      return dateObj;
+    }
+    return;
+  }
+
+  // reset data
+  reset():void{
+    this.appointmentList = [];
+    this.selectedPatient = {};
+    this.selectedAppointment = {};
   }
 
 }
