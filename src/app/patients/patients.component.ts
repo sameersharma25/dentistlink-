@@ -11,7 +11,6 @@ import {Email} from '../shared/model/common-model';
   styleUrls: ['./patients.component.scss']
 })
 export class PatientsComponent implements OnInit {
-
   patientAction: any = {};
   patientAptAction: any = {};
   selectedPatient: any = {};
@@ -29,11 +28,12 @@ export class PatientsComponent implements OnInit {
   patientDetails:any = {};
   patientId: number;
   selectedAppointment: any;
+  serviceProvider: any =[];
 
   constructor(
     private cus: CurrentUserService,
     private dss: DataSourceService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
   ) { }
 
   ngOnInit() {
@@ -68,13 +68,12 @@ export class PatientsComponent implements OnInit {
     while (date < future) {
       this.dateOfBirth.years.push(date);
       date++;
-    }
 
+    }
 
     this.getAllPatients();
     this.createForm();
   }
-
   createForm(){
     this.patientEditForm = this.fb.group({
       notes: ['']
@@ -89,6 +88,7 @@ export class PatientsComponent implements OnInit {
       phoneNumber: [''],
       email: [''],
       preferredContact: [''],
+      zipCode: ['']
     });
 
     this.patientAppointmentForm = this.fb.group({
@@ -98,9 +98,11 @@ export class PatientsComponent implements OnInit {
       reasonForVisit: [''],
       patientCoverage: [''],
       patientCoverageId: [''],
-      notes: ['']
+      notes: [''],
+      serviceProvider: [''],
     });
   };
+
 
   getAllPatients(){
     let currentUserMail: Email;
@@ -190,11 +192,28 @@ export class PatientsComponent implements OnInit {
 
          (<FormGroup>this.patientDetailsEditForm)
            .patchValue({preferredContact: this.patientDetails.mode_of_contact}, {onlySelf: true});
+         (<FormGroup>this.patientDetailsEditForm)
+           .patchValue({zipCode: this.patientDetails.patient_zipcode}, {onlySelf: true});
+         const zipParam = this.patientDetails.patient_zipcode
+            console.log(zipParam)
+          this.getProvider(zipParam);
       }
     }, err => {
       console.log(err);
     });
   }
+
+  // Pulls providers from AWS LAMDA
+  getProvider(zip){
+    console.log("fZip:",zip)
+    this.reqObj.zip = zip
+     this.dss.getProvider(this.reqObj,zip).subscribe(res => {
+       console.log("Checkres",res);
+       this.serviceProvider = res
+    }, err =>{
+      console.log(err);
+    });
+  };
 
   patientAppointment(appointmentData) {
     if(this.patientAptAction.label == 'new'){
@@ -255,7 +274,7 @@ export class PatientsComponent implements OnInit {
         patient_coverage_id: null,
         healthcare_coverage: null,
         mode_of_contact: this.patientDetailsEditForm.value.preferredContact,
-        patient_zipcode: null
+        patient_zipcode: this.patientDetailsEditForm.value.zipCode
       };
       this.dss.createPatient(reqObj).subscribe(res => {
         let response:any = res;
@@ -294,7 +313,7 @@ export class PatientsComponent implements OnInit {
     patientObj.patient_coverage_id = patientDetails.patient_coverage_id;
     patientObj.healthcare_coverage = patientDetails.healthcare_coverage;
     patientObj.mode_of_contact = formData.value.preferredContact;
-    patientObj.patient_zipcode = null;
+    patientObj.patient_zipcode = formData.value.zipCode;
 
     return patientObj;
   }
