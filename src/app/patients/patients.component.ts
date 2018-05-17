@@ -29,6 +29,7 @@ export class PatientsComponent implements OnInit {
   patientDetails:any = {};
   patientId: number;
   selectedAppointment: any;
+  hasOtherOptions: boolean = false;
 
   constructor(
     private cus: CurrentUserService,
@@ -89,13 +90,26 @@ export class PatientsComponent implements OnInit {
       phoneNumber: [''],
       email: [''],
       preferredContact: [''],
+      zipcode: [''],
+      ethnicity: [''],
+      gender: [''],
+      patientAddress: [''],
     });
 
     this.patientAppointmentForm = this.fb.group({
       month: [''],
       day: [''],
       year: [''],
-      reasonForVisit: [''],
+      reasonForVisit: this.fb.group({
+        cleaning: false,
+        surgery: false,
+        pain: false,
+        dentures: false,
+        infection: false,
+        damage: false,
+        others: false
+      }),
+      otherOptions: [''],
       patientCoverage: [''],
       patientCoverageId: [''],
       notes: ['']
@@ -152,11 +166,10 @@ export class PatientsComponent implements OnInit {
           .patchValue({month: dateObj.month}, {onlySelf: true});
       (<FormGroup>this.patientAppointmentForm)
           .patchValue({year: dateObj.year}, {onlySelf: true});
+      this.setVisitReason(this.selectedAppointment.rov);
       // (<FormGroup>this.patientAppointmentForm)
       //     .patchValue({reasonForVisit: this.selectedAppointment.rov}, {onlySelf: true});
-      (<FormGroup>this.patientAppointmentForm)
-          .patchValue({reasonForVisit: this.selectedAppointment.rov}, {onlySelf: true});
-        }
+    }
   }
 
   getPatientsDetails(data: any) {
@@ -190,6 +203,15 @@ export class PatientsComponent implements OnInit {
 
          (<FormGroup>this.patientDetailsEditForm)
            .patchValue({preferredContact: this.patientDetails.mode_of_contact}, {onlySelf: true});
+
+         (<FormGroup>this.patientDetailsEditForm)
+           .patchValue({zipcode: this.patientDetails.patient_zipcode}, {onlySelf: true});
+         (<FormGroup>this.patientDetailsEditForm)
+           .patchValue({ethnicity: this.patientDetails.ethnicity}, {onlySelf: true});
+         (<FormGroup>this.patientDetailsEditForm)
+           .patchValue({gender: this.patientDetails.gender}, {onlySelf: true});
+         (<FormGroup>this.patientDetailsEditForm)
+           .patchValue({patientAddress: this.patientDetails.patient_address}, {onlySelf: true});
       }
     }, err => {
       console.log(err);
@@ -202,13 +224,14 @@ export class PatientsComponent implements OnInit {
         email: this.cus.getCurrentUser(),
         patient_id: this.patientId,
         date_of_appointment: this.getDate(this.patientAppointmentForm.value),
-        reason_for_visit: this.patientAppointmentForm.value.reasonForVisit
+        reason_for_visit: this.getVisitReason(this.patientAppointmentForm.value.reasonForVisit)
       };
       this.dss.createPatientAppoint(reqObj).subscribe(res => {
         let response:any = res;
         if(response.status == 'ok'){
           this.getAllPatients()
           alert(response.message);
+          this.createForm();
           this.patientAction.collapsed = false;
         }
       }, err => {
@@ -241,6 +264,10 @@ export class PatientsComponent implements OnInit {
     }
   }
 
+  setOthers(){
+    this.hasOtherOptions? this.hasOtherOptions = false : this.hasOtherOptions = true;
+  }
+
   // create & update patient info
   editPatientInfo() {
     if(this.patientAction.label == 'Create'){
@@ -255,7 +282,10 @@ export class PatientsComponent implements OnInit {
         patient_coverage_id: null,
         healthcare_coverage: null,
         mode_of_contact: this.patientDetailsEditForm.value.preferredContact,
-        patient_zipcode: null
+        patient_zipcode: this.patientDetailsEditForm.value.zipcode,
+        ethnicity: this.patientAppointmentForm.value.ethnicity,
+        gender: this.patientAppointmentForm.value.gender,
+        patient_address: this.patientAppointmentForm.value.patientAddress
       };
       this.dss.createPatient(reqObj).subscribe(res => {
         let response:any = res;
@@ -294,7 +324,10 @@ export class PatientsComponent implements OnInit {
     patientObj.patient_coverage_id = patientDetails.patient_coverage_id;
     patientObj.healthcare_coverage = patientDetails.healthcare_coverage;
     patientObj.mode_of_contact = formData.value.preferredContact;
-    patientObj.patient_zipcode = null;
+    patientObj.patient_zipcode = formData.value.zipcode;
+    patientObj.ethnicity = formData.value.ethnicity;
+    patientObj.gender = formData.value.gender;
+    patientObj.patient_address = formData.value.patientAddress;
 
     return patientObj;
   }
@@ -336,6 +369,34 @@ export class PatientsComponent implements OnInit {
     return;
   }
 
+  getVisitReason(visitObj){
+    let visits: any = [];
+    for(let visitName in visitObj){
+      if(visitObj[visitName] === true){
+        if(visitName == 'others'){
+          visits.push(this.patientAppointmentForm.value.otherOptions);
+        }else{
+          visits.push(visitName);
+        }
+      }
+    }
+    return visits;
+  }
+
+  setVisitReason(rov){
+    const visits: any = ['cleaning','surgery','pain','dentures','infection','damage'];
+    for(let i of rov){
+      if(visits.includes(i)){
+        this.patientAppointmentForm.controls['reasonForVisit'].get(i).setValue(true);
+      }else{
+        this.patientAppointmentForm.controls['reasonForVisit'].get('others').setValue(true);
+        this.hasOtherOptions = true;
+        (<FormGroup>this.patientAppointmentForm)
+          .patchValue({otherOptions: i}, {onlySelf: true});
+      }
+    }
+
+  }
   // reset data
   reset():void{
     this.appointmentList = [];
