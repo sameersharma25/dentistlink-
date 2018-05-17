@@ -184,7 +184,7 @@
 
                     <div class="_clearfix"></div>
                 </mat-expansion-panel>
-
+<!-- PATIENT FORM-->
             </mat-accordion>
             <div class="_clearfix"></div>
             <div class="apt-form-wrapper" *ngIf="patientAction.isOpened">
@@ -315,13 +315,13 @@
                                 </mat-form-field>
                             </div>
                         </div>
-                        <!--Service Provider -->
+<!--Service Provider -->
                         <div class="_clearfix"></div>
                         <div class="section-row">
                             <div class="left-field" style="width:145px;margin-top: 16px; margin-right: 15px;">
                                 <mat-select placeholder="Service Provider" formControlName="serviceProvider">
-                                    <mat-option *ngFor="let sp of serviceProvider" [value]="sp">
-                                        {{ sp.Name }}
+                                    <mat-option *ngFor="let sp of serviceProvider" [value]="sp.sp_id">
+                                        {{ sp.Name }} {{sp.sp_id}}
                                     </mat-option>
                                 </mat-select>
                             </div>

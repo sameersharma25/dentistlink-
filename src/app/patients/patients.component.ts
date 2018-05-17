@@ -158,7 +158,12 @@ export class PatientsComponent implements OnInit {
       //     .patchValue({reasonForVisit: this.selectedAppointment.rov}, {onlySelf: true});
       (<FormGroup>this.patientAppointmentForm)
           .patchValue({reasonForVisit: this.selectedAppointment.rov}, {onlySelf: true});
+//asdf
+      (<FormGroup>this.patientAppointmentForm)
+          .patchValue({serviceProvider: this.selectedAppointment.sp_id}, {onlySelf: true});
+          console.log("Passing the ID?",this.selectedAppointment.sp_id);
         }
+
   }
 
   getPatientsDetails(data: any) {
@@ -189,13 +194,12 @@ export class PatientsComponent implements OnInit {
            .patchValue({month: dateObj.month}, {onlySelf: true});
          (<FormGroup>this.patientDetailsEditForm)
            .patchValue({year: dateObj.year}, {onlySelf: true});
-
          (<FormGroup>this.patientDetailsEditForm)
            .patchValue({preferredContact: this.patientDetails.mode_of_contact}, {onlySelf: true});
          (<FormGroup>this.patientDetailsEditForm)
            .patchValue({zipCode: this.patientDetails.patient_zipcode}, {onlySelf: true});
+         
          const zipParam = this.patientDetails.patient_zipcode
-            console.log(zipParam)
           this.getProvider(zipParam);
       }
     }, err => {
@@ -205,15 +209,17 @@ export class PatientsComponent implements OnInit {
 
   // Pulls providers from AWS LAMDA
   getProvider(zip){
-    console.log("fZip:",zip)
+    console.log("Is there a value to show",this.patientAppointmentForm.value.serviceProvider)
+    console.log("whats in our system",this.serviceProvider)
     this.reqObj.zip = zip
      this.dss.getProvider(this.reqObj,zip).subscribe(res => {
        console.log("Checkres",res);
        this.serviceProvider = res
+
     }, err =>{
       console.log(err);
     });
-  };
+}
 
   patientAppointment(appointmentData) {
     if(this.patientAptAction.label == 'new'){
@@ -244,9 +250,13 @@ export class PatientsComponent implements OnInit {
         last_name: patientName[1],
         patient_phone: this.selectedPatient.ph_number,
         dob: this.selectedAppointment.patient_dob,
-        healthcare_coverage: this.patientAppointmentForm.value.patientCoverage
+        healthcare_coverage: this.patientAppointmentForm.value.patientCoverage,
+        sp_id: this.patientAppointmentForm.value.serviceProvider
+
+               // this.selectedAppointment.sp_id
       };
 
+//asdf
       this.dss.updateAppointment(reqObj).subscribe(res => {
         let response:any = res;
         if(response.status == 'ok'){
