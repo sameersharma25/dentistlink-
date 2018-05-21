@@ -38,7 +38,7 @@
                         <div class="table-cell c2">{{plist.ph_number}}</div>
                         <div class="table-cell c3">Emily R.</div>
                         <div class="table-cell c4">
-                            <span *ngIf="plist.active_notification"><span class="status-cir"></span>Remind</span>
+                            <span *ngIf="plist.active_notification"><span class="status-cir"></span></span>
                         </div>
                     </div>
                 </div>
@@ -117,15 +117,17 @@
                                         </mat-form-field>
                                     </div>
                                 </div>
-     <!-- ZipCode -->
-                            <div class="_clearfix"></div>
-                            <div class="section-row">
-                                    <div class="left-field">
-                                        <mat-form-field class="">
-                                            <input matInput placeholder="Zipcode" formControlName="zipCode">
-                                        </mat-form-field>
-                                    </div>
-                                </div>
+                          <div class="_clearfix"></div>
+                          <div class="section-row">
+                            <div class="pull-left" style="width:145px;">Gender</div>
+                            <div class="pull-left" style="width:300px;">
+                              <mat-radio-group formControlName="gender">
+                                <mat-radio-button value="male" style="margin-right:10px;">Male</mat-radio-button>
+                                <mat-radio-button value="female" style="margin-right:10px;">Female</mat-radio-button>
+                              </mat-radio-group>
+                            </div>
+                          </div>
+                          <div class="_clearfix"></div>
                             <div class="section-row">
                                 <div class="pull-left" style="width:145px;">Preferred Contact</div>
                                 <div class="pull-left" style="width:300px;">
@@ -136,6 +138,34 @@
                                     </mat-radio-group>
                                 </div>
                             </div>
+                          <div class="_clearfix"></div>
+                          <mat-form-field class="" style="width: 430px">
+                            <input matInput placeholder="Address" formControlName="patientAddress">
+                          </mat-form-field>
+                          <div class="section-row">
+                            <div class="left-field">
+                              <mat-form-field class="">
+                                <input matInput placeholder="Zipcode" formControlName="zipCode">
+                              </mat-form-field>
+                            </div>
+                          </div>
+
+                          <div class="_clearfix"></div>
+                          <div class="section-row">
+                            <label class="sub-label">Ethnicity</label>
+                            <div class="_clearfix"></div>
+                            <div class="section-row clearfix">
+                              <mat-radio-group formControlName="ethnicity">
+                                <mat-radio-button value="asian" style="margin-right:10px;">Asian</mat-radio-button>
+                                <mat-radio-button value="african_american" style="margin-right:10px;">African American</mat-radio-button>
+                                <mat-radio-button value="hispanic" style="margin-right:10px;">Hispanic</mat-radio-button>
+                                <mat-radio-button value="native_americans" style="margin-right:10px;">Native_Americans</mat-radio-button>
+                                <mat-radio-button value="alaskan" style="margin-right:10px;">Alaskan</mat-radio-button>
+                                <mat-radio-button value="native_hawaiian" style="margin-right:10px;">Native Hawaiian</mat-radio-button>
+                                <mat-radio-button value="other" style="margin-right:10px;">Other</mat-radio-button>
+                              </mat-radio-group>
+                            </div>
+                          </div>
                             <div class="_clearfix"></div>
                             <div class="section-row">
                                 <button type="submit" class="btn cust_btn success" *ngIf="patientAction.label == 'Create'">Create</button>
@@ -165,6 +195,9 @@
                                 <div class="s2">{{item.appointment_status || '--'}}</div>
                                 <div class="s3">{{item.rov || '--'}}</div>
                                 <div class="s4 label_txt" (click)="openPatientAppointment('edit', item)">Edit</div>
+                              <div class="s1">
+                                 <span *ngIf="item.notification_data.length > 0"><span class="status-cir"></span></span>
+                              </div>
                             </mat-list-item>
                         </mat-list>
                     </mat-panel-description>
@@ -289,16 +322,22 @@
                             <label class="sub-label">Reason for Visit</label>
                             <div class="_clearfix"></div>
                             <div class="section-row clearfix">
-                                <mat-radio-group formControlName="reasonForVisit">
-                                    <mat-radio-button value="cleaning" style="margin-right:10px;">Cleaning</mat-radio-button>
-                                    <mat-radio-button value="surgery" style="margin-right:10px;">Surgery</mat-radio-button>
-                                    <mat-radio-button value="pain">Pain</mat-radio-button><br/>
-                                    <mat-radio-button value="dentures" style="margin-right:10px;">Dentures</mat-radio-button>
-                                    <mat-radio-button value="infection" style="margin-right:10px;">Infection</mat-radio-button>
-                                    <mat-radio-button value="damage">Damage</mat-radio-button>
-                                </mat-radio-group>
+                                <div formGroupName="reasonForVisit">
+                                    <mat-checkbox formControlName="cleaning" style="margin-right:10px;">Cleaning</mat-checkbox>
+                                    <mat-checkbox formControlName="surgery" style="margin-right:10px;">Surgery</mat-checkbox>
+                                    <mat-checkbox formControlName="pain">Pain</mat-checkbox><br/>
+                                    <mat-checkbox formControlName="dentures" style="margin-right:10px;">Dentures</mat-checkbox>
+                                    <mat-checkbox formControlName="infection" style="margin-right:10px;">Infection</mat-checkbox>
+                                    <mat-checkbox formControlName="damage">Damage</mat-checkbox>
+                                    <mat-checkbox formControlName="others" (change)="setOthers()">Others</mat-checkbox>
+                                </div>
                             </div>
-
+                            <div class="_clearfix"></div>
+                            <div class="section-row" *ngIf="hasOtherOptions">
+                                <mat-form-field class="">
+                                    <input matInput placeholder="Enter other option" formControlName="otherOptions">
+                                </mat-form-field>
+                            </div>
                         </div>
                         <div class="_clearfix"></div>
                         <div class="section-row">
@@ -321,7 +360,7 @@
                             <div class="left-field" style="width:145px;margin-top: 16px; margin-right: 15px;">
                                 <mat-select placeholder="Service Provider" formControlName="serviceProvider">
                                     <mat-option *ngFor="let sp of serviceProvider" [value]="sp.sp_id">
-                                        {{ sp.Name }} {{sp.sp_id}}
+                                        {{ sp.Name }}
                                     </mat-option>
                                 </mat-select>
                             </div>
