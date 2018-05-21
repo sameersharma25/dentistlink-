@@ -15,6 +15,7 @@ export class PatientsComponent implements OnInit {
   patientAction: any = {};
   patientAptAction: any = {};
   selectedPatient: any = {};
+  selectedPatientId: string ='';
   dateOfBirth: any = {};
   dateOfAppointment: any = {};
   patientList: any = [];
@@ -136,6 +137,7 @@ export class PatientsComponent implements OnInit {
     if (data) {
       this.patientAction.label = 'Edit';
       this.selectedPatient = data;
+      this.selectedPatientId = data.patient_id;
       this.getPatientsDetails(data);
 
       this.getAppointments(data);
