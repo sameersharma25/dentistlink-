@@ -241,7 +241,7 @@ export class PatientsComponent implements OnInit {
       let patientName = this.selectedAppointment.patient_name.split(' ');
       let reqObj: any = {
         email: this.cus.getCurrentUser(),
-        reason_for_visit: this.patientAppointmentForm.value.reasonForVisit,
+        reason_for_visit: this.getVisitReason(this.patientAppointmentForm.value.reasonForVisit),
         appointment_id: this.selectedAppointment.appointment_id,
         date_of_appointment: this.getDate(this.patientAppointmentForm.value),
         first_name: patientName[0],
