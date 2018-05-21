@@ -14,6 +14,7 @@ export class PatientsComponent implements OnInit {
   patientAction: any = {};
   patientAptAction: any = {};
   selectedPatient: any = {};
+  selectedPatientId: string ='';
   dateOfBirth: any = {};
   dateOfAppointment: any = {};
   patientList: any = [];
@@ -137,6 +138,7 @@ export class PatientsComponent implements OnInit {
     if (data) {
       this.patientAction.label = 'Edit';
       this.selectedPatient = data;
+      this.selectedPatientId = data.patient_id;
       this.getPatientsDetails(data);
 
       this.getAppointments(data);
@@ -159,6 +161,7 @@ export class PatientsComponent implements OnInit {
       this.patientAptAction.label = "new";
 
     } else if(status === 'edit'){
+      this.createForm();
       let dateObj: any = this.getDateObject(this.selectedAppointment.date_of_appointment);
       this.patientAptAction.label = "edit";
       (<FormGroup>this.patientAppointmentForm)
