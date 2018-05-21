@@ -160,6 +160,7 @@ export class PatientsComponent implements OnInit {
       this.patientAptAction.label = "new";
 
     } else if(status === 'edit'){
+      this.createForm();
       let dateObj: any = this.getDateObject(this.selectedAppointment.date_of_appointment);
       this.patientAptAction.label = "edit";
       (<FormGroup>this.patientAppointmentForm)
