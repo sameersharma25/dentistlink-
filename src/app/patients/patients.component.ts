@@ -173,11 +173,19 @@ export class PatientsComponent implements OnInit {
       (<FormGroup>this.patientAppointmentForm)
           .patchValue({reasonForVisit: this.selectedAppointment.rov}, {onlySelf: true});
 // asdf
-      (<FormGroup>this.patientAppointmentForm)
-          .patchValue({serviceProvider: this.selectedAppointment.sp_id}, {onlySelf: true});
-          console.log("Passing the ID?",this.selectedAppointment.sp_id);
+      this.setProvider(this.selectedAppointment.sp_id);
+      console.log("Passing the ID?",this.selectedAppointment.sp_id);
       console.log("Passing the ID?",this.selectedAppointment);
-        }
+    }
+  }
+
+  setProvider(sp_id) {
+    for(let sp in this.serviceProvider) {
+      if (sp_id == this.serviceProvider[sp].sp_id) {
+        (<FormGroup>this.patientAppointmentForm)
+          .patchValue({serviceProvider: this.serviceProvider[sp].sp_id}, {onlySelf: true});
+      }
+    }
   }
 
   getPatientsDetails(data: any) {
@@ -220,7 +228,6 @@ export class PatientsComponent implements OnInit {
            .patchValue({gender: this.patientDetails.gender}, {onlySelf: true});
          (<FormGroup>this.patientDetailsEditForm)
            .patchValue({patientAddress: this.patientDetails.patient_address}, {onlySelf: true});
-
       }
     }, err => {
       console.log(err);
@@ -234,9 +241,8 @@ export class PatientsComponent implements OnInit {
     this.reqObj.zip = zip
      this.dss.getProvider(this.reqObj,zip).subscribe(res => {
        console.log("Checkres",res);
-       this.serviceProvider = res
-
-    }, err =>{
+       this.serviceProvider = res;
+    }, err => {
       console.log(err);
     });
 }
@@ -264,7 +270,7 @@ export class PatientsComponent implements OnInit {
       let patientName = this.selectedAppointment.patient_name.split(' ');
       let reqObj: any = {
         email: this.cus.getCurrentUser(),
-        reason_for_visit: this.patientAppointmentForm.value.reasonForVisit,
+        reason_for_visit: this.getVisitReason(this.patientAppointmentForm.value.reasonForVisit),
         appointment_id: this.selectedAppointment.appointment_id,
         date_of_appointment: this.getDate(this.patientAppointmentForm.value),
         first_name: patientName[0],
