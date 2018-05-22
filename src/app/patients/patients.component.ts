@@ -93,6 +93,8 @@ export class PatientsComponent implements OnInit {
       ethnicity: [''],
       gender: [''],
       patientAddress: [''],
+      patientCoverage: [''],
+      patientCoverageId: [''],
     });
 
     this.patientAppointmentForm = this.fb.group({
@@ -109,8 +111,6 @@ export class PatientsComponent implements OnInit {
         others: false
       }),
       otherOptions: [''],
-      patientCoverage: [''],
-      patientCoverageId: [''],
       notes: [''],
       serviceProvider: [''],
     });
@@ -172,10 +172,7 @@ export class PatientsComponent implements OnInit {
       //     .patchValue({reasonForVisit: this.selectedAppointment.rov}, {onlySelf: true});
       (<FormGroup>this.patientAppointmentForm)
           .patchValue({reasonForVisit: this.selectedAppointment.rov}, {onlySelf: true});
-// asdf
       this.setProvider(this.selectedAppointment.sp_id);
-      console.log("Passing the ID?",this.selectedAppointment.sp_id);
-      console.log("Passing the ID?",this.selectedAppointment);
     }
   }
 
@@ -207,6 +204,13 @@ export class PatientsComponent implements OnInit {
 
         (<FormGroup>this.patientDetailsEditForm)
           .patchValue({email: this.patientDetails.patient_email}, {onlySelf: true});
+//Add Patient Coverage 
+        (<FormGroup>this.patientDetailsEditForm)
+          .patchValue({patientCoverage: this.patientDetails.healthcare_coverage}, {onlySelf: true});
+          console.log("DSS PatientDetails", this.patientDetails.healthcare_coverage);
+        (<FormGroup>this.patientDetailsEditForm)
+          .patchValue({patientCoverageId: this.patientDetails.patient_coverage_id}, {onlySelf: true});
+
 
         const dateObj: any = this.getDateObject(this.patientDetails.date_of_birth);
 
@@ -236,8 +240,6 @@ export class PatientsComponent implements OnInit {
 
   // Pulls providers from AWS LAMDA
   getProvider(zip){
-    console.log("Is there a value to show",this.patientAppointmentForm.value.serviceProvider)
-    console.log("whats in our system",this.serviceProvider)
     this.reqObj.zip = zip
      this.dss.getProvider(this.reqObj,zip).subscribe(res => {
        console.log("Checkres",res);
@@ -277,13 +279,9 @@ export class PatientsComponent implements OnInit {
         last_name: patientName[1],
         patient_phone: this.selectedPatient.ph_number,
         dob: this.selectedAppointment.patient_dob,
-        healthcare_coverage: this.patientAppointmentForm.value.patientCoverage,
         sp_id: this.patientAppointmentForm.value.serviceProvider
-
-               // this.selectedAppointment.sp_id
       };
 
-//asdf
       this.dss.updateAppointment(reqObj).subscribe(res => {
         let response:any = res;
         if(response.status == 'ok'){
@@ -312,14 +310,17 @@ export class PatientsComponent implements OnInit {
         date_of_birth: patient_dob,
         patient_email: this.patientDetailsEditForm.value.email,
         patient_phone: this.patientDetailsEditForm.value.phoneNumber,
-        patient_coverage_id: null,
-        healthcare_coverage: null,
+        patient_coverage_id: this.patientDetailsEditForm.value.patientCoverageId,
+        healthcare_coverage: this.patientDetailsEditForm.value.patientCoverage,
+
+// added Patient
         mode_of_contact: this.patientDetailsEditForm.value.preferredContact,
         patient_zipcode: this.patientDetailsEditForm.value.zipCode,
         ethnicity: this.patientAppointmentForm.value.ethnicity,
         gender: this.patientAppointmentForm.value.gender,
         patient_address: this.patientAppointmentForm.value.patientAddress
       };
+      console.log("EditPatientInfo",this.patientDetailsEditForm.value.patientCoverage)
       this.dss.createPatient(reqObj).subscribe(res => {
         let response:any = res;
         if(response.status == 'ok'){
@@ -354,13 +355,19 @@ export class PatientsComponent implements OnInit {
     patientObj.date_of_birth = this.getDate(formData.value)? this.getDate(formData.value):patientDetails.date_of_birth;
     patientObj.patient_email = formData.value.email? formData.value.email : patientDetails.patient_email;
     patientObj.patient_phone = formData.value.phoneNumber? formData.value.phoneNumber : patientDetails.patient_phone;
-    patientObj.patient_coverage_id = patientDetails.patient_coverage_id;
-    patientObj.healthcare_coverage = patientDetails.healthcare_coverage;
+    patientObj.patient_coverage_id = formData.value.patientCoverageId;
+    patientObj.healthcare_coverage = formData.value.patientCoverage;
     patientObj.mode_of_contact = formData.value.preferredContact;
     patientObj.patient_zipcode = formData.value.zipCode;
     patientObj.ethnicity = formData.value.ethnicity;
     patientObj.gender = formData.value.gender;
     patientObj.patient_address = formData.value.patientAddress;
+    console.log("UPDATE PATIENT",formData.value.patientCoverage)
+    console.log("UPDATE PATIENT",formData.value.patientCoverageId)
+
+
+    console.log("UPDATE ZIPCODE",formData.value.zipCode)
+
 
     return patientObj;
   }
