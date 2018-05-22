@@ -3,15 +3,16 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { CurrentUserService } from '../services/current-user.service';
 
-// const httpOptions = {
-//   headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*','user-token':})
-// };
+ //const httpOptions = {
+ //  headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*','user-token':})
+ // };
 
 @Injectable()
 export class DataSourceService {
   token: any;
   httpOptions: any;
   baseUrl: string = 'https://dev7.resourcestack.com/api';
+  lambda: string = 'https://zdvbyajhpl.execute-api.us-east-1.amazonaws.com/prod?zip=20602&radius=1'
 
   constructor(private http: HttpClient, private cs: CurrentUserService) {
     this.token = this.cs.getAutToken();
@@ -106,6 +107,10 @@ export class DataSourceService {
       return res; // need to change url
     });
   }
-
-
+  getProvider(reqObj,zip): Observable<Object>{
+    console.log("dZip",zip)
+   return this.http.get("https://zdvbyajhpl.execute-api.us-east-1.amazonaws.com/prod?zip="+ zip + "&radius=1").map(res => res); 
+  };
 }
+
+

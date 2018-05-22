@@ -145,11 +145,26 @@
                           <div class="section-row">
                             <div class="left-field">
                               <mat-form-field class="">
-                                <input matInput placeholder="Zipcode" formControlName="zipcode">
+                                <input matInput placeholder="Zipcode" formControlName="zipCode">
                               </mat-form-field>
                             </div>
                           </div>
-
+                        <div class="_clearfix"></div>
+<!--Patient Info -->                        
+                        <div class="section-row">
+                            <div class="left-field" style="width:145px;margin-top: 16px; margin-right: 15px;">
+                                <mat-select placeholder="Patients Coverage" formControlName="patientCoverage">
+                                    <mat-option *ngFor="let pc of ['Insurance','money back']" [value]="pc">
+                                        {{ pc }}
+                                    </mat-option>
+                                </mat-select>
+                            </div>
+                            <div class="right-field">
+                                <mat-form-field class="">
+                                    <input matInput placeholder="Patients CoverageId" formControlName="patientCoverageId">
+                                </mat-form-field>
+                            </div>
+                        </div>
                           <div class="_clearfix"></div>
                           <div class="section-row">
                             <label class="sub-label">Ethnicity</label>
@@ -195,6 +210,9 @@
                                 <div class="s2">{{item.appointment_status || '--'}}</div>
                                 <div class="s3">{{item.rov || '--'}}</div>
                                 <div class="s4 label_txt" (click)="openPatientAppointment('edit', item)">Edit</div>
+                              <div class="s1">
+                                 <span *ngIf="item.notification_data.length > 0"><span class="status-cir"></span></span>
+                              </div>
                             </mat-list-item>
                         </mat-list>
                     </mat-panel-description>
@@ -214,7 +232,7 @@
 
                     <div class="_clearfix"></div>
                 </mat-expansion-panel>
-
+<!-- PATIENT FORM-->
             </mat-accordion>
             <div class="_clearfix"></div>
             <div class="apt-form-wrapper" *ngIf="patientAction.isOpened">
@@ -336,19 +354,16 @@
                                 </mat-form-field>
                             </div>
                         </div>
+
+<!--Service Provider -->
                         <div class="_clearfix"></div>
                         <div class="section-row">
                             <div class="left-field" style="width:145px;margin-top: 16px; margin-right: 15px;">
-                                <mat-select placeholder="Patients Coverage" formControlName="patientCoverage">
-                                    <mat-option *ngFor="let pc of ['Insurance','money back']" [value]="pc">
-                                        {{ pc }}
+                                <mat-select placeholder="Service Provider" formControlName="serviceProvider">
+                                    <mat-option *ngFor="let sp of serviceProvider" [value]="sp.sp_id">
+                                        {{ sp.Name }}
                                     </mat-option>
                                 </mat-select>
-                            </div>
-                            <div class="right-field">
-                                <mat-form-field class="">
-                                    <input matInput placeholder="Patients CoverageId" formControlName="patientCoverageId">
-                                </mat-form-field>
                             </div>
                         </div>
                         <div class="_clearfix"></div>
