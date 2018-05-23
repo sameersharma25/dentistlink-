@@ -107,9 +107,10 @@ export class DataSourceService {
       return res; // need to change url
     });
   }
-  getProvider(reqObj,zip): Observable<Object>{
-    console.log("dZip",zip)
-   return this.http.get("https://zdvbyajhpl.execute-api.us-east-1.amazonaws.com/prod?zip="+ zip + "&radius=1").map(res => res); 
+  getProvider(reqObj, zip, dob): Observable<Object> {
+    console.log("dZip", zip)
+    console.log("DOB : ", dob)
+   return this.http.get("https://zdvbyajhpl.execute-api.us-east-1.amazonaws.com/prod?zip="+ zip + "&radius=15"+"&dob="+ dob).map(res => res);
   };
 }
 

@@ -207,7 +207,7 @@ export class PatientsComponent implements OnInit {
 
         (<FormGroup>this.patientDetailsEditForm)
           .patchValue({email: this.patientDetails.patient_email}, {onlySelf: true});
-//Add Patient Coverage 
+//Add Patient Coverage
         (<FormGroup>this.patientDetailsEditForm)
           .patchValue({patientCoverage: this.patientDetails.healthcare_coverage}, {onlySelf: true});
           console.log("DSS PatientDetails", this.patientDetails.healthcare_coverage);
@@ -228,7 +228,7 @@ export class PatientsComponent implements OnInit {
          (<FormGroup>this.patientDetailsEditForm)
            .patchValue({zipCode: this.patientDetails.patient_zipcode}, {onlySelf: true});
          const zipParam = this.patientDetails.patient_zipcode
-          this.getProvider(zipParam);
+          this.getProvider(zipParam,[ dateObj.day, dateObj.month, dateObj.year ] );
          (<FormGroup>this.patientDetailsEditForm)
            .patchValue({ethnicity: this.patientDetails.ethnicity}, {onlySelf: true});
          (<FormGroup>this.patientDetailsEditForm)
@@ -242,9 +242,9 @@ export class PatientsComponent implements OnInit {
   }
 
   // Pulls providers from AWS LAMDA
-  getProvider(zip){
+  getProvider(zip, dob) {
     this.reqObj.zip = zip
-     this.dss.getProvider(this.reqObj,zip).subscribe(res => {
+     this.dss.getProvider(this.reqObj, zip, dob).subscribe(res => {
        console.log("Checkres",res);
        this.serviceProvider = res;
     }, err => {
