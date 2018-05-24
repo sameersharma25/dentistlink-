@@ -118,6 +118,27 @@ export class PatientsComponent implements OnInit {
   };
 
 
+  createAppointmentForm() {
+    this.patientAppointmentForm = this.fb.group({
+      month: [''],
+      day: [''],
+      year: [''],
+      reasonForVisit: this.fb.group({
+        cleaning: false,
+        surgery: false,
+        pain: false,
+        dentures: false,
+        infection: false,
+        damage: false,
+        others: false
+      }),
+      otherOptions: [''],
+      patientCoverage: [''],
+      patientCoverageId: [''],
+      notes: ['']
+    });
+  }
+
   getAllPatients(){
     let currentUserMail: Email;
     currentUserMail = this.cus.getCurrentUser();
@@ -161,7 +182,7 @@ export class PatientsComponent implements OnInit {
       this.patientAptAction.label = "new";
 
     } else if(status === 'edit'){
-      this.createForm();
+      this.createAppointmentForm();
       let dateObj: any = this.getDateObject(this.selectedAppointment.date_of_appointment);
       this.patientAptAction.label = "edit";
       (<FormGroup>this.patientAppointmentForm)
@@ -207,7 +228,7 @@ export class PatientsComponent implements OnInit {
 
         (<FormGroup>this.patientDetailsEditForm)
           .patchValue({email: this.patientDetails.patient_email}, {onlySelf: true});
-//Add Patient Coverage 
+//Add Patient Coverage
         (<FormGroup>this.patientDetailsEditForm)
           .patchValue({patientCoverage: this.patientDetails.healthcare_coverage}, {onlySelf: true});
           console.log("DSS PatientDetails", this.patientDetails.healthcare_coverage);
