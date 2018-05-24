@@ -135,7 +135,8 @@ export class PatientsComponent implements OnInit {
       otherOptions: [''],
       patientCoverage: [''],
       patientCoverageId: [''],
-      notes: ['']
+      notes: [''],
+      serviceProvider: [''],
     });
   }
 
