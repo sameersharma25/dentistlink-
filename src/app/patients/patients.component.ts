@@ -130,7 +130,7 @@ export class PatientsComponent implements OnInit {
         dentures: false,
         infection: false,
         damage: false,
-        others: false
+        others: false,
       }),
       otherOptions: [''],
       patientCoverage: [''],
@@ -452,6 +452,7 @@ export class PatientsComponent implements OnInit {
     const visits: any = ['cleaning','surgery','pain','dentures','infection','damage'];
     for(let i of rov){
       if(visits.includes(i)){
+        this.hasOtherOptions = false;
         this.patientAppointmentForm.controls['reasonForVisit'].get(i).setValue(true);
       }else{
         this.patientAppointmentForm.controls['reasonForVisit'].get('others').setValue(true);
