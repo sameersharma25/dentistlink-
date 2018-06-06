@@ -264,3 +264,9 @@
   background-color:#43b9d0 !important;
   color: white;
 }
+
+.truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
