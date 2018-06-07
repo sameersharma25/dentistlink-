@@ -203,9 +203,9 @@ export class PatientsComponent implements OnInit {
 
   setProvider(sp_id) {
     for(let sp in this.serviceProvider) {
-      if (sp_id == this.serviceProvider[sp].sp_id) {
+      if (sp_id == this.serviceProvider[sp].Id) {
         (<FormGroup>this.patientAppointmentForm)
-          .patchValue({serviceProvider: this.serviceProvider[sp].sp_id}, {onlySelf: true});
+          .patchValue({serviceProvider: this.serviceProvider[sp].Id}, {onlySelf: true});
       }
     }
   }
