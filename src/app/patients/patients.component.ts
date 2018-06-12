@@ -157,6 +157,8 @@ export class PatientsComponent implements OnInit {
 
   // right panel action for patient
   openPatientAction(data) {
+    this.patientAction.isOpened = false;
+    this.patientAction.collapsed = false;
     if (data) {
       this.patientAction.label = 'Edit';
       this.selectedPatient = data;
