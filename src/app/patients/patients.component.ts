@@ -200,6 +200,8 @@ export class PatientsComponent implements OnInit {
       (<FormGroup>this.patientAppointmentForm)
           .patchValue({reasonForVisit: this.selectedAppointment.rov}, {onlySelf: true});
       this.setProvider(this.selectedAppointment.sp_id);
+      (<FormGroup>this.patientAppointmentForm)
+        .patchValue({notes: this.selectedAppointment.note}, {onlySelf: true});
     }
   }
 
@@ -306,7 +308,8 @@ export class PatientsComponent implements OnInit {
         last_name: patientName[1],
         patient_phone: this.selectedPatient.ph_number,
         dob: this.selectedAppointment.patient_dob,
-        sp_id: this.patientAppointmentForm.value.serviceProvider
+        sp_id: this.patientAppointmentForm.value.serviceProvider,
+        note: this.patientAppointmentForm.value.notes
       };
 
       this.dss.updateAppointment(reqObj).subscribe(res => {
