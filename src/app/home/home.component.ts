@@ -7,9 +7,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
+  isCollapsed: Boolean = false;
+  homeAction: any = {};
   constructor() { }
 
   ngOnInit() {
+    this.homeAction.label = "";
+    // this.patientAptAction.label = "";
+    this.homeAction.isOpened = false;
+    this.homeAction.collapsed = false;
   }
 
 }
