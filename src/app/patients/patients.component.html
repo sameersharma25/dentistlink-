@@ -1,13 +1,47 @@
 <app-home-navbar></app-home-navbar>
 <div class="appointment-wrapper">
-    <div class="side-bar" [class.expanded]="isCollapsed">
+    <div class="side-bar" [class.expanded]="isCollapsed" >
         <ul>
             <li><a routerLink="/appointment" routerLinkActive="active">Appointment</a></li>
             <li><a routerLink="/patients" routerLinkActive="active">Patients</a></li>
             <li><a>Settings</a></li>
         </ul>
     </div>
-    <div class="mid-section" [class.left-collapsed]="isCollapsed" [class.right-collapsed]="patientAction.collapsed">
+    <!--TEST -->
+<div class="appointment-wrapper">
+    <div class="right-side-bar" [class.expanded]="isCollapsed1">
+            <div class="p-detaitls-wrapper">
+            <mat-accordion>
+                <mat-expansion-panel>
+                  <mat-expansion-panel-header>
+                    <mat-panel-title class="label_txt">
+                      Practice
+                    </mat-panel-title>
+                  </mat-expansion-panel-header>
+
+                  <mat-panel-description>
+                            <mat-list>
+                                <mat-list-item *ngFor="let sp of serviceProvider; let i = index"class ="serviceP">
+                                    <h3 matLine> 
+                                        <span class ="serviceCount">{{i+1}}</span>
+                                        <span>{{sp.Name}}</span>
+                                    </h3>
+                                    <p matLine>
+                                        <span class="serviceDistance"> 5.4 miles from Patient</span>
+                                        <span class="serviceNumber">413-588-8646</span>
+                                    </p>
+
+                                    <script src=”http://maps.googleapis.com/maps/api/js"></script>
+                                </mat-list-item>
+                            </mat-list>
+                            
+                  </mat-panel-description>
+                </mat-expansion-panel>
+            </mat-accordion>
+        </div>
+</div>
+<!--TEST -->
+    <div class="mid-section" [class.left-collapsed]="isCollapsed" [class.right-collapsed]="patientAction.collapsed" [class.more-collapsed]="isCollapsed1">
         <div class="ap-header">
             <div class="toggle-sidebar pull-left" (click)="isCollapsed = !isCollapsed">
                 <i class="material-icons">reorder</i>
@@ -45,8 +79,11 @@
             </div>
         </div>
     </div>
-    <div class="right-section" [class.expanded]="patientAction.collapsed">
-        <mat-list class="header def_bg">
+     <div class="right-section" [class.expanded]="patientAction.collapsed" [class.more-collapsed]="isCollapsed1">
+   <mat-list class="header def_bg">
+            <div class="toggle-sidebar pull-left" (click)="isCollapsed1 = !isCollapsed1">
+                <i class="material-icons">reorder</i>
+            </div>
             <mat-list-item *ngIf="patientAction.label == 'Edit'" class="label_txt"> {{selectedPatient.first_name}} {{selectedPatient.last_name}}</mat-list-item>
             <mat-list-item *ngIf="patientAction.label == 'Create'" class="label_txt">New Patient</mat-list-item>
             <i class="material-icons close_btn" (click)="patientAction.collapsed = false;">clear</i>

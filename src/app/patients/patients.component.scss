@@ -1,3 +1,58 @@
+                                                        /*TEST */
+.appointment-wrapper{
+    width: 100%;
+    height: calc(100vh - 107.6px);
+}
+
+
+.right-side-bar{
+    float: right;
+    height: 100%;
+}
+.right-side-bar{
+    width: 0px;
+    background-color: white;
+    position: relative;
+    transition: all 0.5s ease-in-out;
+}
+                                                    /* THIS RIGHT HERE*/
+.right-side-bar.expanded{
+    width: 20%;
+    transition: all 0.5s ease-in-out;
+    z-index: 1;
+}
+.right-side-bar.expanded ul{
+    overflow: hidden;
+    transition: all 0.5s ease-in-out;
+}
+.toggle-sidebar{
+    background: #b9babc;
+    padding: 4px 10px 0px 10px;
+    cursor: pointer;
+}
+.right-side-bar ul{
+    width: 100%;
+    overflow: auto;
+    margin: 0px;
+    padding: 10px 0px;
+    list-style-type: none;
+    transition: all 0.5s ease-in-out;
+}
+.right-side-bar ul li{
+    display: block;
+    text-align: left;
+    padding: 10px 20px;
+}
+.right-side-bar ul li:hover, .side-bar ul li.active{
+    cursor: pointer;
+    background-color: #1083ab!important;
+}
+.right-side-bar ul li a{
+    color: black;
+    text-decoration: none;
+}
+                                                     /* TEST */
+
 .appointment-wrapper{
     width: 100%;
     height: calc(100vh - 107.6px);
@@ -60,11 +115,45 @@
     width: calc(100% - 40%);
     transition: all 0.5s ease-in-out;
 }
-.mid-section.left-collapsed.righ-collapsed, .mid-section.right-collapsed.left-collapsed{
+.mid-section.left-collapsed.right-collapsed, .mid-section.right-collapsed.left-collapsed{
     width: calc(100% - 40% - 150px);
     transition: all 0.5s ease-in-out;
 }
+/*.                                 TESTING             THIS ONE!!!!! */
 
+.mid-section.more-collapsed{
+    width: calc(100% - 60% - 5px);
+    transition: all 0.5s ease-in-out;
+}
+
+.right-section.more-collapsed{
+    width: calc(100% - 50% - 10px);
+    transition: all 0.5s ease-in-out;
+    float: left;
+}
+.side-bar.more-collapsed {
+    width: calc(100% - 50% - 10px);
+    transition: all 0.5s ease-in-out;
+}
+        /*Styling for Service Provider DropDown*/
+.serviceP{
+    border-bottom: 1px solid black;
+}
+.serviceDistance{
+    color: gray;
+    padding-left: 10px;
+}
+.serviceNumber{
+    color:#44D3D5;
+}
+.serviceCount{
+    font-size: 1.2em;
+    font-weight: bolder;
+}
+
+
+
+                                            /*Testing*/
 .mid-section.left-collapsed .toggle-sidebar{
     background: initial !important;
 }

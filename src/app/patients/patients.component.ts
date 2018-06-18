@@ -24,6 +24,7 @@ export class PatientsComponent implements OnInit {
   patientAppointmentForm: FormGroup;
   searchPatients: string;
   isCollapsed: Boolean = false;
+  isCollapsed1: Boolean = false;
   reqObj:any ={};
   appointmentList: any[];
   patientDetails:any = {};
