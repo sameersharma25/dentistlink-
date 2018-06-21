@@ -67,7 +67,7 @@ import { AgmCoreModule } from '@agm/core';
     MatExpansionModule, 
     MatListModule,
     AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyBvhMTh49tSDlp7BzkvrPHZrEGgfvaznaQ'
+      apiKey: 'API KEY'
     })
   ],
   providers: [AuthGuardGuard,UserAuthService, JwtService ,CurrentUserService,DataSourceService,DataCommService,
