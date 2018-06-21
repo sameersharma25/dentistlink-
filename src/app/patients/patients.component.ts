@@ -5,16 +5,18 @@ import { CurrentUserService } from '../shared/services/current-user.service';
 import { DataSourceService } from '../shared/services/data-source.service';
 import {Email} from '../shared/model/common-model';
 
+
 @Component({
   selector: 'app-patients',
   templateUrl: './patients.component.html',
   styleUrls: ['./patients.component.scss']
 })
 export class PatientsComponent implements OnInit {
-  patientAction: any = {};
+  patientAction: any = {}; 
   patientAptAction: any = {};
   selectedPatient: any = {};
   selectedPatientId: string ='';
+  selectedProvider: string;
   dateOfBirth: any = {};
   dateOfAppointment: any = {};
   patientList: any = [];
@@ -32,6 +34,12 @@ export class PatientsComponent implements OnInit {
   selectedAppointment: any;
   serviceProvider: any = [];
   hasOtherOptions: boolean = false;
+  lat: number;
+  lng: number;
+  numLimit = 2;
+
+
+
 
   constructor(
     private cus: CurrentUserService,
@@ -76,7 +84,10 @@ export class PatientsComponent implements OnInit {
 
     this.getAllPatients();
     this.createForm();
-  }
+  }// end ngOnInit
+
+
+
   createForm(){
     this.patientEditForm = this.fb.group({
       notes: ['']
@@ -116,6 +127,28 @@ export class PatientsComponent implements OnInit {
       notes: [''],
       serviceProvider: [''],
     });
+  };
+
+  saveProvider(value){
+    this.patientAppointmentForm.value.serviceProvider = value;
+    console.log("value", value);
+    this.setProvider(value);
+
+   
+    this.reqObj.appointment_id = this.selectedAppointment.appointment_id
+    this.reqObj.date_of_appointment = this.getDate(this.patientAppointmentForm.value)
+    this.reqObj.sp_id = value
+    this.reqObj.reason_for_visit = this.getVisitReason(this.patientAppointmentForm.value.reasonForVisit)
+
+        this.dss.updateAppointment(this.reqObj).subscribe(res => {
+        let response:any = res;
+        if(response.status == 'ok'){
+          this.getAllPatients()
+          alert(response.message);
+          this.isCollapsed1=false;
+        }
+      });
+        //RIGHT NOW THIS IS UPDATE THE ENTIRE 
   };
 
 
@@ -209,9 +242,16 @@ export class PatientsComponent implements OnInit {
       if (sp_id == this.serviceProvider[sp].Id) {
         (<FormGroup>this.patientAppointmentForm)
           .patchValue({serviceProvider: this.serviceProvider[sp].Id}, {onlySelf: true});
+
+         this.selectedProvider = this.serviceProvider[sp].Name
+         this.lat = this.serviceProvider[sp].Geolocation__c.latitude
+         this.lng = this.serviceProvider[sp].Geolocation__c.longitude
       }
     }
   }
+
+
+
 
   getPatientsDetails(data: any) {
     this.patientId = data.patient_id;

@@ -32,6 +32,7 @@ import { ContactusComponent } from './contactus/contactus.component';
 import { AuthGuardGuard } from './shared/services/auth-guard.guard';
 import { AppointmentEditComponent } from './appointment-edit/appointment-edit.component';
 import { PatientsComponent } from './patients/patients.component';
+import { AgmCoreModule } from '@agm/core';
 
 @NgModule({
   declarations: [
@@ -64,7 +65,10 @@ import { PatientsComponent } from './patients/patients.component';
     MatSelectModule,
     MatRadioModule,
     MatExpansionModule, 
-    MatListModule
+    MatListModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyBvhMTh49tSDlp7BzkvrPHZrEGgfvaznaQ'
+    })
   ],
   providers: [AuthGuardGuard,UserAuthService, JwtService ,CurrentUserService,DataSourceService,DataCommService,
     { 
