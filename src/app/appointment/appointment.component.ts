@@ -222,10 +222,19 @@ export class AppointmentComponent implements OnInit {
         (<FormGroup>this.appointmentEditForm)
           .patchValue({phoneNumber: apptDetails.patient_phone_number}, {onlySelf: true});
         (<FormGroup>this.appointmentEditForm)
+          .patchValue({ethnicity: apptDetails.ethnicity}, {onlySelf: true});
+        (<FormGroup>this.appointmentEditForm)
           .patchValue({patientEmail: apptDetails.patient_email}, {onlySelf: true});
         (<FormGroup>this.appointmentEditForm)
           .patchValue({preferredContact: apptDetails.mode_of_contact}, {onlySelf: true});
+
+        (<FormGroup>this.appointmentEditForm)
+          .patchValue({notes: apptDetails.notes}, {onlySelf: true});
+
         this.setVisitReason(apptDetails.reason_for_visit);
+
+        (<FormGroup>this.appointmentEditForm)
+          .patchValue({patientAddress: apptDetails.patient_address}, {onlySelf: true});
 
         let dateObj: any = this.getDateObject(apptDetails.appointment_date);
 
@@ -236,17 +245,16 @@ export class AppointmentComponent implements OnInit {
         (<FormGroup>this.appointmentEditForm)
           .patchValue({aptYear: dateObj.year}, {onlySelf: true});
 
-
-        (<FormGroup>this.appointmentEditForm)
-          .patchValue({zipCode: apptDetails.patient_zipcode}, {onlySelf: true});
-        const zipParam = apptDetails.patient_zipcode
-        //this.getProvider(zipParam,[ dateObj.day, dateObj.month, dateObj.year ] );
         (<FormGroup>this.appointmentEditForm)
           .patchValue({ethnicity: apptDetails.ethnicity}, {onlySelf: true});
         (<FormGroup>this.appointmentEditForm)
           .patchValue({gender: apptDetails.gender}, {onlySelf: true});
+
         (<FormGroup>this.appointmentEditForm)
-          .patchValue({patientAddress: apptDetails.patient_address}, {onlySelf: true});
+          .patchValue({zipCode: apptDetails.patient_zip}, {onlySelf: true});
+        const zipParam = apptDetails.patient_zip
+        //this.getProvider(zipParam,[ dateObj.day, dateObj.month, dateObj.year ] );
+
 
 
 
