@@ -22,7 +22,6 @@ export class PatientsComponent implements OnInit {
   patientEditForm: FormGroup;
   patientDetailsEditForm: FormGroup;
   patientAppointmentForm: FormGroup;
-  searchPatients: string;
   isCollapsed: Boolean = false;
   reqObj:any ={};
   appointmentList: any[];
@@ -140,10 +139,13 @@ export class PatientsComponent implements OnInit {
     });
   }
 
-  getAllPatients(){
+  getAllPatients(searchKey?: string){
     let currentUserMail: Email;
     currentUserMail = this.cus.getCurrentUser();
     this.reqObj.email = currentUserMail;
+    if(searchKey){
+      this.reqObj.search = searchKey;
+    }
     this.dss.getAllPatientList(this.reqObj).subscribe(res =>{
       const response:any = res;
       if(response.status == 'ok'){
@@ -473,6 +475,11 @@ export class PatientsComponent implements OnInit {
     this.appointmentList = [];
     this.selectedPatient = {};
     this.selectedAppointment = {};
+  }
+
+  searchPatients(e) {
+    console.log(e);
+    this.getAllPatients(e);
   }
 
 }

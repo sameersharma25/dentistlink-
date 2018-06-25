@@ -20,7 +20,7 @@
         <div class="ap-body">
             <div class="sub-header def_bg">
                 <mat-form-field class="">
-                    <input matInput name="searchPatients" placeholder="Search Patients" [(ngModel)]="searchPatients">
+                    <input #search matInput name="searchPatients" placeholder="Search Patients" (keyup.enter)="searchPatients(search.value)" >
                 </mat-form-field>
             </div>
             <div class="list-wrapper">
