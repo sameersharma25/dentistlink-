@@ -17,7 +17,7 @@ export class LoginComponent implements OnInit {
   token = String;
   response:any;
 
-  constructor(private fb: FormBuilder, private router: Router, private uAuthService: UserAuthService, private cs: CurrentUserService) { 
+  constructor(private fb: FormBuilder, private router: Router, private uAuthService: UserAuthService, private cs: CurrentUserService) {
     this.createForm();
   }
   ngOnInit() {
@@ -36,14 +36,14 @@ export class LoginComponent implements OnInit {
       this.uAuthService.getAuthToken(this.reqTokenObj).subscribe(res => {
         this.response = res;
         if(this.response.authentication_token){
-          this.router.navigate(['/home']);
+          this.router.navigate(['/patients']);
         }else{
           alert(this.response.message)
         }
       }, err => {
-        console.log(err) 
+        console.log(err)
       });
-      
+
     }else{
       return false;
     }
