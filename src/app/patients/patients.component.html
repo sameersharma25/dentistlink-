@@ -20,8 +20,11 @@
         <div class="ap-body">
             <div class="sub-header def_bg">
                 <mat-form-field class="">
-                    <input #search matInput name="searchPatients" placeholder="Search Patients" (keyup.enter)="searchPatients(search.value)" >
+                    <input #search type="search" matInput name="searchPatients" [(ngModel)]="searchPat"  placeholder="Search Patients" (keyup.enter)="searchPatients(search.value)" >
                 </mat-form-field>
+              <a class="clear" *ngIf="searchFlag">
+                <span class="glyphicon glyphicon-remove" (click)="clearSearch()"></span>
+              </a>
             </div>
             <div class="list-wrapper">
                 <div class="table-row b-txt">

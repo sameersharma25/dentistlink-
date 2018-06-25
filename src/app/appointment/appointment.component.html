@@ -63,7 +63,7 @@
                     <div class="table-cell c5">NOTIFICATIONS</div>
                 </div>
                 <div class="lists">
-                    <div class="table-row n-txt" *ngFor="let alist of appointmentList" (click)="openAppointmentAction(alist)">
+                    <div class="table-row n-txt" *ngFor="let alist of appointmentList" (click)="openAppointmentAction(alist)" [class.highlighted]="alist.appointment_id === selectedAppointmentId">
                         <div class="table-cell c1">{{alist.date_of_appointment}}</div>
                         <div class="table-cell c2">{{alist.patient_name}}</div>
                         <div class="table-cell c3">{{alist.referred_by}}</div>

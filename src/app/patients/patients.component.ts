@@ -30,7 +30,8 @@ export class PatientsComponent implements OnInit {
   selectedAppointment: any;
   serviceProvider: any = [];
   hasOtherOptions: boolean = false;
-
+  searchFlag = false;
+  searchPat = '';
   constructor(
     private cus: CurrentUserService,
     private dss: DataSourceService,
@@ -145,6 +146,8 @@ export class PatientsComponent implements OnInit {
     this.reqObj.email = currentUserMail;
     if(searchKey){
       this.reqObj.search = searchKey;
+    } else {
+      this.reqObj.search = "";
     }
     this.dss.getAllPatientList(this.reqObj).subscribe(res =>{
       const response:any = res;
@@ -477,9 +480,15 @@ export class PatientsComponent implements OnInit {
     this.selectedAppointment = {};
   }
 
-  searchPatients(e) {
-    console.log(e);
-    this.getAllPatients(e);
+  searchPatients(value) {
+    this.searchFlag = true;
+    this.getAllPatients(value);
   }
 
+
+  clearSearch() {
+    this.searchPat ='';
+    this.searchFlag = false;
+    this.getAllPatients();
+  }
 }

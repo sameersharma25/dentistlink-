@@ -74,7 +74,7 @@
     height: 0px;
     display: none;
     float: right;
-    padding: 0 15px; 
+    padding: 0 15px;
     overflow-y: auto;
 }
 .right-section.expanded{
@@ -195,4 +195,9 @@
 }
 ::ng-deep .mat-ripple-element {
     background-color:#7db7c8 !important;
+}
+
+.highlighted {
+  background-color:#43b9d0 !important;
+  color: white;
 }

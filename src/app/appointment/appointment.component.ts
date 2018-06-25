@@ -25,6 +25,7 @@ export class AppointmentComponent implements OnInit {
   appointments: any = {};
   isAppointmentEdit: Boolean = false;
   hasOtherOptions: boolean = false;
+  selectedAppointmentId: string ='';
 
   constructor(
     private ds: DataSourceService,
@@ -209,6 +210,7 @@ export class AppointmentComponent implements OnInit {
 
   getAppointmentDetails(data: any) {
     this.reqObj.email = this.cus.getCurrentUser();
+    this.selectedAppointmentId = data.appointment_id;
     this.reqObj.appointment_id = data.appointment_id;
     this.ds.getAppointmentDetails(this.reqObj).subscribe(res => {
       this.response = res;
