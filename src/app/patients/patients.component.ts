@@ -15,6 +15,7 @@ export class PatientsComponent implements OnInit {
   patientAptAction: any = {};
   selectedPatient: any = {};
   selectedPatientId: string ='';
+  selectedAppointmentId: string ='';
   dateOfBirth: any = {};
   dateOfAppointment: any = {};
   patientList: any = [];
@@ -184,6 +185,7 @@ export class PatientsComponent implements OnInit {
   openPatientAppointment(status,data){
     this.selectedAppointment = data;
     this.patientAction.isOpened = true;
+    this.selectedAppointmentId = data.appointment_id;
 
     if(status === 'new'){
       this.createForm();

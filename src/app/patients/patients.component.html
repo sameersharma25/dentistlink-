@@ -208,11 +208,11 @@
                     <mat-panel-description>
                         <mat-list>
                             <mat-list-item *ngIf="!appointmentList">No Appointments Found</mat-list-item>
-                            <mat-list-item *ngFor="let item of appointmentList; let index=index">
+                            <mat-list-item *ngFor="let item of appointmentList; let index=index" (click)="openPatientAppointment('edit', item)" class="appointment_list" [class.highlighted]="item.appointment_id === selectedAppointmentId">
                                 <div class="s1 label_txt">{{item.date_of_appointment | date:'mediumDate'  || '--'}} </div>
                                 <div class="s2">{{item.appointment_status || '--'}}</div>
                                 <div class="s3 truncate">{{item.rov || '--'}}</div>
-                                <div class="s4 label_txt" (click)="openPatientAppointment('edit', item)">Edit</div>
+
                               <div class="s1">
                                  <span *ngIf="item.notification_data.length > 0"><span class="status-cir"></span></span>
                               </div>
