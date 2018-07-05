@@ -27,6 +27,7 @@ export class PatientsComponent implements OnInit {
   searchPatients: string;
   isCollapsed: Boolean = false;
   isCollapsed1: Boolean = false;
+  isOpen: Boolean = false;
   reqObj:any ={};
   appointmentList: any[];
   patientDetails:any = {};
@@ -136,9 +137,9 @@ export class PatientsComponent implements OnInit {
 
    
     this.reqObj.appointment_id = this.selectedAppointment.appointment_id
-    this.reqObj.date_of_appointment = this.getDate(this.patientAppointmentForm.value)
+    //this.reqObj.date_of_appointment = this.getDate(this.patientAppointmentForm.value)
     this.reqObj.sp_id = value
-    this.reqObj.reason_for_visit = this.getVisitReason(this.patientAppointmentForm.value.reasonForVisit)
+    //this.reqObj.reason_for_visit = this.getVisitReason(this.patientAppointmentForm.value.reasonForVisit)
 
         this.dss.updateAppointment(this.reqObj).subscribe(res => {
         let response:any = res;
@@ -205,8 +206,11 @@ export class PatientsComponent implements OnInit {
       this.patientAction.label = 'Create';
       this.createForm();
       this.reset();
+
     }
     this.patientAction.collapsed = true;
+     //this.isCollapsed1=false;
+     this.setProvider(data);
   }
 
   // open appoint form for patient

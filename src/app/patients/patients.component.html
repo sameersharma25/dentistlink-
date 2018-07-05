@@ -14,25 +14,73 @@
                 <mat-panel-title class="label_txt">
                   Practice
                 </mat-panel-title>
-                        <mat-list>
-                            <mat-list-item *ngFor="let sp of serviceProvider; let i = index" class ="serviceP" (click)="saveProvider(sp.Id)"  [class.highlighted]="sp.Name === selectedProvider">
 
-                                <h3 matLine> 
+                    <mat-accordion>
+                        <mat-expansion-panel *ngFor="let sp of serviceProvider; let i = index" class ="serviceP" [class.height-expand]="isOpen">
+                            <mat-expansion-panel-header>
+                                <mat-list>
+                                    <mat-list-item>
+                                    <h3 matLine> 
                                     <span class ="serviceCount" >{{i+1}}</span>
                                     <span >{{sp.Name}}</span>
                                     <span style="display: none;"> {{sp.Id}}</span>
-                                </h3>
-                                <p matLine >
+                                   </h3>
+                                    <h3 matLine>
                                     <span class="serviceDistance"> {{sp.distance.toFixed(1)}} miles from Patient.   </span>
                                     <span class="serviceNumber">    {{sp.Phone}}</span>
-                                </p>
+                                    </h3>
+                                    </mat-list-item>
+                                </mat-list>
+                            </mat-expansion-panel-header>
 
-                            </mat-list-item>
-                        </mat-list>
+                                <mat-list>
+                                    <mat-list-item>
+                                    <h2 matLine> <span>Contact Information </span></h2>
+                                    <p matLine> <span>{{sp.Provider_Email__c}} </span> </p>
+                                    <p matLine> <span> 555 Oliver Street </span></p>
+                                    </mat-list-item>
+                                </mat-list>
+
+ 
+                                  <mat-list>
+                                    <mat-list-item>
+                                    <h2 matLine> <span>Accepted Insurance Types </span></h2>
+                                    </mat-list-item>
+
+                                </mat-list>
+                                <div>
+                                    <mat-checkbox [checked]="sp.Medicare_c === true|| sp.Medicare_c ==='Appointment Only'" [disableRipple]="true" disabled="true" style="margin-right:10px;">Medicare</mat-checkbox>
+                                    <mat-checkbox  [checked]="sp.ABCD__c === true|| sp.ABCD__c ==='Appointment Only'" [disableRipple]="true"  disabled="true"style="margin-right:10px;">Apple Health</mat-checkbox><br/>
+                                    <mat-checkbox [disableRipple]="true" disabled="true" style="margin-right:10px;">Not Insured</mat-checkbox>
+                                    <mat-checkbox [disableRipple]="true" [disabled]="true" style="margin-right:10px;">Other</mat-checkbox>
+                                </div>
+
+                                  <mat-list>
+                                    <mat-list-item>
+                                    <h3 matLine> <span>Services </span></h3>
+                                    </mat-list-item>
+                                </mat-list>
+                                    <div>
+                                    <mat-checkbox  [checked]="sp.Pediatric__c === 'Appointment Only'||sp.Pediatric__c === true" [disableRipple]="true" style="margin-right:10px; color: black !important;" disabled="true">Pediatric</mat-checkbox>
+                                    <mat-checkbox [checked]="sp.Dentures__c === 'Appointment Only'||sp.Dentures__c === true" [disableRipple]="true" disabled="true">Dentures</mat-checkbox><br/>
+                                    <mat-checkbox  [checked]="sp.Orthodontics__c === 'Limited Extractions'||sp.Orthodontics__c === true" [disableRipple]="true" style="margin-right:10px;" disabled="true">Orthodontic</mat-checkbox>
+                                    <mat-checkbox  [checked]="sp.Extractions__c === 'Appointment Only'||sp.Extractions__c === true" [disableRipple]="true" style="margin-right:10px;" disabled="true">Extraction</mat-checkbox>
+                                    <mat-checkbox disabled="true">Cleaning</mat-checkbox><br/>
+                                    <mat-checkbox  [checked]="sp.Periodontic_c === 'Appointment Only'||sp.Extractions__c === true" [disableRipple]="true" style="margin-right:10px;" disabled="true">Periodontic</mat-checkbox>
+                                    <mat-checkbox  [checked]="sp.Endodontic_c === 'Appointment Only'||sp.Extractions__c === true" [disableRipple]="true" style="margin-right:10px;" disabled="true">Endodontic</mat-checkbox>
+                                    <mat-checkbox [checked]="sp.Oral_Surgery_c === true|| sp.Oral_Surgery_c ==='Appointment Only'" [disableRipple]="true" disabled="true" > Oral Surgery</mat-checkbox><br/>
+                                    <button class ="btn btn-info" type ="button" (click)="saveProvider(sp.Id)">Save Provider</button>
+                                </div>
+
+                        </mat-expansion-panel>
+                    </mat-accordion> 
+
+
             </div>
                  <agm-map [latitude]="lat" [longitude]="lng" style ="margin-right: 5px; padding-right: 5px;">
                   <agm-marker  *ngFor="let data of serviceProvider; let i = index" [latitude]="data.Geolocation__c.latitude" [longitude]="data.Geolocation__c.longitude" [style]="style"> </agm-marker>
-                </agm-map>
+                </agm-map><br/>
+                
     </div> 
 <!--TEST -->
     <div class="mid-section" [class.left-collapsed]="isCollapsed" [class.right-collapsed]="patientAction.collapsed" [class.more-collapsed]="isCollapsed1">
