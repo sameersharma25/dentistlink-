@@ -33,6 +33,8 @@ import { AuthGuardGuard } from './shared/services/auth-guard.guard';
 import { AppointmentEditComponent } from './appointment-edit/appointment-edit.component';
 import { PatientsComponent } from './patients/patients.component';
 import { AgmCoreModule } from '@agm/core';
+import { AgmSnazzyInfoWindowModule } from '@agm/snazzy-info-window';
+
 
 @NgModule({
   declarations: [
@@ -67,8 +69,9 @@ import { AgmCoreModule } from '@agm/core';
     MatExpansionModule, 
     MatListModule,
     AgmCoreModule.forRoot({
-      apiKey: 'API KEY'
-    })
+      apiKey: ''
+    }),
+    AgmSnazzyInfoWindowModule
   ],
   providers: [AuthGuardGuard,UserAuthService, JwtService ,CurrentUserService,DataSourceService,DataCommService,
     { 

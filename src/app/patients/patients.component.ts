@@ -42,6 +42,8 @@ export class PatientsComponent implements OnInit {
 
 
 
+
+
   constructor(
     private cus: CurrentUserService,
     private dss: DataSourceService,
@@ -85,6 +87,7 @@ export class PatientsComponent implements OnInit {
 
     this.getAllPatients();
     this.createForm();
+
   }// end ngOnInit
 
 
@@ -250,7 +253,7 @@ export class PatientsComponent implements OnInit {
          this.selectedProvider = this.serviceProvider[sp].Name
          this.lat = this.serviceProvider[sp].Geolocation__c.latitude
          this.lng = this.serviceProvider[sp].Geolocation__c.longitude
-      }
+       }
     }
   }
 
