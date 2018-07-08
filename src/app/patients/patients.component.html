@@ -7,7 +7,88 @@
             <li><a>Settings</a></li>
         </ul>
     </div>
-    <div class="mid-section" [class.left-collapsed]="isCollapsed" [class.right-collapsed]="patientAction.collapsed">
+    <!--TEST -->
+    <div class="right-side-bar" [class.expanded]="isCollapsed1" [class.randomClass]="randomClass" *ngIf ="isCollapsed === false">
+            <div class="p-detaitls-wrapper">
+
+                <mat-panel-title class="label_txt">
+                  Practice
+                </mat-panel-title>
+
+                    <mat-accordion>
+                        <mat-expansion-panel *ngFor="let sp of serviceProvider; let i = index" class ="serviceP" [class.height-expand]="isOpen">
+                            <mat-expansion-panel-header>
+                                <mat-list>
+                                    <mat-list-item>
+                                    <h3 matLine> 
+                                    <span class ="serviceCount" >{{i+1}}</span>
+                                    <span >{{sp.Name}}</span>
+                                    <span style="display: none;"> {{sp.Id}}</span>
+                                   </h3>
+                                    <h3 matLine>
+                                    <span class="serviceDistance"> {{sp.distance.toFixed(1)}} miles from Patient.   </span>
+                                    <span class="serviceNumber">    {{sp.Phone}}</span>
+                                    </h3>
+                                    </mat-list-item>
+                                </mat-list>
+                            </mat-expansion-panel-header>
+
+                                <mat-list>
+                                    <mat-list-item>
+                                    <h2 matLine> <span>Contact Information </span></h2>
+                                    <p matLine> <span>{{sp.Provider_Email__c}} </span> </p>
+                                    <p matLine> <span> 555 Oliver Street </span></p>
+                                    </mat-list-item>
+                                </mat-list>
+
+ 
+                                  <mat-list>
+                                    <mat-list-item>
+                                    <h2 matLine> <span>Accepted Insurance Types </span></h2>
+                                    </mat-list-item>
+
+                                </mat-list>
+                                <div>
+                                    <mat-checkbox [checked]="sp.Medicare_c === true|| sp.Medicare_c ==='Appointment Only'" [disableRipple]="true" disabled="true" style="margin-right:10px;">Medicare</mat-checkbox>
+                                    <mat-checkbox  [checked]="sp.ABCD__c === true|| sp.ABCD__c ==='Appointment Only'" [disableRipple]="true"  disabled="true"style="margin-right:10px;">Apple Health</mat-checkbox><br/>
+                                    <mat-checkbox [disableRipple]="true" disabled="true" style="margin-right:10px;">Not Insured</mat-checkbox>
+                                    <mat-checkbox [disableRipple]="true" [disabled]="true" style="margin-right:10px;">Other</mat-checkbox>
+                                </div>
+
+                                  <mat-list>
+                                    <mat-list-item>
+                                    <h3 matLine> <span>Services </span></h3>
+                                    </mat-list-item>
+                                </mat-list>
+                                    <div>
+                                    <mat-checkbox  [checked]="sp.Pediatric__c === 'Appointment Only'||sp.Pediatric__c === true" [disableRipple]="true" style="margin-right:10px; color: black !important;" disabled="true">Pediatric</mat-checkbox>
+                                    <mat-checkbox [checked]="sp.Dentures__c === 'Appointment Only'||sp.Dentures__c === true" [disableRipple]="true" disabled="true">Dentures</mat-checkbox><br/>
+                                    <mat-checkbox  [checked]="sp.Orthodontics__c === 'Limited Extractions'||sp.Orthodontics__c === true" [disableRipple]="true" style="margin-right:10px;" disabled="true">Orthodontic</mat-checkbox>
+                                    <mat-checkbox  [checked]="sp.Extractions__c === 'Appointment Only'||sp.Extractions__c === true" [disableRipple]="true" style="margin-right:10px;" disabled="true">Extraction</mat-checkbox>
+                                    <mat-checkbox disabled="true">Cleaning</mat-checkbox><br/>
+                                    <mat-checkbox  [checked]="sp.Periodontic_c === 'Appointment Only'||sp.Extractions__c === true" [disableRipple]="true" style="margin-right:10px;" disabled="true">Periodontic</mat-checkbox>
+                                    <mat-checkbox  [checked]="sp.Endodontic_c === 'Appointment Only'||sp.Extractions__c === true" [disableRipple]="true" style="margin-right:10px;" disabled="true">Endodontic</mat-checkbox>
+                                    <mat-checkbox [checked]="sp.Oral_Surgery_c === true|| sp.Oral_Surgery_c ==='Appointment Only'" [disableRipple]="true" disabled="true" > Oral Surgery</mat-checkbox><br/>
+                                    <button class ="btn btn-info" type ="button" (click)="saveProvider(sp.Id)">Save Provider</button>
+                                </div>
+
+                        </mat-expansion-panel>
+                    </mat-accordion> 
+
+
+            </div>
+                 <agm-map [latitude]="lat" [longitude]="lng" style ="margin-right: 5px; padding-right: 5px;" [zoom]="9">
+                  <agm-marker *ngFor="let data of serviceProvider; let i = index" [latitude]="data.Geolocation__c.latitude" [longitude]="data.Geolocation__c.longitude"  [label]= "[i]" > 
+                    <agm-snazzy-info-window [maxWidth]="200" [closeWhenOthersOpen]="true">
+                      <ng-template>
+                        {{ data.Name }}
+                      </ng-template>
+                    </agm-snazzy-info-window>
+                  </agm-marker>
+                </agm-map><br/>
+    </div> 
+<!--TEST -->
+    <div class="mid-section" [class.left-collapsed]="isCollapsed" [class.right-collapsed]="patientAction.collapsed" [class.more-collapsed]="isCollapsed1">
         <div class="ap-header">
             <div class="toggle-sidebar pull-left" (click)="isCollapsed = !isCollapsed">
                 <i class="material-icons">reorder</i>
@@ -29,18 +110,18 @@
             <div class="list-wrapper">
                 <div class="table-row b-txt">
                     <div class="table-cell c1">PATIENT NAME</div>
-                    <div class="table-cell c2">PATIENT STATUS</div>
-                    <div class="table-cell c2">CONTACT</div>
-                    <div class="table-cell c3">ACCOUNT OWNER</div>
-                    <div class="table-cell c4">NOTIFICATIONS</div>
+                    <div class="table-cell c2" *ngIf ="isCollapsed1 === false">PATIENT STATUS</div>
+                    <div class="table-cell c2" *ngIf ="isCollapsed1 === false">CONTACT</div>
+                    <div class="table-cell c3" *ngIf ="isCollapsed1 === false">ACCOUNT OWNER</div>
+                    <div class="table-cell c4" *ngIf ="isCollapsed1 === false">NOTIFICATIONS</div>
                 </div>
                 <div class="lists">
                     <div class="table-row n-txt" *ngFor="let plist of patientList; let index=index" (click)="openPatientAction(plist)"  [class.highlighted]="plist.patient_id === selectedPatientId">
                         <div class="table-cell c1">{{plist.first_name}} {{plist.last_name}}</div>
-                        <div class="table-cell c2">{{plist.p_status}}</div>
-                        <div class="table-cell c2">{{plist.ph_number}}</div>
-                        <div class="table-cell c3">Emily R.</div>
-                        <div class="table-cell c4">
+                        <div class="table-cell c2" *ngIf ="isCollapsed1 === false">{{plist.p_status}}</div>
+                        <div class="table-cell c2" *ngIf ="isCollapsed1 === false">{{plist.ph_number}}</div>
+                        <div class="table-cell c3" *ngIf ="isCollapsed1 === false">Emily R.</div>
+                        <div class="table-cell c4" *ngIf ="isCollapsed1 === false">
                             <span *ngIf="plist.active_notification"><span class="status-cir"></span></span>
                         </div>
                     </div>
@@ -48,8 +129,8 @@
             </div>
         </div>
     </div>
-    <div class="right-section" [class.expanded]="patientAction.collapsed">
-        <mat-list class="header def_bg">
+     <div class="right-section" [class.expanded]="patientAction.collapsed" [class.more-collapsed]="isCollapsed1">
+   <mat-list class="header def_bg">
             <mat-list-item *ngIf="patientAction.label == 'Edit'" class="label_txt"> {{selectedPatient.first_name}} {{selectedPatient.last_name}}</mat-list-item>
             <mat-list-item *ngIf="patientAction.label == 'Create'" class="label_txt">New Patient</mat-list-item>
             <i class="material-icons close_btn" (click)="patientAction.collapsed = false;">clear</i>
@@ -361,12 +442,9 @@
 <!--Service Provider -->
                         <div class="_clearfix"></div>
                         <div class="section-row">
+
                             <div class="left-field" style="width:145px;margin-top: 16px; margin-right: 15px;">
-                                <mat-select placeholder="Service Provider" formControlName="serviceProvider">
-                                    <mat-option *ngFor="let sp of serviceProvider" [value]="sp.Id">
-                                        {{ sp.Name }}
-                                    </mat-option>
-                                </mat-select>
+                                Current Provider: {{selectedProvider}}
                             </div>
                         </div>
                         <div class="_clearfix"></div>
@@ -380,6 +458,7 @@
                         <div class="section-row">
                             <button class="btn btn-info" type="submit" *ngIf="patientAptAction.label == 'new'">Create</button>
                             <button class="btn btn-info" type="submit" *ngIf="patientAptAction.label == 'edit'">Update</button>
+                                <button class ="btn btn-info" type ="button" (click)="isCollapsed1 = !isCollapsed1"> Select Provider</button>
                         </div>
                     </form>
             </div>
