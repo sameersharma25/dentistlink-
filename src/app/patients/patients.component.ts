@@ -264,6 +264,7 @@ export class PatientsComponent implements OnInit {
 
 
   getPatientsDetails(data: any) {
+
     this.patientId = data.patient_id;
     this.reqObj.email = this.cus.getCurrentUser();
     this.reqObj.patient_id = this.patientId;
@@ -289,7 +290,6 @@ export class PatientsComponent implements OnInit {
         (<FormGroup>this.patientDetailsEditForm)
           .patchValue({patientCoverageId: this.patientDetails.patient_coverage_id}, {onlySelf: true});
 
-
         const dateObj: any = this.getDateObject(this.patientDetails.date_of_birth);
 
          (<FormGroup>this.patientDetailsEditForm)
@@ -313,6 +313,7 @@ export class PatientsComponent implements OnInit {
       }
     }, err => {
       console.log(err);
+
     });
   }
 
@@ -320,10 +321,20 @@ export class PatientsComponent implements OnInit {
   getProvider(zip, dob) {
     this.reqObj.zip = zip
      this.dss.getProvider(this.reqObj, zip, dob).subscribe(res => {
-       console.log("Checkres",res);
+       console.log("??Checkres",res);
        this.serviceProvider = res;
+       //TEMPORARY SOLUTION FOR BAD ZIPCODE
+       if (this.serviceProvider.length != 10) {
+       console.log("SHOULD SHOW TEN", this.serviceProvider.length)
+       this.serviceProvider = null 
+       alert("There are no service providers here yet.")
+      }
+       //if res.ErrorType
     }, err => {
       console.log(err);
+        console.log("Every CLick");
+
+      
     });
 }
 
