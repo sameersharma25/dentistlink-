@@ -205,6 +205,7 @@ export class PatientsComponent implements OnInit {
 
       this.getAppointments(data);
       //this.isAppointmentEdit = true;
+
     } else {
       this.patientAction.label = 'Create';
       this.createForm();
@@ -212,6 +213,7 @@ export class PatientsComponent implements OnInit {
 
     }
     this.patientAction.collapsed = true;
+
      //this.isCollapsed1=false;
      this.setProvider(data);
   }
@@ -224,6 +226,7 @@ export class PatientsComponent implements OnInit {
     if(status === 'new'){
       this.createForm();
       this.patientAptAction.label = "new";
+      this.isCollapsed1 = false;
 
     } else if(status === 'edit'){
       this.createAppointmentForm();
@@ -339,6 +342,8 @@ export class PatientsComponent implements OnInit {
           alert(response.message);
           this.createForm();
           this.patientAction.collapsed = false;
+          this.isCollapsed1 = false;
+
         }
       }, err => {
         console.log("Error in fetching data from server::" + err);
@@ -363,6 +368,7 @@ export class PatientsComponent implements OnInit {
           this.getAllPatients()
           alert(response.message);
           this.patientAction.collapsed = false;
+          this.isCollapsed1 = false;
         }
       }, err => {
         console.log("Error in fetching data from server::" + err)
@@ -402,6 +408,7 @@ export class PatientsComponent implements OnInit {
           this.getAllPatients()
           alert(response.message);
           this.patientAction.collapsed = false;
+
         }
       }, err => {
         console.log(err)
@@ -415,6 +422,7 @@ export class PatientsComponent implements OnInit {
           this.getAllPatients()
           alert(response.message);
           this.patientAction.collapsed = false;
+
         }
       }, err =>{
         console.log("Error in fetching data from server::" + err);
