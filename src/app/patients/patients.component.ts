@@ -210,6 +210,7 @@ export class PatientsComponent implements OnInit {
 
       this.getAppointments(data);
       //this.isAppointmentEdit = true;
+
     } else {
       this.patientAction.label = 'Create';
       this.createForm();
@@ -217,6 +218,7 @@ export class PatientsComponent implements OnInit {
 
     }
     this.patientAction.collapsed = true;
+
      //this.isCollapsed1=false;
      this.setProvider(data);
   }
@@ -230,6 +232,7 @@ export class PatientsComponent implements OnInit {
     if(status === 'new'){
       this.createForm();
       this.patientAptAction.label = "new";
+      this.isCollapsed1 = false;
 
     } else if(status === 'edit'){
       this.createAppointmentForm();
@@ -269,6 +272,7 @@ export class PatientsComponent implements OnInit {
 
 
   getPatientsDetails(data: any) {
+
     this.patientId = data.patient_id;
     this.reqObj.email = this.cus.getCurrentUser();
     this.reqObj.patient_id = this.patientId;
@@ -294,7 +298,6 @@ export class PatientsComponent implements OnInit {
         (<FormGroup>this.patientDetailsEditForm)
           .patchValue({patientCoverageId: this.patientDetails.patient_coverage_id}, {onlySelf: true});
 
-
         const dateObj: any = this.getDateObject(this.patientDetails.date_of_birth);
 
          (<FormGroup>this.patientDetailsEditForm)
@@ -318,6 +321,7 @@ export class PatientsComponent implements OnInit {
       }
     }, err => {
       console.log(err);
+
     });
   }
 
@@ -325,10 +329,20 @@ export class PatientsComponent implements OnInit {
   getProvider(zip, dob) {
     this.reqObj.zip = zip
      this.dss.getProvider(this.reqObj, zip, dob).subscribe(res => {
-       console.log("Checkres",res);
+       console.log("??Checkres",res);
        this.serviceProvider = res;
+       //TEMPORARY SOLUTION FOR BAD ZIPCODE
+       if (this.serviceProvider.length != 10) {
+       console.log("SHOULD SHOW TEN", this.serviceProvider.length)
+       this.serviceProvider = null 
+       alert("There are no service providers here yet.")
+      }
+       //if res.ErrorType
     }, err => {
       console.log(err);
+        console.log("Every CLick");
+
+      
     });
 }
 
@@ -347,6 +361,8 @@ export class PatientsComponent implements OnInit {
           alert(response.message);
           this.createForm();
           this.patientAction.collapsed = false;
+          this.isCollapsed1 = false;
+
         }
       }, err => {
         console.log("Error in fetching data from server::" + err);
@@ -372,6 +388,7 @@ export class PatientsComponent implements OnInit {
           this.getAllPatients()
           alert(response.message);
           this.patientAction.collapsed = false;
+          this.isCollapsed1 = false;
         }
       }, err => {
         console.log("Error in fetching data from server::" + err)
@@ -411,6 +428,7 @@ export class PatientsComponent implements OnInit {
           this.getAllPatients()
           alert(response.message);
           this.patientAction.collapsed = false;
+
         }
       }, err => {
         console.log(err)
@@ -424,6 +442,7 @@ export class PatientsComponent implements OnInit {
           this.getAllPatients()
           alert(response.message);
           this.patientAction.collapsed = false;
+
         }
       }, err =>{
         console.log("Error in fetching data from server::" + err);
