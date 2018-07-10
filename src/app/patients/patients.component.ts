@@ -16,11 +16,8 @@ export class PatientsComponent implements OnInit {
   patientAptAction: any = {};
   selectedPatient: any = {};
   selectedPatientId: string ='';
-<<<<<<< HEAD
   selectedProvider: string;
-=======
   selectedAppointmentId: string ='';
->>>>>>> 8a524c9d2cef8494cb5348a7a1140d2c0502e7d3
   dateOfBirth: any = {};
   dateOfAppointment: any = {};
   patientList: any = [];
@@ -38,20 +35,12 @@ export class PatientsComponent implements OnInit {
   selectedAppointment: any;
   serviceProvider: any = [];
   hasOtherOptions: boolean = false;
-<<<<<<< HEAD
   lat: number;
   lng: number;
   numLimit = 2;
-
-
-
-
-
-
-=======
   searchFlag = false;
   searchPat = '';
->>>>>>> 8a524c9d2cef8494cb5348a7a1140d2c0502e7d3
+
   constructor(
     private cus: CurrentUserService,
     private dss: DataSourceService,
