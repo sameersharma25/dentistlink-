@@ -1,0 +1,89 @@
+.side-bar, .mid-section{
+  float: left;
+  //height: 100%;
+  height: 490px;
+}
+.side-bar{
+  width: 0px;
+  background-color: #071f47;
+  position: relative;
+  transition: all 0.5s ease-in-out;
+}
+.side-bar.expanded{
+  width: 150px;
+  transition: all 0.5s ease-in-out;
+}
+.side-bar.expanded ul{
+  overflow: hidden;
+  transition: all 0.5s ease-in-out;
+}
+.toggle-sidebar{
+  background: #b9babc;
+  padding: 4px 10px 0px 10px;
+  cursor: pointer;
+}
+.side-bar ul{
+  width: 100%;
+  overflow: auto;
+  margin: 0px;
+  padding: 10px 0px;
+  list-style-type: none;
+  transition: all 0.5s ease-in-out;
+}
+.side-bar ul li{
+  display: block;
+  text-align: left;
+  padding: 10px 20px;
+}
+.side-bar ul li:hover, .side-bar ul li.active{
+  cursor: pointer;
+  background-color: #1083ab!important;
+}
+.side-bar ul li a{
+  color: #fff;
+  text-decoration: none;
+}
+
+
+.mid-section.left-collapsed .toggle-sidebar{
+  background: initial !important;
+}
+
+.mid-section{
+  width: 100%;
+  background-color: #e2e8e7;
+  padding: 0 10px;
+  transition: all 0.5s ease-in-out;
+}
+.mid-section.left-collapsed{
+  width: calc(100% - 150px);
+  transition: all 0.5s ease-in-out;
+}
+.mid-section.right-collapsed{
+  width: calc(100% - 40%);
+  transition: all 0.5s ease-in-out;
+}
+.mid-section.left-collapsed.righ-collapsed, .mid-section.right-collapsed.left-collapsed{
+  width: calc(100% - 40% - 150px);
+  transition: all 0.5s ease-in-out;
+}
+
+.mid-section.left-collapsed .toggle-sidebar{
+  background: initial !important;
+}
+
+.ap-header{
+  width: 100%;
+  height: 50px;
+  padding: 8px 0px;
+}
+
+.toggle-sidebar{
+  background: #b9babc;
+  padding: 4px 10px 0px 10px;
+  cursor: pointer;
+}
+
+.mid-section.left-collapsed .toggle-sidebar{
+  background: initial !important;
+}

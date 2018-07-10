@@ -240,6 +240,13 @@ agm-map {
     cursor: pointer;
     transition: all 0.2s ease-in-out;
 }
+
+.appointment_list:hover{
+  background-color: #43b9d04d;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
 .section-row{
     margin-bottom: 5px;
 }

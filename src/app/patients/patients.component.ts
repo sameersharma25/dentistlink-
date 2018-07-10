@@ -16,7 +16,11 @@ export class PatientsComponent implements OnInit {
   patientAptAction: any = {};
   selectedPatient: any = {};
   selectedPatientId: string ='';
+<<<<<<< HEAD
   selectedProvider: string;
+=======
+  selectedAppointmentId: string ='';
+>>>>>>> 8a524c9d2cef8494cb5348a7a1140d2c0502e7d3
   dateOfBirth: any = {};
   dateOfAppointment: any = {};
   patientList: any = [];
@@ -24,7 +28,6 @@ export class PatientsComponent implements OnInit {
   patientEditForm: FormGroup;
   patientDetailsEditForm: FormGroup;
   patientAppointmentForm: FormGroup;
-  searchPatients: string;
   isCollapsed: Boolean = false;
   isCollapsed1: Boolean = false;
   isOpen: Boolean = false;
@@ -35,6 +38,7 @@ export class PatientsComponent implements OnInit {
   selectedAppointment: any;
   serviceProvider: any = [];
   hasOtherOptions: boolean = false;
+<<<<<<< HEAD
   lat: number;
   lng: number;
   numLimit = 2;
@@ -44,6 +48,10 @@ export class PatientsComponent implements OnInit {
 
 
 
+=======
+  searchFlag = false;
+  searchPat = '';
+>>>>>>> 8a524c9d2cef8494cb5348a7a1140d2c0502e7d3
   constructor(
     private cus: CurrentUserService,
     private dss: DataSourceService,
@@ -178,10 +186,15 @@ export class PatientsComponent implements OnInit {
     });
   }
 
-  getAllPatients(){
+  getAllPatients(searchKey?: string){
     let currentUserMail: Email;
     currentUserMail = this.cus.getCurrentUser();
     this.reqObj.email = currentUserMail;
+    if(searchKey){
+      this.reqObj.search = searchKey;
+    } else {
+      this.reqObj.search = "";
+    }
     this.dss.getAllPatientList(this.reqObj).subscribe(res =>{
       const response:any = res;
       if(response.status == 'ok'){
@@ -222,6 +235,7 @@ export class PatientsComponent implements OnInit {
   openPatientAppointment(status,data){
     this.selectedAppointment = data;
     this.patientAction.isOpened = true;
+    this.selectedAppointmentId = data.appointment_id;
 
     if(status === 'new'){
       this.createForm();
@@ -244,6 +258,8 @@ export class PatientsComponent implements OnInit {
       (<FormGroup>this.patientAppointmentForm)
           .patchValue({reasonForVisit: this.selectedAppointment.rov}, {onlySelf: true});
       this.setProvider(this.selectedAppointment.sp_id);
+      (<FormGroup>this.patientAppointmentForm)
+        .patchValue({notes: this.selectedAppointment.note}, {onlySelf: true});
     }
   }
 
@@ -370,7 +386,8 @@ export class PatientsComponent implements OnInit {
         last_name: patientName[1],
         patient_phone: this.selectedPatient.ph_number,
         dob: this.selectedAppointment.patient_dob,
-        sp_id: this.patientAppointmentForm.value.serviceProvider
+        sp_id: this.patientAppointmentForm.value.serviceProvider,
+        note: this.patientAppointmentForm.value.notes
       };
 
       this.dss.updateAppointment(reqObj).subscribe(res => {
@@ -539,4 +556,15 @@ export class PatientsComponent implements OnInit {
     this.selectedAppointment = {};
   }
 
+  searchPatients(value) {
+    this.searchFlag = true;
+    this.getAllPatients(value);
+  }
+
+
+  clearSearch() {
+    this.searchPat ='';
+    this.searchFlag = false;
+    this.getAllPatients();
+  }
 }

@@ -24,6 +24,8 @@ export class AppointmentComponent implements OnInit {
   isCollapsed: Boolean = false;
   appointments: any = {};
   isAppointmentEdit: Boolean = false;
+  hasOtherOptions: boolean = false;
+  selectedAppointmentId: string ='';
 
   constructor(
     private ds: DataSourceService,
@@ -42,21 +44,33 @@ export class AppointmentComponent implements OnInit {
     this.appointments.label = "";
     this.appointments.collapsed = false;
     this.dateOfBirth.months = [
-      {value:'january', viewValue:'JANUARY'},
-      {value:'febuary', viewValue:'FEBUARY'},
-      {value:'march', viewValue:'MARCH'},
-      {value:'april', viewValue:'APRIL'},
-      {value:'may', viewValue:'MAY'},
-      {value:'june', viewValue:'JUNE'},
-      {value:'july', viewValue:'JULY'},
-      {value:'august', viewValue:'AUGUST'},
-      {value:'sepetember', viewValue:'SEPTEMBER'},
-      {value:'october', viewValue:'OCTOBER'},
-      {value:'november', viewValue:'NOVEMBER'},
-      {value:'december', viewValue:'DECEMBER'}
+      {value: 1, viewValue:'JANUARY'},
+      {value: 2, viewValue:'FEBUARY'},
+      {value: 3, viewValue:'MARCH'},
+      {value: 4, viewValue:'APRIL'},
+      {value: 5, viewValue:'MAY'},
+      {value: 6, viewValue:'JUNE'},
+      {value: 7, viewValue:'JULY'},
+      {value: 8, viewValue:'AUGUST'},
+      {value: 9, viewValue:'SEPTEMBER'},
+      {value: 10, viewValue:'OCTOBER'},
+      {value: 11, viewValue:'NOVEMBER'},
+      {value: 12, viewValue:'DECEMBER'}
     ];
     this.dateOfBirth.days = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30];
     this.dateOfBirth.years = [1985,1986,1987,1998,1999,2000];
+    let year = new Date().getFullYear();
+
+    if (year < 1900) {
+      year = year + 1900;
+    }
+    let date = year - 101;
+    let future = year + 100;
+    while (date < future) {
+      this.dateOfBirth.years.push(date);
+      date++;
+
+    }
     this.createForm();
     this.getAppointments();
   }
@@ -70,6 +84,10 @@ export class AppointmentComponent implements OnInit {
       day: [''],
       year: [''],
       preferredContact: [''],
+      zipCode: [''],
+      ethnicity: [''],
+      gender: [''],
+      patientAddress: [''],
       aptMonth: [''],
       aptDay: [''],
       aptYear: [''],
@@ -80,10 +98,13 @@ export class AppointmentComponent implements OnInit {
         dentures: false,
         infection: false,
         damage: false,
+        others: false
       }),
+      otherOptions: [''],
+      serviceProvider: [''],
       patientCoverage: [''],
       patientCoverageId: [''],
-      notes: ['']
+      notes: [''],
     })
   };
   getAppointments(){
@@ -92,6 +113,7 @@ export class AppointmentComponent implements OnInit {
       this.response = res;
       if(this.response.status == 'ok'){
         this.appointmentList = this.response.details_array;
+        console.log(this.appointmentList);
         //this.appointmentList = this.getAppointmentList(this.response);
       }
     }, err =>{
@@ -127,6 +149,7 @@ export class AppointmentComponent implements OnInit {
   openAppointmentAction(data) {
     if (data) {
       this.appointments.label = 'Edit';
+      this.createForm();
       this.getAppointmentDetails(data);
       console.log(data);
       this.isAppointmentEdit = true;
@@ -187,6 +210,7 @@ export class AppointmentComponent implements OnInit {
 
   getAppointmentDetails(data: any) {
     this.reqObj.email = this.cus.getCurrentUser();
+    this.selectedAppointmentId = data.appointment_id;
     this.reqObj.appointment_id = data.appointment_id;
     this.ds.getAppointmentDetails(this.reqObj).subscribe(res => {
       this.response = res;
@@ -198,13 +222,88 @@ export class AppointmentComponent implements OnInit {
         (<FormGroup>this.appointmentEditForm)
           .patchValue({lastName: apptDetails.last_name}, {onlySelf: true});
         (<FormGroup>this.appointmentEditForm)
-          .patchValue({phoneNumber: apptDetails.phone_number}, {onlySelf: true});
+          .patchValue({phoneNumber: apptDetails.patient_phone_number}, {onlySelf: true});
+        (<FormGroup>this.appointmentEditForm)
+          .patchValue({ethnicity: apptDetails.ethnicity}, {onlySelf: true});
         (<FormGroup>this.appointmentEditForm)
           .patchValue({patientEmail: apptDetails.patient_email}, {onlySelf: true});
+        (<FormGroup>this.appointmentEditForm)
+          .patchValue({preferredContact: apptDetails.mode_of_contact}, {onlySelf: true});
+
+        (<FormGroup>this.appointmentEditForm)
+          .patchValue({notes: apptDetails.notes}, {onlySelf: true});
+
+        this.setVisitReason(apptDetails.reason_for_visit);
+
+        (<FormGroup>this.appointmentEditForm)
+          .patchValue({patientAddress: apptDetails.patient_address}, {onlySelf: true});
+
+        let dateObj: any = this.getDateObject(apptDetails.appointment_date);
+
+        (<FormGroup>this.appointmentEditForm)
+          .patchValue({aptDay: dateObj.day}, {onlySelf: true});
+        (<FormGroup>this.appointmentEditForm)
+          .patchValue({aptMonth: dateObj.month}, {onlySelf: true});
+        (<FormGroup>this.appointmentEditForm)
+          .patchValue({aptYear: dateObj.year}, {onlySelf: true});
+
+        (<FormGroup>this.appointmentEditForm)
+          .patchValue({ethnicity: apptDetails.ethnicity}, {onlySelf: true});
+        (<FormGroup>this.appointmentEditForm)
+          .patchValue({gender: apptDetails.gender}, {onlySelf: true});
+
+        (<FormGroup>this.appointmentEditForm)
+          .patchValue({zipCode: apptDetails.patient_zip}, {onlySelf: true});
+        const zipParam = apptDetails.patient_zip
+        //this.getProvider(zipParam,[ dateObj.day, dateObj.month, dateObj.year ] );
+
+
+
+
         console.log(this.appointmentEditForm.value);
       }
     }, err => {
       console.log(err);
     });
   }
+
+
+  setOthers(){
+    this.hasOtherOptions? this.hasOtherOptions = false : this.hasOtherOptions = true;
+  }
+
+
+  setVisitReason(rov){
+    const visits: any = ['cleaning','surgery','pain','dentures','infection','damage'];
+    for(let i of rov){
+      if(visits.includes(i)){
+        this.hasOtherOptions = false;
+        this.appointmentEditForm.controls['reasonForVisit'].get(i).setValue(true);
+      }else{
+        this.appointmentEditForm.controls['reasonForVisit'].get('others').setValue(true);
+        this.hasOtherOptions = true;
+        (<FormGroup>this.appointmentEditForm)
+          .patchValue({otherOptions: i}, {onlySelf: true});
+      }
+    }
+
+  }
+
+  // get day,month & year by date format
+  getDateObject(date){
+    if(date){
+      let tempDate:any = date;
+      let dateObj: any = {
+        day: new Date(tempDate).getDate(),
+        month: new Date(tempDate).getMonth() + 1,
+        year: new Date(tempDate).getFullYear()
+      };
+      return dateObj;
+    }
+    return;
+  }
+
+
+
+
 }
