@@ -16,8 +16,8 @@ export class PatientsComponent implements OnInit {
   patientAptAction: any = {};
   selectedPatient: any = {};
   selectedPatientId: string ='';
-  selectedAppointmentId: string ='';
   selectedProvider: string;
+  selectedAppointmentId: string ='';
   dateOfBirth: any = {};
   dateOfAppointment: any = {};
   patientList: any = [];
@@ -35,14 +35,11 @@ export class PatientsComponent implements OnInit {
   selectedAppointment: any;
   serviceProvider: any = [];
   hasOtherOptions: boolean = false;
-  searchFlag = false;
-  searchPat = '';
   lat: number;
   lng: number;
   numLimit = 2;
-
-
-
+  searchFlag = false;
+  searchPat = '';
 
   constructor(
     private cus: CurrentUserService,
@@ -334,7 +331,7 @@ export class PatientsComponent implements OnInit {
        //TEMPORARY SOLUTION FOR BAD ZIPCODE
        if (this.serviceProvider.length != 10) {
        console.log("SHOULD SHOW TEN", this.serviceProvider.length)
-       this.serviceProvider = null 
+       this.serviceProvider = null
        alert("There are no service providers here yet.")
       }
        //if res.ErrorType
@@ -342,7 +339,7 @@ export class PatientsComponent implements OnInit {
       console.log(err);
         console.log("Every CLick");
 
-      
+
     });
 }
 

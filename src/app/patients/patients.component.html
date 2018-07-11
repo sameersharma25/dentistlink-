@@ -78,7 +78,7 @@
 
             </div>
                  <agm-map [latitude]="lat" [longitude]="lng" style ="margin-right: 5px; padding-right: 5px;" [zoom]="9">
-                  <agm-marker *ngFor="let data of serviceProvider; let i = index" [latitude]="data.Geolocation__c.latitude" [longitude]="data.Geolocation__c.longitude"  [label]= "[i]" > 
+                  <agm-marker *ngFor="let data of serviceProvider; let i = index" [latitude]="data.Geolocation__c.latitude" [longitude]="data.Geolocation__c.longitude"  > 
                     <agm-snazzy-info-window [maxWidth]="200" [closeWhenOthersOpen]="true">
                       <ng-template>
                         {{ data.Name }}
