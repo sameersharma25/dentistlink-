@@ -224,7 +224,7 @@ export class PatientsComponent implements OnInit {
   openPatientAppointment(status,data){
     this.selectedAppointment = data;
     this.patientAction.isOpened = true;
-    this.selectedAppointmentId = data.appointment_id;
+
 
     if(status === 'new'){
       this.createForm();
@@ -232,6 +232,7 @@ export class PatientsComponent implements OnInit {
       this.isCollapsed1 = false;
 
     } else if(status === 'edit'){
+      this.selectedAppointmentId = data.appointment_id;
       this.createAppointmentForm();
       let dateObj: any = this.getDateObject(this.selectedAppointment.date_of_appointment);
       this.patientAptAction.label = "edit";
