@@ -350,7 +350,8 @@ export class PatientsComponent implements OnInit {
         email: this.cus.getCurrentUser(),
         patient_id: this.patientId,
         date_of_appointment: this.getDate(this.patientAppointmentForm.value),
-        reason_for_visit: this.getVisitReason(this.patientAppointmentForm.value.reasonForVisit)
+        reason_for_visit: this.getVisitReason(this.patientAppointmentForm.value.reasonForVisit),
+        note: this.patientAppointmentForm.value.notes
       };
       this.dss.createPatientAppoint(reqObj).subscribe(res => {
         let response:any = res;
