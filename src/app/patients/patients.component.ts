@@ -35,8 +35,8 @@ export class PatientsComponent implements OnInit {
   selectedAppointment: any;
   serviceProvider: any = [];
   hasOtherOptions: boolean = false;
-  lat: number;
-  lng: number;
+  lat: number = 47.622537
+  lng: number = -122.333854
   numLimit = 2;
   searchFlag = false;
   searchPat = '';
@@ -425,6 +425,7 @@ export class PatientsComponent implements OnInit {
           this.getAllPatients()
           alert(response.message);
           this.patientAction.collapsed = false;
+          this.isCollapsed1 = false;
 
         }
       }, err => {
@@ -439,6 +440,7 @@ export class PatientsComponent implements OnInit {
           this.getAllPatients()
           alert(response.message);
           this.patientAction.collapsed = false;
+          this.isCollapsed1 = false;
 
         }
       }, err =>{
