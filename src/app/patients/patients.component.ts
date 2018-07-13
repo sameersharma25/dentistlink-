@@ -6,6 +6,7 @@ import { DataSourceService } from '../shared/services/data-source.service';
 import {Email} from '../shared/model/common-model';
 
 
+
 @Component({
   selector: 'app-patients',
   templateUrl: './patients.component.html',
@@ -259,8 +260,8 @@ export class PatientsComponent implements OnInit {
           .patchValue({serviceProvider: this.serviceProvider[sp].Id}, {onlySelf: true});
 
          this.selectedProvider = this.serviceProvider[sp].Name
-         this.lat = this.serviceProvider[sp].Geolocation__c.latitude
-         this.lng = this.serviceProvider[sp].Geolocation__c.longitude
+         //this.lat = this.serviceProvider[sp].Geolocation__c.latitude
+         //this.lng = this.serviceProvider[sp].Geolocation__c.longitude
        }
     }
   }
@@ -295,6 +296,10 @@ export class PatientsComponent implements OnInit {
         (<FormGroup>this.patientDetailsEditForm)
           .patchValue({patientCoverageId: this.patientDetails.patient_coverage_id}, {onlySelf: true});
 
+          this.lat = this.patientDetails.patient_lat
+          this.lng = this.patientDetails.patient_lng
+
+
         const dateObj: any = this.getDateObject(this.patientDetails.date_of_birth);
 
          (<FormGroup>this.patientDetailsEditForm)
@@ -322,6 +327,7 @@ export class PatientsComponent implements OnInit {
     });
   }
 
+
   // Pulls providers from AWS LAMDA
   getProvider(zip, dob) {
     this.reqObj.zip = zip
@@ -337,9 +343,6 @@ export class PatientsComponent implements OnInit {
        //if res.ErrorType
     }, err => {
       console.log(err);
-        console.log("Every CLick");
-
-      
     });
 }
 
