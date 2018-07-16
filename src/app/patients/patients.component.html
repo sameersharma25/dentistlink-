@@ -133,7 +133,7 @@
    <mat-list class="header def_bg">
             <mat-list-item *ngIf="patientAction.label == 'Edit'" class="label_txt"> {{selectedPatient.first_name}} {{selectedPatient.last_name}}</mat-list-item>
             <mat-list-item *ngIf="patientAction.label == 'Create'" class="label_txt">New Patient</mat-list-item>
-            <i class="material-icons close_btn" (click)="patientAction.collapsed = false;">clear</i>
+            <i class="material-icons close_btn" (click)="patientAction.collapsed = false; isCollapsed1 = !isCollapsed1">clear</i>
         </mat-list>
         <div class="p-detaitls-wrapper">
             <div class="_clearfix"></div>
