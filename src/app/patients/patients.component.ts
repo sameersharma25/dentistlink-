@@ -13,7 +13,7 @@ import {Email} from '../shared/model/common-model';
   styleUrls: ['./patients.component.scss']
 })
 export class PatientsComponent implements OnInit {
-  patientAction: any = {}; 
+  patientAction: any = {};
   patientAptAction: any = {};
   selectedPatient: any = {};
   selectedPatientId: string ='';
@@ -136,7 +136,7 @@ export class PatientsComponent implements OnInit {
     console.log("value", value);
     this.setProvider(value);
 
-   
+
     this.reqObj.appointment_id = this.selectedAppointment.appointment_id
     //this.reqObj.date_of_appointment = this.getDate(this.patientAppointmentForm.value)
     this.reqObj.sp_id = value
@@ -150,7 +150,7 @@ export class PatientsComponent implements OnInit {
           this.isCollapsed1=false;
         }
       });
-        //RIGHT NOW THIS IS UPDATE THE ENTIRE 
+        //RIGHT NOW THIS IS UPDATE THE ENTIRE
   };
 
 
@@ -225,7 +225,7 @@ export class PatientsComponent implements OnInit {
   openPatientAppointment(status,data){
     this.selectedAppointment = data;
     this.patientAction.isOpened = true;
-    this.selectedAppointmentId = data.appointment_id;
+
 
     if(status === 'new'){
       this.createForm();
@@ -233,6 +233,7 @@ export class PatientsComponent implements OnInit {
       this.isCollapsed1 = false;
 
     } else if(status === 'edit'){
+      this.selectedAppointmentId = data.appointment_id;
       this.createAppointmentForm();
       let dateObj: any = this.getDateObject(this.selectedAppointment.date_of_appointment);
       this.patientAptAction.label = "edit";
@@ -337,12 +338,14 @@ export class PatientsComponent implements OnInit {
        //TEMPORARY SOLUTION FOR BAD ZIPCODE
        if (this.serviceProvider.length != 10) {
        console.log("SHOULD SHOW TEN", this.serviceProvider.length)
-       this.serviceProvider = null 
+       this.serviceProvider = null
        alert("There are no service providers here yet.")
       }
        //if res.ErrorType
     }, err => {
       console.log(err);
+      console.log("Every CLick");
+
     });
 }
 
@@ -352,7 +355,8 @@ export class PatientsComponent implements OnInit {
         email: this.cus.getCurrentUser(),
         patient_id: this.patientId,
         date_of_appointment: this.getDate(this.patientAppointmentForm.value),
-        reason_for_visit: this.getVisitReason(this.patientAppointmentForm.value.reasonForVisit)
+        reason_for_visit: this.getVisitReason(this.patientAppointmentForm.value.reasonForVisit),
+        note: this.patientAppointmentForm.value.notes
       };
       this.dss.createPatientAppoint(reqObj).subscribe(res => {
         let response:any = res;
