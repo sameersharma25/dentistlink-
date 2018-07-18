@@ -23,7 +23,7 @@ export class CurrentUserService {
   constructor (private http: HttpClient, private jwtService: JwtService) {
     //this.isLoggedInUser = false;
     if(this.populate()){
-      this.setRedirectUrl('/home');
+      //this.setRedirectUrl('/home');
     }
   }
 
