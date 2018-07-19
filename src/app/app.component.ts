@@ -27,7 +27,7 @@ export class AppComponent implements OnInit {
       console.log("valid session")
     }else{
       this.isValid = this.cus.populate();
-      this.router.navigate(['']);
+      //this.router.navigate(['']);
       console.log("Invalid session");
     }
   }
