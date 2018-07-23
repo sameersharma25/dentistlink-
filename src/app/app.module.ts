@@ -34,6 +34,7 @@ import { AppointmentEditComponent } from './appointment-edit/appointment-edit.co
 import { PatientsComponent } from './patients/patients.component';
 import { AgmCoreModule } from '@agm/core';
 import { AgmSnazzyInfoWindowModule } from '@agm/snazzy-info-window';
+import { InvitationComponent } from './invitation/invitation.component';
 
 
 @NgModule({
@@ -44,7 +45,7 @@ import { AgmSnazzyInfoWindowModule } from '@agm/snazzy-info-window';
     AppointmentComponent,
     UsersComponent,
     AdminComponent,
-    WelcomeComponent,    
+    WelcomeComponent,
     WelcomeNavbarComponent,
     HomeNavbarComponent,
     FooterComponent,
@@ -53,7 +54,8 @@ import { AgmSnazzyInfoWindowModule } from '@agm/snazzy-info-window';
     AboutusComponent,
     ContactusComponent,
     AppointmentEditComponent,
-    PatientsComponent
+    PatientsComponent,
+    InvitationComponent
   ],
   imports: [
     BrowserModule,
@@ -66,7 +68,7 @@ import { AgmSnazzyInfoWindowModule } from '@agm/snazzy-info-window';
     MatInputModule,
     MatSelectModule,
     MatRadioModule,
-    MatExpansionModule, 
+    MatExpansionModule,
     MatListModule,
     AgmCoreModule.forRoot({
       apiKey: ''
@@ -74,10 +76,10 @@ import { AgmSnazzyInfoWindowModule } from '@agm/snazzy-info-window';
     AgmSnazzyInfoWindowModule
   ],
   providers: [AuthGuardGuard,UserAuthService, JwtService ,CurrentUserService,DataSourceService,DataCommService,
-    { 
-      provide: HTTP_INTERCEPTORS, 
-      useClass: ApiInterceptor, 
-      multi: true 
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ApiInterceptor,
+      multi: true
   } ],
   bootstrap: [AppComponent]
 })

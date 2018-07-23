@@ -46,7 +46,7 @@
             </div>
             <div class="pull-left h-txt pd_L7" style="padding-left: 20px;">Appointments</div>
             <div class="pull-right">
-                <button class="btn btn-info" (click)="openAppointmentAction(null)">New Appointment</button>
+                <!--<button class="btn btn-info" (click)="openAppointmentAction(null)">New Appointment</button>-->
             </div>
         </div>
         <div class="ap-body">
@@ -76,23 +76,23 @@
     </div>
     <div class="right-section" [class.expanded]="appointments.collapsed">
         <h2 class="font-color" style="margin-top: 9px;">{{appointments.label}} Appointment</h2>
-        <div class="section clearfix">
-            <label>Notifications</label>
-            <div>
-                <div class="section-row">
-                    <div class="txt-cell">Patient Information Changed</div>
-                    <div class="action-cell text-center"><button class="btn cust_btn">Dismiss</button></div>
-                </div>
-                <div class="section-row">
-                    <div class="txt-cell">Patient Information Changed</div>
-                    <div class="action-cell text-center"><button class="btn cust_btn">Dismiss</button></div>
-                </div>
-                <div class="section-row">
-                    <div class="txt-cell">Patient Information Changed</div>
-                    <div class="action-cell text-center"><button class="btn cust_btn">Dismiss</button></div>
-                </div>
-            </div>
-        </div>
+        <!--<div class="section clearfix">-->
+            <!--<label>Notifications</label>-->
+            <!--<div>-->
+                <!--<div class="section-row">-->
+                    <!--<div class="txt-cell">Patient Information Changed</div>-->
+                    <!--<div class="action-cell text-center"><button class="btn cust_btn">Dismiss</button></div>-->
+                <!--</div>-->
+                <!--<div class="section-row">-->
+                    <!--<div class="txt-cell">Patient Information Changed</div>-->
+                    <!--<div class="action-cell text-center"><button class="btn cust_btn">Dismiss</button></div>-->
+                <!--</div>-->
+                <!--<div class="section-row">-->
+                    <!--<div class="txt-cell">Patient Information Changed</div>-->
+                    <!--<div class="action-cell text-center"><button class="btn cust_btn">Dismiss</button></div>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
         <div class="_clearfix"></div>
         <div class="section">
             <form [formGroup]="appointmentEditForm" (ngSubmit)="editAppointment()">
