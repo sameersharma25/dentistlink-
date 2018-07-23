@@ -3,15 +3,16 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { WelcomeComponent } from './welcome/welcome.component';
 import { LoginComponent } from './login/login.component';
-import { HomeComponent } from './home/home.component'
-import { AdminComponent } from './admin/admin.component'
-import { UsersComponent } from './users/users.component'
+import { HomeComponent } from './home/home.component';
+import { AdminComponent } from './admin/admin.component';
+import { UsersComponent } from './users/users.component';
 import { AppointmentComponent } from './appointment/appointment.component';
 import { CreateAppointmentComponent } from './create-appointment/create-appointment.component';
 import { AboutusComponent } from './aboutus/aboutus.component';
 import { ContactusComponent } from './contactus/contactus.component';
 import { AuthGuardGuard } from './shared/services/auth-guard.guard';
 import { PatientsComponent } from './patients/patients.component';
+import { InvitationComponent } from './invitation/invitation.component';
 
 const routes: Routes = [
   {
@@ -69,8 +70,12 @@ const routes: Routes = [
     path: 'contactus',
     component: ContactusComponent
   },
-  { 
-    path: '**', 
+  {
+    path: 'invitation',
+    component: InvitationComponent
+  },
+  {
+    path: '**',
     component: WelcomeComponent // can be put path not match component.
   }
 ];

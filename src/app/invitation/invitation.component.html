@@ -1,0 +1,31 @@
+<app-welcome-navbar></app-welcome-navbar>
+<div class="col-sm-7">
+  <form id="setPasswordForm" [formGroup]="setPasswordForm" autocomplete="off" (ngSubmit)="setpassword()">
+    <div class="row">
+      <div class="col-sm-12">
+        <label class="user_email_txt" ><b>{{user_email}}</b></label>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <label class="label_txt" for="password">Password</label>
+        <input type="password" class="cust_input" formControlName="password"  placeholder="Password" required/>
+      </div>
+    </div>
+    <div class="_clearfix"></div>
+    <div class="row">
+      <div class="col-sm-12">
+        <label class="label_txt" for="confirmPassword">Confirm Password</label>
+        <input type="password" class="cust_input" formControlName="confirmPassword"  placeholder="Confirm Password" required/>
+      </div>
+    </div>
+    <div class="_clearfix"></div>
+    <div class="row">
+      <div class="col-sm-12 text-right">
+        <!--<button type="button" class="btn cust_btn submit" (click)="guest()">Continue as Guest</button>-->
+        <button type="submit" class="btn cust_btn submit">Activate Account</button>
+      </div>
+    </div>
+  </form>
+</div>
