@@ -22,7 +22,7 @@ export class PatientsComponent implements OnInit {
   dateOfBirth: any = {};
   dateOfAppointment: any = {};
   patientList: any = [];
-  panelOpenState: Boolean = true;
+  panelState: Boolean = true;
   patientEditForm: FormGroup;
   patientDetailsEditForm: FormGroup;
   patientAppointmentForm: FormGroup;
@@ -231,6 +231,8 @@ export class PatientsComponent implements OnInit {
       this.createForm();
       this.patientAptAction.label = "new";
       this.isCollapsed1 = false;
+        (<FormGroup>this.patientDetailsEditForm)
+          .patchValue({firstName: this.patientDetails.first_name}, {onlySelf: true});
 
     } else if(status === 'edit'){
       this.selectedAppointmentId = data.appointment_id;

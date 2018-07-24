@@ -34,6 +34,7 @@ import { AppointmentEditComponent } from './appointment-edit/appointment-edit.co
 import { PatientsComponent } from './patients/patients.component';
 import { AgmCoreModule } from '@agm/core';
 import { AgmSnazzyInfoWindowModule } from '@agm/snazzy-info-window';
+import { PracticesComponent } from './practices/practices.component';
 
 
 @NgModule({
@@ -53,7 +54,8 @@ import { AgmSnazzyInfoWindowModule } from '@agm/snazzy-info-window';
     AboutusComponent,
     ContactusComponent,
     AppointmentEditComponent,
-    PatientsComponent
+    PatientsComponent,
+    PracticesComponent
   ],
   imports: [
     BrowserModule,
@@ -69,7 +71,7 @@ import { AgmSnazzyInfoWindowModule } from '@agm/snazzy-info-window';
     MatExpansionModule, 
     MatListModule,
     AgmCoreModule.forRoot({
-      apiKey: ''
+       apiKey: 'AIzaSyAXrxFyLEUT5-LdxQhp08j26BHuAUwR-Yo'
     }),
     AgmSnazzyInfoWindowModule
   ],
