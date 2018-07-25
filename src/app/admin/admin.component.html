@@ -2,27 +2,32 @@
 <div class="" style="padding: 0 3em;">
     <div class="header-info"></div>
     <div class="grid-info text-center">User Table</div>
-    <div class="grid_list_wrapper">
+    <div class="" style="height: 300px">
         <div class="grid_row grid_list_header">
-            <div class="grid_cell cw1">User Name</div>
-            <div class="grid_cell cw2">Type 
-            <!-- <i class="glyphicon glyphicon-chevron-up"></i> -->
-            </div>
-            <div class="grid_cell cw3">Action</div>
+          <div class="grid_cell cw1">Email</div>
+          <div class="grid_cell cw2">Role</div>
+            <!--<div class="grid_cell cw3">Action</div>-->
         </div>
-        <div class="grid_list_body">
+        <div class="grid_list_body" style="height: 300px">
             <div class="grid_row" *ngIf="false" style="justify-content:center;font-weight:700;">No Appointments Found.</div>
-            <div class="grid_row bdr_btm" *ngFor="let user of users">
-                <div class="grid_cell cw1">{{user.uName}}</div>
-                <div class="grid_cell cw2">{{user.type}}</div>
-                <div class="grid_cell cw3 text-center">
-                    <button class="btn btn-default">Edit</button>
-                </div>
+            <div class="grid_row bdr_btm" *ngFor="let user of usersList">
+              <div class="grid_cell cw1">{{user.email}}</div>
+                <!--<div class="grid_cell cw2">{{user.type}}</div>-->
+              <div class="grid_cell cw2" *ngIf="user.cc == true">Care Coordinator</div>
+              <div class="grid_cell cw2" *ngIf="user.pcp == true">Referral Specialist</div>
+              <div class="grid_cell cw2" *ngIf="user.pcp == false && user.cc == false">--</div>
+
+              <!--<ng-template pcp>-->
+                <!--<div class="grid_cell cw2">PCP</div>-->
+              <!--</ng-template>-->
+                <!--<div class="grid_cell cw3 text-center">-->
+                    <!--<button class="btn btn-default">Edit</button>-->
+                <!--</div>-->
             </div>
         </div>
     </div>
-    <div class="_clearfix"></div>
-    <div class="row">
+    <!--<div class="_clearfix"></div>-->
+    <div class="row" style="margin-top: 100px">
         <div class="col-sm-12">
             <a routerLink="/users" class="btn cust_btn">Create New User</a>
             <a routerLink="/resetPassword" class="btn cust_btn">Reset User's Password</a>

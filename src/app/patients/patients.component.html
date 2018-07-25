@@ -20,7 +20,7 @@
                             <mat-expansion-panel-header>
                                 <mat-list>
                                     <mat-list-item>
-                                    <h3 matLine> 
+                                    <h3 matLine>
                                     <span class ="serviceCount" >{{i+1}}</span>
                                     <span >{{sp.Name}}</span>
                                     <span style="display: none;"> {{sp.Id}}</span>
@@ -41,7 +41,7 @@
                                     </mat-list-item>
                                 </mat-list>
 
- 
+
                                   <mat-list>
                                     <mat-list-item>
                                     <h2 matLine> <span>Accepted Insurance Types </span></h2>
@@ -73,12 +73,12 @@
                                 </div>
 
                         </mat-expansion-panel>
-                    </mat-accordion> 
+                    </mat-accordion>
 
 
             </div>
                  <agm-map [latitude]="lat" [longitude]="lng" style ="margin-right: 5px; padding-right: 5px;" [zoom]="9">
-                  <agm-marker *ngFor="let data of serviceProvider; let i = index" [latitude]="data.Geolocation__c.latitude" [longitude]="data.Geolocation__c.longitude"  > 
+                  <agm-marker *ngFor="let data of serviceProvider; let i = index" [latitude]="data.Geolocation__c.latitude" [longitude]="data.Geolocation__c.longitude"  >
                     <agm-snazzy-info-window [maxWidth]="200" [closeWhenOthersOpen]="true">
                       <ng-template>
                         {{ data.Name }}
@@ -86,7 +86,7 @@
                     </agm-snazzy-info-window>
                   </agm-marker>
                 </agm-map><br/>
-    </div> 
+    </div>
 <!--TEST -->
     <div class="mid-section" [class.left-collapsed]="isCollapsed" [class.right-collapsed]="patientAction.collapsed" [class.more-collapsed]="isCollapsed1">
         <div class="ap-header">
@@ -163,6 +163,7 @@
                                 </div>
                             </div>
                             <div class="_clearfix"></div>
+                            <label class="sub-label">Date Of Birth</label>
                             <div class="section-row">
                                 <div>
                                     <div class="pull-left" style="width: 100px;margin-right: 10px;">
