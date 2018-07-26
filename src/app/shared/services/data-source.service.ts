@@ -112,6 +112,15 @@ export class DataSourceService {
     console.log("DOB : ", dob)
    return this.http.get("https://zdvbyajhpl.execute-api.us-east-1.amazonaws.com/prod?zip="+ zip + "&radius=15"+"&dob="+ dob).map(res => res);
   };
+
+  allProviders(reqObj):Observable<Object>{
+    return this.http.get("https://je8xej057i.execute-api.us-east-1.amazonaws.com/prod").map(res => res);
+  }
+
+  searchZip(reqObj,value):Observable<Object>{
+    return this.http.get("https://je8xej057i.execute-api.us-east-1.amazonaws.com/prod?zip="+value).map(res => res);
+  }
+
 }
 
 

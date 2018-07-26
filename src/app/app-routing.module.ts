@@ -50,7 +50,7 @@ const routes: Routes = [
     canActivate: [AuthGuardGuard],
     component: PatientsComponent
   },
-    {
+  {
     path: 'practices',
     canActivate: [AuthGuardGuard],
     component: PracticesComponent
