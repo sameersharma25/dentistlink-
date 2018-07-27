@@ -1,0 +1,219 @@
+<app-home-navbar></app-home-navbar>
+<div class="appointment-wrapper">
+    <div class="side-bar" [class.expanded]="isCollapsed">
+        <ul>
+            <li><a routerLink="/appointment" routerLinkActive="active">Appointment</a></li>
+            <li><a routerLink="/patients" routerLinkActive="active">Patients</a></li>
+            <li><a routerLink="/practices" routerLinkActive="active">Practices</a></li>
+            <li><a>Settings</a></li>
+        </ul>
+    </div>
+     <!-- end side panel -->
+
+    <div class="mid-section" [class.left-collapsed]="isCollapsed" [class.right-collapsed]="isCollapsed1">
+        <div class="ap-header">
+            <div class="toggle-sidebar pull-left" (click)="isCollapsed = !isCollapsed">
+                <i class="material-icons">reorder</i>
+            </div>
+            <div class="pull-left h-txt pd_L7" style="padding-left: 20px;">Practices</div>
+            <div class="pull-right">
+                <button style =" margin-bottom: 10px;" class="btn btn-info" (click)= mapFunction()><i class="material-icons">
+map
+</i></button>
+                <button style ="margin-bottom: 10px;" class="btn btn-info" (click)=listFunction()><i class="material-icons">
+list
+</i></button>
+            </div>
+
+        </div>
+
+
+        <div class="ap-body">
+            
+			<mat-form-field class ="">
+				<input #search1 type="search" matInput name="searchZipcode" placeholder="Zipcode" (keyup.enter) ="searchZipcode(search1.value)" >
+			</mat-form-field>
+
+			<mat-form-field class="">
+				<mat-select placeholder ="Radius">
+					<mat-option *ngFor ="let r of radiusOp" [value]="r"> 
+						{{r}} 
+					</mat-option>
+				</mat-select>
+			</mat-form-field>
+
+			<mat-form-field class="">
+				<input #search type="search" matInput name="searchAge" placeholder="Age" >
+			</mat-form-field>
+
+			<mat-form-field class="">
+				<mat-select placeholder ="Treatment">
+					<mat-option *ngFor ="let r of radiusOp" [value]="r"> 
+						{{r}} 
+					</mat-option>
+				</mat-select>
+			</mat-form-field>
+
+            <mat-form-field class="">
+                <input #search type="search" matInput name="searchName" placeholder="Provider Name" >
+            </mat-form-field>
+
+            <div class ="listview" [class.list]="hideList" >
+                    <div class="list-wrapper">
+                <div class="table-row b-txt">
+                    <div class="table-cell c1">PRACTICE</div>
+                    <div class="table-cell c2" >DISTANCE FROM ZIPCODE</div>
+                     <div class="table-cell c2" >COUNTY</div>
+                      <div class="table-cell c3" >PHONE NUMBER</div>
+                    <div class="table-cell c4" >ACCEPTING SERVICES</div>
+                </div>
+                <div class="lists">
+                   <div class="table-row n-txt" *ngFor="let sList of serviceProvider; let i=index" (click)="openProviderAction(sList)">
+                        <div class="table-cell c1">{{sList.Name}}</div>
+
+                        <div class="table-cell c2"> {{sList.distance? sList.distance:'--'}} miles </div>
+
+                         <div class="table-cell c2" > {{sList.county__c}} </div>
+                          <div class="table-cell c3" > {{sList.Phone}}</div>
+                        <div class="table-cell c4" >
+                            <mat-list>
+                                <mat-list-item>
+                                    <p style="font-size: 0.8em;">
+                                        <span *ngIf ="sList.Cleaning__c === true">Cleaning</span>
+                                        <span *ngIf ="sList.Pain__c === true">Pain</span>
+                                        <span *ngIf ="sList.Extractions__c === true">Extraction</span>
+                                        <span *ngIf ="sList.Orthodontics__c === 'Appointment Only'">Orthodontics</span>
+                                        <span *ngIf ="sList.Dentures__c === 'Appointment Only'">Dentures</span>
+                                    </p>
+                                </mat-list-item>
+                            </mat-list>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+            </div> <!-- End List View--> 
+
+
+            <div class = "mapview" [class.list]="hideMap" *ngIf = "hideList === true" >
+                 <agm-map [latitude]="lat || 47.622537" [longitude]="lng || -122.333854" style ="margin-right: 5px; padding-right: 5px;" [zoom]="15">
+                <!-- Mark Selected
+                  <agm-marker [latitude]="lat" [longitude]="lng"  ></agm-marker> -->
+                <!-- List ALL-->
+                <agm-marker *ngFor="let data of serviceProvider; let i = index" [latitude]="data.Geolocation__c.latitude" [longitude]="data.Geolocation__c.longitude"  (markerClick)="updateDiv(data)" > 
+                <agm-snazzy-info-window [maxWidth]="200" [closeWhenOthersOpen]="true">
+                      <ng-template>
+                        {{ data.Name }}
+                      </ng-template>
+                    </agm-snazzy-info-window>
+                </agm-marker>
+                </agm-map><br/>
+            </div><!-- end map view -->
+
+        </div> <!-- End AP Body -->
+
+
+
+
+    </div> <!-- mid-section -->
+
+    <div class="right-section" [class.expanded]="isCollapsed1">
+        <mat-list class="header def_bg">
+            <i class="material-icons close_btn" (click)="isCollapsed1 = false">clear</i>
+        </mat-list>
+        <div class="p-detaitls-wrapper" >
+        <mat-list>
+    		<h1 matLine><span>{{providerName}}</span> 
+            <span style="color: red;" *ngIf = "providerFlag === true"><i class="material-icons">
+            flag
+            </i></span>
+            </h1>
+        </mat-list>
+    		
+    		<mat-list>
+    			<mat-list-item>
+    				<h2 matLine style="color:#51AFC6"> {{providerAddress}},  {{providerCity}},  {{providerState}}  {{providerZipCode}} </h2>
+
+    				<p matLine> {{providerDescription}} </p><p matLine>{{providerDescription2}} </p>
+    			</mat-list-item>
+    		</mat-list>
+
+    		 <mat-list>
+    			<mat-list-item>
+    				<h3 matLine style="margin-bottom: 5px;">
+    					<span style="font-weight: bold;">Contact Information</span>
+    				</h3>
+
+    				<h2 matLine style="color:#51AFC6"> 
+    					<span style="padding-right: 15px;"> {{providerPhone}} </span>
+    					<span> {{providerEmail}} </span> 
+    				</h2>
+    			</mat-list-item>
+    		</mat-list>
+             <br/>
+             <br/>
+    		<mat-list>
+    			<mat-list-item>
+    				<h3 matLine>
+    					<span style="font-weight: bold;">Accepted Insurance</span>
+    				</h3>	
+    			</mat-list-item>
+    		</mat-list>
+
+    			<div>
+						<mat-checkbox  [checked]="providerApple === true" style="margin-right:10px;">Apple Health</mat-checkbox>
+						<mat-checkbox  [checked]="providerDelta === true" style="margin-right:10px;">Delta Dental of WA</mat-checkbox>
+						<mat-checkbox  style="margin-right:10px;">Uninsured</mat-checkbox>
+				</div>
+			<mat-list>
+    			<mat-list-item>
+    				<h3 matLine>
+    					<span style="font-weight: bold;">Accepting Patients</span>
+    				</h3>	
+    			</mat-list-item>
+    		</mat-list>
+    			<div>
+						<mat-checkbox [checked]="providerPediatric === 'Appointment Only'" style="margin-right:10px;">Pediatric</mat-checkbox>
+						<mat-checkbox  [checked]="providerAdult === 'Appointment Only'"style="margin-right:10px;">Adult</mat-checkbox>
+				</div>
+
+			<mat-list>
+    			<mat-list-item>
+    				<h3 matLine>
+    					<span>Services</span>
+    				</h3>	
+    			</mat-list-item>
+    		</mat-list>
+    			<div>
+						<mat-checkbox  [checked]="providerCleaning === true"style="margin-right:10px;">Cleaning</mat-checkbox>
+
+						<mat-checkbox   [checked]="providerPain === true" style="margin-right:10px;">Pain/Toothache</mat-checkbox>
+						<mat-checkbox  [checked]="providerExtraction === true" style="margin-right:10px;">Extraction</mat-checkbox>
+				</div>
+				<div>
+						<mat-checkbox [checked]="providerOrtho === 'Appointment Only'" style="margin-right:10px;">Orthodontics</mat-checkbox>
+						<mat-checkbox  [checked]="providerDentures !== 'Not Accepting'" style="margin-right:10px;">Dentures</mat-checkbox>
+				</div>
+			<mat-list>
+				<mat-list-item>
+					<h5 matList> Notes</h5>
+				</mat-list-item>
+			</mat-list>
+				<div >
+					<textarea rows="4" cols="50" style="border-color: #51AFC6; border-width: 2px; ">
+					
+					</textarea>
+				</div>
+			<mat-list>
+				<mat-list-item>
+					<h5 matList> 
+						<span>DentistList Patients</span>
+						<span> # Active Patients</span>
+					</h5>
+				</mat-list-item>
+			</mat-list>
+
+    		
+        </div><!-- END Panel-->
+    </div>
+
+</div> <!-- final div -->

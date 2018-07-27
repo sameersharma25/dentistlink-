@@ -22,7 +22,7 @@ export class PatientsComponent implements OnInit {
   dateOfBirth: any = {};
   dateOfAppointment: any = {};
   patientList: any = [];
-  panelOpenState: Boolean = true;
+  panelState: Boolean = true;
   patientEditForm: FormGroup;
   patientDetailsEditForm: FormGroup;
   patientAppointmentForm: FormGroup;
@@ -231,6 +231,39 @@ export class PatientsComponent implements OnInit {
       this.createForm();
       this.patientAptAction.label = "new";
       this.isCollapsed1 = false;
+        (<FormGroup>this.patientDetailsEditForm)
+          .patchValue({firstName: this.patientDetails.first_name}, {onlySelf: true});
+          (<FormGroup>this.patientDetailsEditForm)
+          .patchValue({lastName: this.patientDetails.last_name}, {onlySelf: true});
+        (<FormGroup>this.patientDetailsEditForm)
+          .patchValue({phoneNumber: this.patientDetails.ph_number}, {onlySelf: true});
+        (<FormGroup>this.patientDetailsEditForm)
+          .patchValue({email: this.patientDetails.patient_email}, {onlySelf: true});
+        (<FormGroup>this.patientDetailsEditForm)
+          .patchValue({patientCoverage: this.patientDetails.healthcare_coverage}, {onlySelf: true});
+          console.log("DSS PatientDetails", this.patientDetails.healthcare_coverage);
+        (<FormGroup>this.patientDetailsEditForm)
+          .patchValue({patientCoverageId: this.patientDetails.patient_coverage_id}, {onlySelf: true});
+            const dateObj: any = this.getDateObject(this.patientDetails.date_of_birth);
+
+         (<FormGroup>this.patientDetailsEditForm)
+           .patchValue({day: dateObj.day}, {onlySelf: true});
+         (<FormGroup>this.patientDetailsEditForm)
+           .patchValue({month: dateObj.month}, {onlySelf: true});
+         (<FormGroup>this.patientDetailsEditForm)
+           .patchValue({year: dateObj.year}, {onlySelf: true});
+         (<FormGroup>this.patientDetailsEditForm)
+           .patchValue({preferredContact: this.patientDetails.mode_of_contact}, {onlySelf: true});
+         (<FormGroup>this.patientDetailsEditForm)
+           .patchValue({zipCode: this.patientDetails.patient_zipcode}, {onlySelf: true});
+         const zipParam = this.patientDetails.patient_zipcode
+          this.getProvider(zipParam,[ dateObj.day, dateObj.month, dateObj.year ] );
+         (<FormGroup>this.patientDetailsEditForm)
+           .patchValue({ethnicity: this.patientDetails.ethnicity}, {onlySelf: true});
+         (<FormGroup>this.patientDetailsEditForm)
+           .patchValue({gender: this.patientDetails.gender}, {onlySelf: true});
+         (<FormGroup>this.patientDetailsEditForm)
+           .patchValue({patientAddress: this.patientDetails.patient_address}, {onlySelf: true});
 
     } else if(status === 'edit'){
       this.selectedAppointmentId = data.appointment_id;
@@ -301,7 +334,7 @@ export class PatientsComponent implements OnInit {
           this.lng = this.patientDetails.patient_lng
 
 
-        const dateObj: any = this.getDateObject(this.patientDetails.date_of_birth);
+  const dateObj: any = this.getDateObject(this.patientDetails.date_of_birth);
 
          (<FormGroup>this.patientDetailsEditForm)
            .patchValue({day: dateObj.day}, {onlySelf: true});
@@ -320,7 +353,7 @@ export class PatientsComponent implements OnInit {
          (<FormGroup>this.patientDetailsEditForm)
            .patchValue({gender: this.patientDetails.gender}, {onlySelf: true});
          (<FormGroup>this.patientDetailsEditForm)
-           .patchValue({patientAddress: this.patientDetails.patient_address}, {onlySelf: true});
+           .patchValue({patientAddress: this.patientDetails.patient_address}, {onlySelf: true});      
       }
     }, err => {
       console.log(err);

@@ -35,6 +35,8 @@ import { PatientsComponent } from './patients/patients.component';
 import { AgmCoreModule } from '@agm/core';
 import { AgmSnazzyInfoWindowModule } from '@agm/snazzy-info-window';
 import { InvitationComponent } from './invitation/invitation.component';
+import { PracticesComponent } from './practices/practices.component';
+
 
 
 @NgModule({
@@ -55,6 +57,7 @@ import { InvitationComponent } from './invitation/invitation.component';
     ContactusComponent,
     AppointmentEditComponent,
     PatientsComponent,
+    PracticesComponent,
     InvitationComponent
   ],
   imports: [
@@ -71,7 +74,7 @@ import { InvitationComponent } from './invitation/invitation.component';
     MatExpansionModule,
     MatListModule,
     AgmCoreModule.forRoot({
-      apiKey: ''
+       apiKey: 'AIzaSyAXrxFyLEUT5-LdxQhp08j26BHuAUwR-Yo'
     }),
     AgmSnazzyInfoWindowModule
   ],

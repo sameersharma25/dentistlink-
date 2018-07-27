@@ -12,7 +12,9 @@ import { AboutusComponent } from './aboutus/aboutus.component';
 import { ContactusComponent } from './contactus/contactus.component';
 import { AuthGuardGuard } from './shared/services/auth-guard.guard';
 import { PatientsComponent } from './patients/patients.component';
+import { PracticesComponent } from './practices/practices.component';
 import { InvitationComponent } from './invitation/invitation.component';
+
 
 const routes: Routes = [
   {
@@ -47,6 +49,11 @@ const routes: Routes = [
     path: 'patients',
     canActivate: [AuthGuardGuard],
     component: PatientsComponent
+  },
+  {
+    path: 'practices',
+    canActivate: [AuthGuardGuard],
+    component: PracticesComponent
   },
   {
     path: 'create-appointment',
