@@ -36,7 +36,7 @@ list
 
 			<mat-form-field class="">
 				<mat-select placeholder ="Radius">
-					<mat-option *ngFor ="let r of options" [value]="r"> 
+					<mat-option *ngFor ="let r of radiusOp" [value]="r"> 
 						{{r}} 
 					</mat-option>
 				</mat-select>
@@ -48,7 +48,7 @@ list
 
 			<mat-form-field class="">
 				<mat-select placeholder ="Treatment">
-					<mat-option *ngFor ="let r of options" [value]="r"> 
+					<mat-option *ngFor ="let r of radiusOp" [value]="r"> 
 						{{r}} 
 					</mat-option>
 				</mat-select>
@@ -68,27 +68,27 @@ list
                     <div class="table-cell c4" >ACCEPTING SERVICES</div>
                 </div>
                 <div class="lists">
-                    <div class="table-row n-txt" *ngFor="let sList of serviceProvider; let index=index" (click)="openProviderAction(sList)">
+                   <div class="table-row n-txt" *ngFor="let sList of serviceProvider; let i=index" (click)="openProviderAction(sList)">
                         <div class="table-cell c1">{{sList.Name}}</div>
-                        <div class="table-cell c2" > -- -- </div>
+
+                        <div class="table-cell c2"> {{sList.distance? sList.distance:'--'}} miles </div>
+
                          <div class="table-cell c2" > {{sList.county__c}} </div>
                           <div class="table-cell c3" > {{sList.Phone}}</div>
                         <div class="table-cell c4" >
-
-                                <mat-list>
+                            <mat-list>
                                 <mat-list-item>
-                                <p style="font-size: 0.8em;">
-                                <span *ngIf ="sList.Cleaning__c === true">Cleaning</span>
-                                <span *ngIf ="sList.Pain__c === true">Pain</span>
-                                <span *ngIf ="sList.Extractions__c === true">Extraction</span>
-                                <span *ngIf ="sList.Orthodontics__c === 'Appointment Only'">Orthodontics</span>
-                                <span *ngIf ="sList.Dentures__c === 'Appointment Only'">Dentures</span>
-                                </p>
-                              
+                                    <p style="font-size: 0.8em;">
+                                        <span *ngIf ="sList.Cleaning__c === true">Cleaning</span>
+                                        <span *ngIf ="sList.Pain__c === true">Pain</span>
+                                        <span *ngIf ="sList.Extractions__c === true">Extraction</span>
+                                        <span *ngIf ="sList.Orthodontics__c === 'Appointment Only'">Orthodontics</span>
+                                        <span *ngIf ="sList.Dentures__c === 'Appointment Only'">Dentures</span>
+                                    </p>
                                 </mat-list-item>
-                                </mat-list>
+                            </mat-list>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
             </div> <!-- End List View--> 
