@@ -31,7 +31,7 @@ list
         <div class="ap-body">
             
 			<mat-form-field class ="">
-				<input #search1 type="search" matInput name="searchZipcode" placeholder="Zipcode" (keyup.enter) ="searchZipcode(search1.value)" >
+				<input #search1 type="search" [(ngModel)] = "zipSearch" matInput name="searchZipcode" placeholder="Zipcode" (keyup.enter) ="searchZipcode(search1.value)" >
 			</mat-form-field>
 
 			<mat-form-field class="">
@@ -99,7 +99,7 @@ list
                 <!-- Mark Selected
                   <agm-marker [latitude]="lat" [longitude]="lng"  ></agm-marker> -->
                 <!-- List ALL-->
-                <agm-marker *ngFor="let data of serviceProvider; let i = index" [latitude]="data.Geolocation__c.latitude" [longitude]="data.Geolocation__c.longitude"  (markerClick)="updateDiv(data)" > 
+                <agm-marker *ngFor="let data of serviceProvider| slice: 0:50" [latitude]="data.Geolocation__c.latitude" [longitude]="data.Geolocation__c.longitude"  (markerClick)="updateDiv(data)" > 
                 <agm-snazzy-info-window [maxWidth]="200" [closeWhenOthersOpen]="true">
                       <ng-template>
                         {{ data.Name }}
