@@ -75,9 +75,9 @@ list
 
                          <div class="table-cell c2" > {{sList.county__c}} </div>
                           <div class="table-cell c3" > {{sList.Phone}}</div>
-                          <div class="table-cell c4" > Service Pending</div>
 
-                       <!-- <div class="table-cell c4" >
+
+                        <div class="table-cell c4" >
                             <mat-list>
                                 <mat-list-item>
                                     <p style="font-size: 0.8em;">
@@ -89,7 +89,7 @@ list
                                     </p>
                                 </mat-list-item>
                             </mat-list>
-                        </div> -->
+                        </div> 
                     </div> 
                 </div>
             </div>
@@ -97,7 +97,7 @@ list
 
 
             <div class = "mapview" [class.list]="hideMap" *ngIf = "hideList === true" >
-                 <agm-map [latitude]="lat || 47.622537" [longitude]="lng || -122.333854" style ="margin-right: 5px; padding-right: 5px;" [zoom]="15">
+                 <agm-map [latitude]="lat || 47.622537" [longitude]="lng || -122.333854" style ="margin-right: 5px; padding-right: 5px;" [zoom]="10">
                 <!-- Mark Selected
                   <agm-marker [latitude]="lat" [longitude]="lng"  ></agm-marker> -->
                 <!-- List ALL-->
