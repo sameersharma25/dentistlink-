@@ -162,9 +162,9 @@ list
     		</mat-list>
 
     			<div>
-						<mat-checkbox  [checked]="providerApple === true" style="margin-right:10px;">Apple Health</mat-checkbox>
-						<mat-checkbox  [checked]="providerDelta === true" style="margin-right:10px;">Delta Dental of WA</mat-checkbox>
-						<mat-checkbox  style="margin-right:10px;">Uninsured</mat-checkbox>
+						<mat-checkbox disabled="true"  [checked]="providerApple === true" style="margin-right:10px;">Apple Health</mat-checkbox>
+						<mat-checkbox disabled="true" [checked]="providerDelta === true" style="margin-right:10px;">Delta Dental of WA</mat-checkbox>
+						<mat-checkbox disabled="true" style="margin-right:10px;">Uninsured</mat-checkbox>
 				</div>
 			<mat-list>
     			<mat-list-item>
@@ -174,8 +174,8 @@ list
     			</mat-list-item>
     		</mat-list>
     			<div>
-						<mat-checkbox [checked]="providerPediatric === 'Appointment Only'" style="margin-right:10px;">Pediatric</mat-checkbox>
-						<mat-checkbox  [checked]="providerAdult === 'Appointment Only'"style="margin-right:10px;">Adult</mat-checkbox>
+						<mat-checkbox disabled="true" [checked]="providerPediatric === 'Appointment Only'" style="margin-right:10px;">Pediatric</mat-checkbox>
+						<mat-checkbox  disabled="true" [checked]="providerAdult === 'Appointment Only'"style="margin-right:10px;">Adult</mat-checkbox>
 				</div>
 
 			<mat-list>
@@ -186,14 +186,14 @@ list
     			</mat-list-item>
     		</mat-list>
     			<div>
-						<mat-checkbox  [checked]="providerCleaning === true"style="margin-right:10px;">Cleaning</mat-checkbox>
+						<mat-checkbox disabled="true" [checked]="providerCleaning === true"style="margin-right:10px;">Cleaning</mat-checkbox>
 
-						<mat-checkbox   [checked]="providerPain === true" style="margin-right:10px;">Pain/Toothache</mat-checkbox>
-						<mat-checkbox  [checked]="providerExtraction === true" style="margin-right:10px;">Extraction</mat-checkbox>
+						<mat-checkbox disabled="true" [checked]="providerPain === true" style="margin-right:10px;">Pain/Toothache</mat-checkbox>
+						<mat-checkbox disabled="true" [checked]="providerExtraction === true" style="margin-right:10px;">Extraction</mat-checkbox>
 				</div>
 				<div>
-						<mat-checkbox [checked]="providerOrtho === 'Appointment Only'" style="margin-right:10px;">Orthodontics</mat-checkbox>
-						<mat-checkbox  [checked]="providerDentures !== 'Not Accepting'" style="margin-right:10px;">Dentures</mat-checkbox>
+						<mat-checkbox disabled="true" [checked]="providerOrtho === 'Appointment Only'" style="margin-right:10px;">Orthodontics</mat-checkbox>
+						<mat-checkbox disabled="true" [checked]="providerDentures !== 'Not Accepting'" style="margin-right:10px;">Dentures</mat-checkbox>
 				</div>
 			<mat-list>
 				<mat-list-item>
@@ -201,7 +201,7 @@ list
 				</mat-list-item>
 			</mat-list>
 				<div >
-					<textarea rows="4" cols="50" style="border-color: #51AFC6; border-width: 2px; ">
+					<textarea disabled="true" rows="4" cols="50" style="border-color: #51AFC6; border-width: 2px; ">
 					
 					</textarea>
 				</div>
