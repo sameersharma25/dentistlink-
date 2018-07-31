@@ -118,7 +118,7 @@ export class DataSourceService {
   }
 
   searchZip(reqObj,value):Observable<Object>{
-    return this.http.get("https://je8xej057i.execute-api.us-east-1.amazonaws.com/prod?zip="+value).map(res => res);
+    return this.http.get("https://je8xej057i.execute-api.us-east-1.amazonaws.com/prod"+value).map(res => res);
   }
 
 }

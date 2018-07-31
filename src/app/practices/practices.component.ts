@@ -16,13 +16,28 @@ export class PracticesComponent implements OnInit {
 	isOpen: Boolean = false;
 	hasOtherOptions: boolean = false;
 	radiusOp: any[];
+  treatmentOp: any[];
   numLimit = 2;
   zipSearch: string 
+  searchDetails: FormGroup;
 	//
 	reqObj: any = {};
 	serviceProvider: any = [];
 	selectedProvider: any = [];
 	value = ''; 
+  // form values
+  formZipcode: string ="?zip="
+  formRadius: string ="&radius="
+  formAge: string ="&dob="
+  //
+  // Map&List
+  hideList: boolean = false;
+  hideMap: boolean = false; 
+  lat: number = 47.622537
+  lng: number = -122.333854
+
+
+
 	// Provider Details
   providerFlag: boolean; 
   providerDescription: string;
@@ -31,11 +46,9 @@ export class PracticesComponent implements OnInit {
 	providerZipCode: string;
 	providerContact: string;
   providerDistance: number;
-
 	providerAddress: string;
 	providerCity: string;
 	providerState: string;
-
 	providerPhone: string;
 	providerEmail: string;
 		//checkbox
@@ -50,12 +63,8 @@ export class PracticesComponent implements OnInit {
 	providerExtraction: boolean
 	providerOrtho: string
 	providerDentures: string
+  //provider Details 
 
-	// Map&List
-	hideList: boolean = false;
-	hideMap: boolean = false; 
-	lat: number = 47.622537
-  	lng: number = -122.333854
 
   
 
@@ -64,13 +73,48 @@ export class PracticesComponent implements OnInit {
   	private cus: CurrentUserService,
     private dss: DataSourceService,
     private fb: FormBuilder,) {
-    this.radiusOp=[5,10,15]; }
+    this.radiusOp=[5,10,15]; 
+    this.treatmentOp=["5 or Younger","6 - 20", "20 & Above"]}
 
   ngOnInit() {
   	this.getProviders();
+    this.createForm();
   }
 
-  updateDiv(data){
+
+
+  createForm(){
+    this.searchDetails = this.fb.group({
+      zipcode: [''],
+      radius: [''],
+      age: [''],
+      treatment: ['']
+    })
+  }
+  theChecker(){
+    var grandURL = ""
+    console.log("zipcode",this.searchDetails.value.zipcode)
+    if (this.searchDetails.value.zipcode != '') {
+      grandURL = grandURL+this.formZipcode+this.searchDetails.value.zipcode
+    } else{
+      this.formZipcode =""
+    }
+    if(this.searchDetails.value.radius != ''){
+      grandURL = grandURL+this.formRadius+this.searchDetails.value.radius
+    } else {
+      this.formRadius =""
+    }
+
+    if(this.searchDetails.value.age != '') {
+      grandURL = grandURL+this.formAge+this.searchDetails.value.age
+    } else {
+      this.formAge =""
+    }
+    console.log("GRAND",grandURL)
+    this.searchZipcode(grandURL)
+  }
+
+  updatePanel(data){
     console.log("What is this value",data)
     this.openProviderAction(data)
   }
@@ -93,6 +137,7 @@ export class PracticesComponent implements OnInit {
   } //End getProviders
 
   searchZipcode(value){
+
   	this.reqObj.email = this.cus.getCurrentUser();
   	this.dss.searchZip(this.reqObj,value).subscribe(res => {
   		this.serviceProvider = res;
@@ -132,8 +177,6 @@ export class PracticesComponent implements OnInit {
       this.providerExtraction = data.Extractions__c
       this.providerOrtho = data.Orthodontics__c
       this.providerDentures = data.Dentures__c
-
-
  }
 
 
