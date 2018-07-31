@@ -207,10 +207,15 @@ agm-map {
     vertical-align: middle;
 }
 .c1{width: 20%} .c2{width: 20%;} .c3{width: 20%} .c4{width: calc(100% - 60%);}
+
+.table-cell mat-list-item {
+    height: 0px; 
+}
 .list-wrapper{
     padding: 0px 7px;
     height: calc(100% - 35.6px);
 }
+
 .b-txt{
     font-size: 12px;
     font-weight: 600;

@@ -17,6 +17,7 @@ export class PracticesComponent implements OnInit {
 	hasOtherOptions: boolean = false;
 	radiusOp: any[];
   numLimit = 2;
+  zipSearch: string 
 	//
 	reqObj: any = {};
 	serviceProvider: any = [];
@@ -44,9 +45,9 @@ export class PracticesComponent implements OnInit {
 	providerPediatric: string
 	providerAdult: string
 		//services
-	providerCleaning: string
-	providerPain: string
-	providerExtraction: string
+	providerCleaning: boolean
+	providerPain: boolean
+	providerExtraction: boolean
 	providerOrtho: string
 	providerDentures: string
 
@@ -102,7 +103,7 @@ export class PracticesComponent implements OnInit {
   		if(this.serviceProvider.length === 0){
   			alert("There are no practices in this zipcode")
   		}
-
+      this.zipSearch =''
   	})
   }
 
