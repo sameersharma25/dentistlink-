@@ -32,6 +32,12 @@ import { ContactusComponent } from './contactus/contactus.component';
 import { AuthGuardGuard } from './shared/services/auth-guard.guard';
 import { AppointmentEditComponent } from './appointment-edit/appointment-edit.component';
 import { PatientsComponent } from './patients/patients.component';
+import { AgmCoreModule } from '@agm/core';
+import { AgmSnazzyInfoWindowModule } from '@agm/snazzy-info-window';
+import { InvitationComponent } from './invitation/invitation.component';
+import { PracticesComponent } from './practices/practices.component';
+
+
 
 @NgModule({
   declarations: [
@@ -41,7 +47,7 @@ import { PatientsComponent } from './patients/patients.component';
     AppointmentComponent,
     UsersComponent,
     AdminComponent,
-    WelcomeComponent,    
+    WelcomeComponent,
     WelcomeNavbarComponent,
     HomeNavbarComponent,
     FooterComponent,
@@ -50,7 +56,9 @@ import { PatientsComponent } from './patients/patients.component';
     AboutusComponent,
     ContactusComponent,
     AppointmentEditComponent,
-    PatientsComponent
+    PatientsComponent,
+    PracticesComponent,
+    InvitationComponent
   ],
   imports: [
     BrowserModule,
@@ -63,14 +71,18 @@ import { PatientsComponent } from './patients/patients.component';
     MatInputModule,
     MatSelectModule,
     MatRadioModule,
-    MatExpansionModule, 
-    MatListModule
+    MatExpansionModule,
+    MatListModule,
+    AgmCoreModule.forRoot({
+       apiKey: 'AIzaSyAXrxFyLEUT5-LdxQhp08j26BHuAUwR-Yo'
+    }),
+    AgmSnazzyInfoWindowModule
   ],
   providers: [AuthGuardGuard,UserAuthService, JwtService ,CurrentUserService,DataSourceService,DataCommService,
-    { 
-      provide: HTTP_INTERCEPTORS, 
-      useClass: ApiInterceptor, 
-      multi: true 
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ApiInterceptor,
+      multi: true
   } ],
   bootstrap: [AppComponent]
 })

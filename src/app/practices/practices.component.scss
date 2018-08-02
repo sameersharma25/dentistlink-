@@ -3,6 +3,18 @@
     width: 100%;
     height: calc(100vh - 107.6px);
 }
+.listview {
+    height: 95%;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+}
+.listview.list {
+    display: none; 
+
+}
+.mapview.list{
+    display: none;
+}
 
 
 .right-side-bar{
@@ -104,9 +116,11 @@
 }
 .mid-section{
     width: 100%;
+    height: 95%;
     background-color: #e2e8e7;
     padding: 0 10px;
     transition: all 0.5s ease-in-out;
+    margin-bottom: 15px;
 }
 .mid-section.left-collapsed{
     width: calc(100% - 150px);
@@ -120,38 +134,10 @@
     width: calc(100% - 40% - 150px);
     transition: all 0.5s ease-in-out;
 }
-/*.                                 TESTING             THIS ONE!!!!! */
 
-.mid-section.more-collapsed{
-    width: calc(100% - 77% - 5px);
-    transition: all 0.5s ease-in-out;
-} /* controls width of mid section*/
-
-.right-section.more-collapsed{
-    width: calc(100% - 50% - 10px);
-    transition: all 0.5s ease-in-out;
-    float: left;
-}
-.side-bar.more-collapsed {
-    width: calc(100% - 50% - 10px);
-    transition: all 0.5s ease-in-out;
-    float: left;
-}
-        /*Styling for Service Provider DropDown*/
-.serviceDistance{
-    color: gray;
-    padding-left: 10px;
-}
-.serviceNumber{
-    color:#44D3D5;
-}
-.serviceCount{
-    font-size: 1.2em;
-    font-weight: bolder;
-}
 agm-map {
-  height: 40%;
-  width: 95%;
+  height: 450px;
+  width: 100%;
   margin-right: 10px;
   padding-right: 10px;
 }
@@ -169,11 +155,15 @@ agm-map {
     padding: 0 0px;
     overflow-y: auto;
     position: relative;
+    padding-left: 10px;
+
 }
 .right-section.expanded{
     width: 40%;
-    height: 100%;
+    height: 95%;
     transition: all 0.5s ease-in-out;
+    padding-left: 15px;
+
 }
 .ap-header{
     width: 100%;
@@ -217,10 +207,15 @@ agm-map {
     vertical-align: middle;
 }
 .c1{width: 20%} .c2{width: 20%;} .c3{width: 20%} .c4{width: calc(100% - 60%);}
+
+.table-cell mat-list-item {
+    height: 0px; 
+}
 .list-wrapper{
     padding: 0px 7px;
     height: calc(100% - 35.6px);
 }
+
 .b-txt{
     font-size: 12px;
     font-weight: 600;
@@ -277,7 +272,7 @@ agm-map {
 }
 .sub-label{
     font-size: 13px;
-    //color: #bbb;
+    color: #bbb;
 }
 .font-color{
     color: #5bc0de;

@@ -25,6 +25,15 @@ export class UserAuthService {
       return res;
     });
   };
+
+  //set password for invited user
+  setPassword(reqObj): Observable<Object>{
+    let headers = new Headers({ 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' });
+    return this.http.put("https://dev7.resourcestack.com/api/invitations", reqObj, httpOptions).map(res =>{
+      console.log(res);
+      return res;
+    });
+  };
 }
  interface authTokenType{
   application_representative: any,

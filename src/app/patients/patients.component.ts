@@ -5,6 +5,8 @@ import { CurrentUserService } from '../shared/services/current-user.service';
 import { DataSourceService } from '../shared/services/data-source.service';
 import {Email} from '../shared/model/common-model';
 
+
+
 @Component({
   selector: 'app-patients',
   templateUrl: './patients.component.html',
@@ -15,15 +17,18 @@ export class PatientsComponent implements OnInit {
   patientAptAction: any = {};
   selectedPatient: any = {};
   selectedPatientId: string ='';
+  selectedProvider: string;
   selectedAppointmentId: string ='';
   dateOfBirth: any = {};
   dateOfAppointment: any = {};
   patientList: any = [];
-  panelOpenState: Boolean = true;
+  panelState: Boolean = true;
   patientEditForm: FormGroup;
   patientDetailsEditForm: FormGroup;
   patientAppointmentForm: FormGroup;
   isCollapsed: Boolean = false;
+  isCollapsed1: Boolean = false;
+  isOpen: Boolean = false;
   reqObj:any ={};
   appointmentList: any[];
   patientDetails:any = {};
@@ -31,8 +36,12 @@ export class PatientsComponent implements OnInit {
   selectedAppointment: any;
   serviceProvider: any = [];
   hasOtherOptions: boolean = false;
+  lat: number = 47.622537
+  lng: number = -122.333854
+  numLimit = 2;
   searchFlag = false;
   searchPat = '';
+
   constructor(
     private cus: CurrentUserService,
     private dss: DataSourceService,
@@ -76,7 +85,11 @@ export class PatientsComponent implements OnInit {
 
     this.getAllPatients();
     this.createForm();
-  }
+
+  }// end ngOnInit
+
+
+
   createForm(){
     this.patientEditForm = this.fb.group({
       notes: ['']
@@ -116,6 +129,28 @@ export class PatientsComponent implements OnInit {
       notes: [''],
       serviceProvider: [''],
     });
+  };
+
+  saveProvider(value){
+    this.patientAppointmentForm.value.serviceProvider = value;
+    console.log("value", value);
+    this.setProvider(value);
+
+
+    this.reqObj.appointment_id = this.selectedAppointment.appointment_id
+    //this.reqObj.date_of_appointment = this.getDate(this.patientAppointmentForm.value)
+    this.reqObj.sp_id = value
+    //this.reqObj.reason_for_visit = this.getVisitReason(this.patientAppointmentForm.value.reasonForVisit)
+
+        this.dss.updateAppointment(this.reqObj).subscribe(res => {
+        let response:any = res;
+        if(response.status == 'ok'){
+          this.getAllPatients()
+          alert(response.message);
+          this.isCollapsed1=false;
+        }
+      });
+        //RIGHT NOW THIS IS UPDATE THE ENTIRE
   };
 
 
@@ -173,25 +208,65 @@ export class PatientsComponent implements OnInit {
 
       this.getAppointments(data);
       //this.isAppointmentEdit = true;
+
     } else {
       this.patientAction.label = 'Create';
       this.createForm();
       this.reset();
+
     }
     this.patientAction.collapsed = true;
+
+     //this.isCollapsed1=false;
+     this.setProvider(data);
   }
 
   // open appoint form for patient
   openPatientAppointment(status,data){
     this.selectedAppointment = data;
     this.patientAction.isOpened = true;
-    this.selectedAppointmentId = data.appointment_id;
+
 
     if(status === 'new'){
       this.createForm();
       this.patientAptAction.label = "new";
+      this.isCollapsed1 = false;
+        (<FormGroup>this.patientDetailsEditForm)
+          .patchValue({firstName: this.patientDetails.first_name}, {onlySelf: true});
+          (<FormGroup>this.patientDetailsEditForm)
+          .patchValue({lastName: this.patientDetails.last_name}, {onlySelf: true});
+        (<FormGroup>this.patientDetailsEditForm)
+          .patchValue({phoneNumber: this.patientDetails.ph_number}, {onlySelf: true});
+        (<FormGroup>this.patientDetailsEditForm)
+          .patchValue({email: this.patientDetails.patient_email}, {onlySelf: true});
+        (<FormGroup>this.patientDetailsEditForm)
+          .patchValue({patientCoverage: this.patientDetails.healthcare_coverage}, {onlySelf: true});
+          console.log("DSS PatientDetails", this.patientDetails.healthcare_coverage);
+        (<FormGroup>this.patientDetailsEditForm)
+          .patchValue({patientCoverageId: this.patientDetails.patient_coverage_id}, {onlySelf: true});
+            const dateObj: any = this.getDateObject(this.patientDetails.date_of_birth);
+
+         (<FormGroup>this.patientDetailsEditForm)
+           .patchValue({day: dateObj.day}, {onlySelf: true});
+         (<FormGroup>this.patientDetailsEditForm)
+           .patchValue({month: dateObj.month}, {onlySelf: true});
+         (<FormGroup>this.patientDetailsEditForm)
+           .patchValue({year: dateObj.year}, {onlySelf: true});
+         (<FormGroup>this.patientDetailsEditForm)
+           .patchValue({preferredContact: this.patientDetails.mode_of_contact}, {onlySelf: true});
+         (<FormGroup>this.patientDetailsEditForm)
+           .patchValue({zipCode: this.patientDetails.patient_zipcode}, {onlySelf: true});
+         const zipParam = this.patientDetails.patient_zipcode
+          this.getProvider(zipParam,[ dateObj.day, dateObj.month, dateObj.year ] );
+         (<FormGroup>this.patientDetailsEditForm)
+           .patchValue({ethnicity: this.patientDetails.ethnicity}, {onlySelf: true});
+         (<FormGroup>this.patientDetailsEditForm)
+           .patchValue({gender: this.patientDetails.gender}, {onlySelf: true});
+         (<FormGroup>this.patientDetailsEditForm)
+           .patchValue({patientAddress: this.patientDetails.patient_address}, {onlySelf: true});
 
     } else if(status === 'edit'){
+      this.selectedAppointmentId = data.appointment_id;
       this.createAppointmentForm();
       let dateObj: any = this.getDateObject(this.selectedAppointment.date_of_appointment);
       this.patientAptAction.label = "edit";
@@ -217,11 +292,19 @@ export class PatientsComponent implements OnInit {
       if (sp_id == this.serviceProvider[sp].Id) {
         (<FormGroup>this.patientAppointmentForm)
           .patchValue({serviceProvider: this.serviceProvider[sp].Id}, {onlySelf: true});
-      }
+
+         this.selectedProvider = this.serviceProvider[sp].Name
+         //this.lat = this.serviceProvider[sp].Geolocation__c.latitude
+         //this.lng = this.serviceProvider[sp].Geolocation__c.longitude
+       }
     }
   }
 
+
+
+
   getPatientsDetails(data: any) {
+
     this.patientId = data.patient_id;
     this.reqObj.email = this.cus.getCurrentUser();
     this.reqObj.patient_id = this.patientId;
@@ -247,8 +330,11 @@ export class PatientsComponent implements OnInit {
         (<FormGroup>this.patientDetailsEditForm)
           .patchValue({patientCoverageId: this.patientDetails.patient_coverage_id}, {onlySelf: true});
 
+          this.lat = this.patientDetails.patient_lat
+          this.lng = this.patientDetails.patient_lng
 
-        const dateObj: any = this.getDateObject(this.patientDetails.date_of_birth);
+
+  const dateObj: any = this.getDateObject(this.patientDetails.date_of_birth);
 
          (<FormGroup>this.patientDetailsEditForm)
            .patchValue({day: dateObj.day}, {onlySelf: true});
@@ -267,21 +353,32 @@ export class PatientsComponent implements OnInit {
          (<FormGroup>this.patientDetailsEditForm)
            .patchValue({gender: this.patientDetails.gender}, {onlySelf: true});
          (<FormGroup>this.patientDetailsEditForm)
-           .patchValue({patientAddress: this.patientDetails.patient_address}, {onlySelf: true});
+           .patchValue({patientAddress: this.patientDetails.patient_address}, {onlySelf: true});      
       }
     }, err => {
       console.log(err);
+
     });
   }
+
 
   // Pulls providers from AWS LAMDA
   getProvider(zip, dob) {
     this.reqObj.zip = zip
      this.dss.getProvider(this.reqObj, zip, dob).subscribe(res => {
-       console.log("Checkres",res);
+       console.log("??Checkres",res);
        this.serviceProvider = res;
+       //TEMPORARY SOLUTION FOR BAD ZIPCODE
+       if (this.serviceProvider.length != 10) {
+       console.log("SHOULD SHOW TEN", this.serviceProvider.length)
+       this.serviceProvider = null
+       alert("There are no service providers here yet.")
+      }
+       //if res.ErrorType
     }, err => {
       console.log(err);
+      console.log("Every CLick");
+
     });
 }
 
@@ -291,7 +388,8 @@ export class PatientsComponent implements OnInit {
         email: this.cus.getCurrentUser(),
         patient_id: this.patientId,
         date_of_appointment: this.getDate(this.patientAppointmentForm.value),
-        reason_for_visit: this.getVisitReason(this.patientAppointmentForm.value.reasonForVisit)
+        reason_for_visit: this.getVisitReason(this.patientAppointmentForm.value.reasonForVisit),
+        note: this.patientAppointmentForm.value.notes
       };
       this.dss.createPatientAppoint(reqObj).subscribe(res => {
         let response:any = res;
@@ -300,6 +398,8 @@ export class PatientsComponent implements OnInit {
           alert(response.message);
           this.createForm();
           this.patientAction.collapsed = false;
+          this.isCollapsed1 = false;
+
         }
       }, err => {
         console.log("Error in fetching data from server::" + err);
@@ -325,6 +425,7 @@ export class PatientsComponent implements OnInit {
           this.getAllPatients()
           alert(response.message);
           this.patientAction.collapsed = false;
+          this.isCollapsed1 = false;
         }
       }, err => {
         console.log("Error in fetching data from server::" + err)
@@ -364,6 +465,8 @@ export class PatientsComponent implements OnInit {
           this.getAllPatients()
           alert(response.message);
           this.patientAction.collapsed = false;
+          this.isCollapsed1 = false;
+
         }
       }, err => {
         console.log(err)
@@ -377,6 +480,8 @@ export class PatientsComponent implements OnInit {
           this.getAllPatients()
           alert(response.message);
           this.patientAction.collapsed = false;
+          this.isCollapsed1 = false;
+
         }
       }, err =>{
         console.log("Error in fetching data from server::" + err);
