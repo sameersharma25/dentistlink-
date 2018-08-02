@@ -6,7 +6,7 @@
         <div class="grid_row grid_list_header">
           <div class="grid_cell cw1">Email</div>
           <div class="grid_cell cw2">Role</div>
-            <!--<div class="grid_cell cw3">Action</div>-->
+            <div class="grid_cell cw3">Action</div>
         </div>
         <div class="grid_list_body" style="height: 300px">
             <div class="grid_row" *ngIf="false" style="justify-content:center;font-weight:700;">No Appointments Found.</div>
@@ -16,6 +16,10 @@
               <div class="grid_cell cw2" *ngIf="user.cc == true">Care Coordinator</div>
               <div class="grid_cell cw2" *ngIf="user.pcp == true">Referral Specialist</div>
               <div class="grid_cell cw2" *ngIf="user.pcp == false && user.cc == false">--</div>
+              <div class="grid_cell cw3 text-center">
+                <input type="checkbox" name={{user.email}} id="{{user.email}}" class="form-control" >
+                <!--<mat-checkbox formControlName="cleaning" style="margin-right:10px;"></mat-checkbox>-->
+              </div>
 
               <!--<ng-template pcp>-->
                 <!--<div class="grid_cell cw2">PCP</div>-->
@@ -30,7 +34,7 @@
     <div class="row" style="margin-top: 100px">
         <div class="col-sm-12">
             <a routerLink="/users" class="btn cust_btn">Create New User</a>
-            <a routerLink="/resetPassword" class="btn cust_btn">Reset User's Password</a>
+            <!--<a routerLink="/resetPassword" class="btn cust_btn">Reset User's Password</a>-->
         </div>
     </div>
 </div>
