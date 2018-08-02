@@ -26,9 +26,9 @@ export class PracticesComponent implements OnInit {
 	selectedProvider: any = [];
 	value = ''; 
   // form values
-  formZipcode: string ="?zip="
+  formZipcode: string ="&zip="
   formRadius: string ="&radius="
-  formAge: string ="&dob="
+  formAge: string ="&age="
   //
   // Map&List
   hideList: boolean = false;
@@ -74,7 +74,7 @@ export class PracticesComponent implements OnInit {
     private dss: DataSourceService,
     private fb: FormBuilder,) {
     this.radiusOp=[5,10,15]; 
-    this.treatmentOp=["5 or Younger","6 - 20", "20 & Above"]}
+    this.treatmentOp=["Cleaning","Pain","Extraction","Orthodontist","Dentures"]}
 
   ngOnInit() {
   	this.getProviders();
@@ -96,20 +96,14 @@ export class PracticesComponent implements OnInit {
     console.log("zipcode",this.searchDetails.value.zipcode)
     if (this.searchDetails.value.zipcode != '') {
       grandURL = grandURL+this.formZipcode+this.searchDetails.value.zipcode
-    } else{
-      this.formZipcode =""
-    }
+    } 
     if(this.searchDetails.value.radius != ''){
       grandURL = grandURL+this.formRadius+this.searchDetails.value.radius
-    } else {
-      this.formRadius =""
-    }
-
+    } 
     if(this.searchDetails.value.age != '') {
       grandURL = grandURL+this.formAge+this.searchDetails.value.age
-    } else {
-      this.formAge =""
-    }
+    } 
+
     console.log("GRAND",grandURL)
     this.searchZipcode(grandURL)
   }
