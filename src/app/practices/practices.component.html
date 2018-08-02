@@ -40,8 +40,8 @@ list
 
 			<mat-form-field class="">
 				<mat-select placeholder ="Radius" formControlName ="radius">
-					<mat-option *ngFor ="let r of radiusOp" [value]="r"> 
-						{{r}} 
+					<mat-option *ngFor ="let r of radiusOp" [value]="r">
+						{{r}}
 					</mat-option>
 				</mat-select>
 			</mat-form-field>
@@ -53,21 +53,21 @@ list
 
 			<mat-form-field class="">
 				<mat-select placeholder ="Treatment" formControlName="treatment">
-					<mat-option *ngFor ="let t of treatmentOp" [value]="t"> 
-						{{t}} 
+					<mat-option *ngFor ="let t of treatmentOp" [value]="t">
+						{{t}}
 					</mat-option>
 				</mat-select>
 			</mat-form-field>
              <button type="submit" class ="btn cust_btn success"> Temp Search Button</button>
             </form>
 
-            <mat-form-field class="">
+            <!--<mat-form-field class="">-->
 
-                <input matInput type="text" placeholder="search" aria-label="Number"  [matAutocomplete]="auto">
-               
-               
-            </mat-form-field>
-     
+                <!--<input matInput type="text" placeholder="search" aria-label="Number"  [matAutocomplete]="auto">-->
+               <!---->
+               <!---->
+            <!--</mat-form-field>-->
+
             <div class ="listview" [class.list]="hideList" >
                     <div class="list-wrapper">
                 <div class="table-row b-txt">
@@ -99,19 +99,19 @@ list
                                     </p>
                                 </mat-list-item>
                             </mat-list>
-                        </div> 
-                    </div> 
+                        </div>
+                    </div>
                 </div>
             </div>
-            </div> <!-- End List View--> 
-        
+            </div> <!-- End List View-->
+
 
             <div class = "mapview" [class.list]="hideMap" *ngIf = "hideList === true" >
                  <agm-map [latitude]="lat || 47.622537" [longitude]="lng || -122.333854" style ="margin-right: 5px; padding-right: 5px;" [zoom]="10">
                 <!-- Mark Selected
                   <agm-marker [latitude]="lat" [longitude]="lng"  ></agm-marker> -->
                 <!-- List ALL-->
-                <agm-marker *ngFor="let data of serviceProvider| slice: 0:50" [latitude]="data.Geolocation__c.latitude" [longitude]="data.Geolocation__c.longitude"  (markerClick)="updatePanel(data)" > 
+                <agm-marker *ngFor="let data of serviceProvider| slice: 0:50" [latitude]="data.Geolocation__c.latitude" [longitude]="data.Geolocation__c.longitude"  (markerClick)="updatePanel(data)" >
                 <agm-snazzy-info-window [maxWidth]="200" [closeWhenOthersOpen]="true">
                       <ng-template>
                         {{ data.Name }}
@@ -134,13 +134,13 @@ list
         </mat-list>
         <div class="p-detaitls-wrapper" >
         <mat-list>
-    		<h1 matLine><span>{{providerName}}</span> 
+    		<h1 matLine><span>{{providerName}}</span>
             <span style="color: red;" *ngIf = "providerFlag === true"><i class="material-icons">
             flag
             </i></span>
             </h1>
         </mat-list>
-    		
+
     		<mat-list>
     			<mat-list-item>
     				<h2 matLine style="color:#51AFC6"> {{providerAddress}},  {{providerCity}},  {{providerState}}  {{providerZipCode}} </h2>
@@ -155,9 +155,9 @@ list
     					<span style="font-weight: bold;">Contact Information</span>
     				</h3>
 
-    				<h2 matLine style="color:#51AFC6"> 
+    				<h2 matLine style="color:#51AFC6">
     					<span style="padding-right: 15px;"> {{providerPhone}} </span>
-    					<span> {{providerEmail}} </span> 
+    					<span> {{providerEmail}} </span>
     				</h2>
     			</mat-list-item>
     		</mat-list>
@@ -167,7 +167,7 @@ list
     			<mat-list-item>
     				<h3 matLine>
     					<span style="font-weight: bold;">Accepted Insurance</span>
-    				</h3>	
+    				</h3>
     			</mat-list-item>
     		</mat-list>
 
@@ -180,7 +180,7 @@ list
     			<mat-list-item>
     				<h3 matLine>
     					<span style="font-weight: bold;">Accepting Patients</span>
-    				</h3>	
+    				</h3>
     			</mat-list-item>
     		</mat-list>
     			<div>
@@ -192,7 +192,7 @@ list
     			<mat-list-item>
     				<h3 matLine>
     					<span>Services</span>
-    				</h3>	
+    				</h3>
     			</mat-list-item>
     		</mat-list>
     			<div>
@@ -212,19 +212,19 @@ list
 			</mat-list>
 				<div >
 					<textarea disabled="true" rows="4" cols="50" style="border-color: #51AFC6; border-width: 2px; ">
-					
+
 					</textarea>
 				</div>
 			<mat-list>
 				<mat-list-item>
-					<h5 matList> 
+					<h5 matList>
 						<span>DentistList Patients</span>
 						<span> # Active Patients</span>
 					</h5>
 				</mat-list-item>
 			</mat-list>
 
-    		
+
         </div><!-- END Panel-->
     </div>
 

@@ -18,28 +18,28 @@ export class PracticesComponent implements OnInit {
 	radiusOp: any[];
   treatmentOp: any[];
   numLimit = 2;
-  zipSearch: string 
+  zipSearch: string
   searchDetails: FormGroup;
 	//
 	reqObj: any = {};
 	serviceProvider: any = [];
 	selectedProvider: any = [];
-	value = ''; 
+	value = '';
   // form values
   formZipcode: string ="?zip="
   formRadius: string ="&radius="
-  formAge: string ="&dob="
+  formAge: string ="&age="
   //
   // Map&List
   hideList: boolean = false;
-  hideMap: boolean = false; 
+  hideMap: boolean = false;
   lat: number = 47.622537
   lng: number = -122.333854
 
 
 
 	// Provider Details
-  providerFlag: boolean; 
+  providerFlag: boolean;
   providerDescription: string;
   providerDescription2: string;
 	providerName: string;
@@ -63,17 +63,17 @@ export class PracticesComponent implements OnInit {
 	providerExtraction: boolean
 	providerOrtho: string
 	providerDentures: string
-  //provider Details 
+  //provider Details
 
 
-  
+
 
 
   constructor(
   	private cus: CurrentUserService,
     private dss: DataSourceService,
     private fb: FormBuilder,) {
-    this.radiusOp=[5,10,15]; 
+    this.radiusOp=[5,10,15];
     this.treatmentOp=["5 or Younger","6 - 20", "20 & Above"]}
 
   ngOnInit() {
@@ -142,8 +142,8 @@ export class PracticesComponent implements OnInit {
   	this.dss.searchZip(this.reqObj,value).subscribe(res => {
   		this.serviceProvider = res;
   		console.log("Need to set up Location", res)
-  		this.lat = res[0].Geolocation__c.latitude 
-  		this.lng = res[0].Geolocation__c.longitude 
+  		this.lat = res[0].Geolocation__c.latitude
+  		this.lng = res[0].Geolocation__c.longitude
   		console.log("can I get a length",this.serviceProvider.length)
   		if(this.serviceProvider.length === 0){
   			alert("There are no practices in this zipcode")
