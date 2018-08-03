@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import { CurrentUserService } from '../shared/services/current-user.service';
 import { DataSourceService } from '../shared/services/data-source.service';
+import {MatPaginatorModule} from '@angular/material/paginator';
+
 
 @Component({
   selector: 'app-practices',
@@ -24,17 +26,21 @@ export class PracticesComponent implements OnInit {
 	reqObj: any = {};
 	serviceProvider: any = [];
 	selectedProvider: any = [];
+  backitup: any = []; 
 	value = ''; 
   // form values
   formZipcode: string ="&zip="
   formRadius: string ="&radius="
   formAge: string ="&age="
+  formTreatment: string = "&treatment="
   //
   // Map&List
   hideList: boolean = false;
   hideMap: boolean = false; 
   lat: number = 47.622537
   lng: number = -122.333854
+  array1: any =[]
+  array2: any = []
 
 
 
@@ -74,11 +80,13 @@ export class PracticesComponent implements OnInit {
     private dss: DataSourceService,
     private fb: FormBuilder,) {
     this.radiusOp=[5,10,15]; 
-    this.treatmentOp=["Cleaning","Pain","Extraction","Orthodontist","Dentures"]}
+    this.treatmentOp=["Cleaning","Pain","Extraction","Orthodontics","Dentures"]}
 
   ngOnInit() {
   	this.getProviders();
     this.createForm();
+
+
   }
 
 
@@ -103,7 +111,9 @@ export class PracticesComponent implements OnInit {
     if(this.searchDetails.value.age != '') {
       grandURL = grandURL+this.formAge+this.searchDetails.value.age
     } 
-
+    if(this.searchDetails.value.treatment != ''){
+      grandURL = grandURL+this.formTreatment+this.searchDetails.value.treatment
+    }
     console.log("GRAND",grandURL)
     this.searchZipcode(grandURL)
   }
@@ -126,24 +136,34 @@ export class PracticesComponent implements OnInit {
   	this.reqObj.email = this.cus.getCurrentUser();
   	this.dss.allProviders(this.reqObj).subscribe(res => {
   		this.serviceProvider = res
+      this.breakitdown(res);
   		console.log("All Providers", res);
   	})
+
   } //End getProviders
 
-  searchZipcode(value){
 
+  searchZipcode(value){
   	this.reqObj.email = this.cus.getCurrentUser();
   	this.dss.searchZip(this.reqObj,value).subscribe(res => {
   		this.serviceProvider = res;
-  		console.log("Need to set up Location", res)
-  		this.lat = res[0].Geolocation__c.latitude 
-  		this.lng = res[0].Geolocation__c.longitude 
+      this.breakitdown(res);
   		console.log("can I get a length",this.serviceProvider.length)
   		if(this.serviceProvider.length === 0){
   			alert("There are no practices in this zipcode")
   		}
-      this.zipSearch =''
   	})
+  }
+
+  breakitdown(data){
+    this.backitup = data
+    this.array1 = this.backitup.slice(0,50)
+    this.array2 = this.backitup.slice(51,100)
+
+
+
+    this.lat = data[0].Geolocation__c.latitude 
+      this.lng = data[0].Geolocation__c.longitude 
   }
 
  openProviderAction(data){
@@ -171,6 +191,7 @@ export class PracticesComponent implements OnInit {
       this.providerExtraction = data.Extractions__c
       this.providerOrtho = data.Orthodontics__c
       this.providerDentures = data.Dentures__c
+
  }
 
 
