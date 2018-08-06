@@ -44,9 +44,14 @@ list
 				</mat-select>
 			</mat-form-field>
 
-			<mat-form-field class="">
-				<input matInput name="searchAge" placeholder="Age" formControlName="age" (keyup.enter)="theChecker()" >
-			</mat-form-field>
+            <mat-form-field class="">
+                <mat-select placeholder ="age" formControlName ="age" (keyup.enter)="theChecker()">
+                    <mat-option value=""></mat-option>
+                    <mat-option *ngFor ="let a of ageOp" [value]="a"> 
+                        {{a}} 
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
 
 			<mat-form-field class="">
 				<mat-select placeholder ="Treatment" formControlName="treatment" (keyup.enter)="theChecker()">
@@ -57,8 +62,7 @@ list
 				</mat-select>
 			</mat-form-field>
             </form>
-
-     
+  
             <div class ="listview" [class.list]="hideList" >
                     <div class="list-wrapper">
                 <div class="table-row b-txt">
@@ -96,6 +100,12 @@ list
             </div>
             </div> <!-- End List View--> 
         
+            <!--<div> MAP PAGINATION
+                <div *ngFor = "let i of iterations; let j = index" >
+                    <button (click) = "newnewnew(j)">{{j}}</button>
+                </div>
+            </div> -->
+
 
             <div class = "mapview" id="mapview" [class.list]="hideMap" *ngIf = "hideList === true" >
                  <agm-map [latitude]="lat || 47.622537" [longitude]="lng || -122.333854" style ="margin-right: 5px; padding-right: 5px;" [zoom]="10">
