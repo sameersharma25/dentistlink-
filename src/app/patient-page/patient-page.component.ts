@@ -2,6 +2,7 @@ import { Component, OnInit, AfterViewInit} from '@angular/core';
 import {MatGridListModule} from '@angular/material/grid-list';
 import { CurrentUserService } from '../shared/services/current-user.service';
 import { DataSourceService } from '../shared/services/data-source.service';
+import {ActivatedRoute} from '@angular/router';
 
 
 @Component({
@@ -34,20 +35,20 @@ export class PatientPageComponent implements OnInit {
   constructor(
   	private cus: CurrentUserService,
     private dss: DataSourceService,
+    private route: ActivatedRoute,
   	) { }
 
 	ngOnInit(){
-    //this.patientName = "Tushar"
-
+    this.route.queryParams.subscribe(params => {
+      let id = params['patient_id'];
+      if (id) {
+        this.getPatientsDetails(id);
+      }
+    });
   }
 
-   strangers(data){
-     console.log("Data from Component",data)
-     this.getPatientsDetails(data)
-   }
-
   getPatientsDetails(data: any) {
-    this.patientId = data.patient_id
+    this.patientId = data;
     console.log("Checking for ID",this.patientId)
     this.reqObj.email = this.cus.getCurrentUser();
     this.reqObj.patient_id = this.patientId;
@@ -61,7 +62,7 @@ export class PatientPageComponent implements OnInit {
   			this.patientName = this.pDetails.patients_details.first_name
         console.log("second component", this.patientName)
       }
- 
+
     }, err => {
       console.log(err);
 

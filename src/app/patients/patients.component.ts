@@ -4,7 +4,7 @@ import { FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import { CurrentUserService } from '../shared/services/current-user.service';
 import { DataSourceService } from '../shared/services/data-source.service';
 import {Email} from '../shared/model/common-model';
-import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
+import {CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router, NavigationExtras} from '@angular/router';
 import { PatientPageComponent } from '../patient-page/patient-page.component';
 
 
@@ -144,8 +144,12 @@ export class PatientsComponent implements OnInit {
 
    getData(value){
      console.log("this",value)
-     this.ppc.strangers(value)
-     this.router.navigate(['/patient-page']);
+     const navigationExtras: NavigationExtras = {
+       queryParams: {
+         'patient_id': value.patient_id
+       }
+     };
+     this.router.navigate(['/patient-page'], navigationExtras);
   }
 
   saveProvider(value){
@@ -370,7 +374,7 @@ export class PatientsComponent implements OnInit {
          (<FormGroup>this.patientDetailsEditForm)
            .patchValue({gender: this.patientDetails.gender}, {onlySelf: true});
          (<FormGroup>this.patientDetailsEditForm)
-           .patchValue({patientAddress: this.patientDetails.patient_address}, {onlySelf: true});      
+           .patchValue({patientAddress: this.patientDetails.patient_address}, {onlySelf: true});
       }
     }, err => {
       console.log(err);
