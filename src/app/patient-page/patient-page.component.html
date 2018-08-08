@@ -1,0 +1,197 @@
+<app-home-navbar></app-home-navbar>
+<div class="p-wrapper">
+    <div class="side-bar" [class.expanded]="isCollapsed">
+        <ul>
+            <li><a routerLink="/appointment" routerLinkActive="active">Appointment</a></li>
+            <li><a routerLink="/patients" routerLinkActive="active">Patients</a></li>
+            <li><a routerLink="/practices" routerLinkActive="active">Practices</a></li>
+            <li><a>Settings</a></li>
+        </ul>
+    </div>
+     <!-- end side panel -->
+
+    <div class="mid-section" [class.left-collapsed]="isCollapsed" [class.right-collapsed]="isCollapsed1">
+        <div class="ap-header">
+            <div class="toggle-sidebar pull-left" (click)="isCollapsed = !isCollapsed">
+                <i class="material-icons">reorder</i>
+            </div>
+            <div class="pull-left h-txt pd_L7" style="padding-left: 20px;">Patients > Bind Name</div>
+
+        </div>
+
+            
+            <mat-accordion>
+                <mat-expansion-panel>
+
+                  <mat-expansion-panel-header>
+                    <mat-panel-title class="label_txt">
+                      Patient Details
+                    </mat-panel-title>
+                  </mat-expansion-panel-header>
+                <div class="ap-body">
+                <table>
+                    <tr >
+                        <th class = "thead">First Name</th>
+                        <th class = "thead">Last Name</th>
+                        <th class = "thead">Date Of Birth</th>
+                    </tr>
+                    <tr >
+                        <th class = "thead"> {{patientName}}</th>
+                        <th>Johnson</th>
+                        <th>04/04/1998</th>
+                    </tr>
+                    <div class="_clearfix"></div>
+                     <tr >
+                        <th>Phone Number</th>
+                        <th>Email</th>
+                        <th class = "theadSpecial">Preferred Contact</th>
+                    </tr>
+                    <tr >
+                        <th class = "thead">{{patientZipCode}}</th>
+                        <th class = "thead">HJ@email.com</th>
+                        <th class = "theadSpecial">
+                            <mat-radio-group >
+                                        <mat-radio-button value="call" style="margin-right:10px;">Call</mat-radio-button>
+                                        <mat-radio-button value="text" style="margin-right:10px;">Text</mat-radio-button>
+                                        <mat-radio-button value="email">Email</mat-radio-button>
+                            </mat-radio-group>
+                        </th>
+                    </tr>
+                <div class="_clearfix"></div>
+                    <tr>
+                        <th>Insurance Type</th>
+                        <th> Referral Type</th>
+                    </tr>
+                    <tr>
+                        <th>Apple Health</th>
+                        <th> Self-Referral</th>
+                    </tr>
+                </table>
+        </div>
+        </mat-expansion-panel>
+
+
+        <mat-expansion-panel>
+         <mat-expansion-panel-header>
+                    <mat-panel-title class="label_txt">
+                      Referrals
+                    </mat-panel-title>
+                  </mat-expansion-panel-header>
+        <div class="ap-body">
+        <div>
+            <div style="border-color: #10A5C0; border-width: 2px; border-style: solid; width: 90%;">
+                <mat-list>
+                    <mat-list-item>
+                        <h5 class= "trythis">
+                            <span class="referralDetails">Referral Type</span>
+                            <span class="referralDetails"> Date</span>
+                            <span class="referralDetails"> Time</span>
+                        </h5>
+                    </mat-list-item>
+                </mat-list>
+                <div class="_clearfix"></div>
+                <table>
+                    <tr>
+                        <th class = "thead">Dental Provider</th>
+                        <th class = "thead">Status</th>
+                        <th class = "thead">Distance to Patient</th>
+                    </tr>
+                    <tr>
+                        <th class = "thead" >Find A Practice</th>
+                        <th class = "thead">Pending</th>
+                        <th>3.1 mi</th>
+                    </tr>
+                    <div class="_clearfix"></div>
+                    <tr>
+                        <th>Transportation Provider</th>
+                        <th>Status</th>
+                        <th>Distance to Patient</th>
+                    </tr>
+                    <tr>
+                        <th>Find A Practice</th>
+                        <th>Pending</th>
+                        <th>3.1 mi</th>
+                    </tr>
+                    <div class="_clearfix"></div>
+                    <tr>
+                        <th>Child Care Provider</th>
+                        <th>Status</th>
+                        <th>Distance to Patient</th>
+                    </tr>
+                    <tr>
+                        <th>Find A Practice</th>
+                        <th>Pending</th>
+                        <th>3.1 mi</th>
+                    </tr>
+                    <div class="_clearfix"></div>
+                    <tr> <i class="material-icons">add_circle</i>ADD SERVICE </tr>
+                </table>
+            </div>
+        </div> <!-- End 2nd Table -->
+    </div>
+    </mat-expansion-panel>
+
+     <mat-expansion-panel>
+         <mat-expansion-panel-header>
+                    <mat-panel-title class="label_txt">
+                      Communication
+                    </mat-panel-title>
+                  </mat-expansion-panel-header>
+
+
+          <div class="ap-body">
+         <div>
+            <div>
+                <h4>Communication</h4>
+                <mat-divider></mat-divider>
+            </div>
+            <table>
+                <tr>
+                    <th>Date</th>
+                    <th>Type</th>
+                    <th>Direction</th>
+                    <th>Message</th>
+                </tr>
+                <tr>
+                    <th>June 1</th>
+                    <th> SMS</th>
+                    <th> --></th>
+                    <th>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio.  </th>
+                </tr>
+                
+            </table> 
+            <i class="material-icons">send</i>New Message
+         </div>
+         </div>
+     </mat-expansion-panel>
+
+
+
+ <mat-expansion-panel>
+         <mat-expansion-panel-header>
+                    <mat-panel-title class="label_txt">
+                      Notes
+                    </mat-panel-title>
+                  </mat-expansion-panel-header>
+         <div class="ap-body">
+            <div>
+                <h4>Notes</h4>
+                <mat-divider></mat-divider>
+            </div>
+        </div>
+    </mat-expansion-panel>
+
+
+</mat-accordion>
+               
+    </div><!-- end mid section -->
+
+</div><!-- End wrapper -->
+
+
+
+
+
+
+
+                  
