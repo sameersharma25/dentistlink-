@@ -1,9 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output,EventEmitter } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 
 import { CurrentUserService } from '../shared/services/current-user.service';
 import { DataSourceService } from '../shared/services/data-source.service';
 import {Email} from '../shared/model/common-model';
+import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
+import { PatientPageComponent } from '../patient-page/patient-page.component';
+
 
 
 
@@ -42,11 +45,18 @@ export class PatientsComponent implements OnInit {
   searchFlag = false;
   searchPat = '';
 
+
   constructor(
+    private router: Router,
     private cus: CurrentUserService,
     private dss: DataSourceService,
     private fb: FormBuilder,
+    public ppc: PatientPageComponent
   ) { }
+
+
+
+
 
   ngOnInit() {
     this.patientAction.label = "";
@@ -86,7 +96,7 @@ export class PatientsComponent implements OnInit {
     this.getAllPatients();
     this.createForm();
 
-  }// end ngOnInit
+  }
 
 
 
@@ -130,6 +140,13 @@ export class PatientsComponent implements OnInit {
       serviceProvider: [''],
     });
   };
+
+
+   getData(value){
+     console.log("this",value)
+     this.ppc.strangers(value)
+     this.router.navigate(['/patient-page']);
+  }
 
   saveProvider(value){
     this.patientAppointmentForm.value.serviceProvider = value;

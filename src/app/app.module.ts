@@ -36,6 +36,7 @@ import { AgmCoreModule } from '@agm/core';
 import { AgmSnazzyInfoWindowModule } from '@agm/snazzy-info-window';
 import { InvitationComponent } from './invitation/invitation.component';
 import { PracticesComponent } from './practices/practices.component';
+import { PatientPageComponent } from './patient-page/patient-page.component';
 
 
 
@@ -58,7 +59,8 @@ import { PracticesComponent } from './practices/practices.component';
     AppointmentEditComponent,
     PatientsComponent,
     PracticesComponent,
-    InvitationComponent
+    InvitationComponent,
+    PatientPageComponent
   ],
   imports: [
     BrowserModule,
@@ -78,7 +80,7 @@ import { PracticesComponent } from './practices/practices.component';
     }),
     AgmSnazzyInfoWindowModule
   ],
-  providers: [AuthGuardGuard,UserAuthService, JwtService ,CurrentUserService,DataSourceService,DataCommService,
+  providers: [AuthGuardGuard,UserAuthService, JwtService ,CurrentUserService,DataSourceService,DataCommService,PatientPageComponent,PatientsComponent,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: ApiInterceptor,

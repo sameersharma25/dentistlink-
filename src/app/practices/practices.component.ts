@@ -86,7 +86,7 @@ export class PracticesComponent implements OnInit {
     private dss: DataSourceService,
     private fb: FormBuilder,) {
     this.radiusOp=[10,20,30,40,50]; 
-    this.ageOp = ["5 or less", "between 6-20", "Above 20"]
+    this.ageOp = ["5 or less", "Between 6-20", "Above 20"]
     this.treatmentOp=["Cleaning","Pain","Extraction","Orthodontics","Dentures"]}
 
   ngOnInit() {
@@ -123,7 +123,7 @@ export class PracticesComponent implements OnInit {
       grandURL = grandURL
     }else if(this.searchDetails.value.age == '5 or less') {
       grandURL = grandURL+this.formAge+'5_or_less'
-    }else if(this.searchDetails.value.age == 'between 6-20'){
+    }else if(this.searchDetails.value.age == 'Between 6-20'){
         grandURL = grandURL+this.formAge+'between_6-20'
     }else if(this.searchDetails.value.age == 'Above 20'){
         grandURL = grandURL+this.formAge+'Above_20'
