@@ -121,6 +121,12 @@ export class DataSourceService {
     return this.http.get("https://je8xej057i.execute-api.us-east-1.amazonaws.com/prod?"+value).map(res => res);
   }
 
+  referralCreate(reqObj):Observable<Object>{
+    return this.http.post(`${this.baseUrl}/rfl_create`,reqObj, this.httpOptions).map(res => {
+      return res
+    })
+  }
+
 }
 
 

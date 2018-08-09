@@ -126,10 +126,88 @@
                     <div class="_clearfix"></div>
                     <tr> <i class="material-icons">add_circle</i>ADD SERVICE </tr>
                 </table>
+
             </div>
         </div> <!-- End 2nd Table -->
     </div>
+   
     </mat-expansion-panel>
+    
+
+            <div>
+                <h4>Input Forms</h4>
+                <form [formGroup]= 'referralDetailForm' (ngSubmit)='createReferral()'>
+                    <label> Referral Details </label><br/>
+
+                    <mat-form-field class="">
+                        <mat-select placeholder ="Source" formControlName="source">
+                             <mat-option value=""></mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field class="">
+                        <input matInput name="referral_name" placeholder="Referral Name" formControlName="referral_name">
+                    </mat-form-field> 
+
+                    <mat-form-field class="">
+                        <mat-select placeholder ="Urgency" formControlName="urgency">
+                             <mat-option value=""></mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field class="">
+                        <input matInput name="due_date" placeholder="Due Date" formControlName="due_date">
+                    </mat-form-field> 
+
+
+                    <mat-form-field class="">
+                        <input matInput name="referral_description" placeholder="Description" formControlName="referral_description">
+                    </mat-form-field>  
+
+                      <button type="submit" class="btn btn-info"> Save Referral</button>           
+
+                </form>
+
+
+
+
+                <form [formGroup]= 'taskDetailForm' (ngSubmit)='createTask()'>
+                    <label>Tasks</label><br/>
+
+                    <mat-form-field class="">
+                        <input matInput name="task_type" placeholder="Task Type" formControlName="task_type">
+                    </mat-form-field> 
+
+                    <mat-form-field class="">
+                        <mat-select placeholder ="Task Status" formControlName="task_status">
+                             <mat-option value=""></mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field class="">
+                        <mat-select placeholder ="Task Owner" formControlName="task_owner">
+                             <mat-option value=""></mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+
+                    <mat-form-field class="">
+                        <mat-select placeholder ="Task Deadline" formControlName="task_deadline">
+                        <mat-option value=""></mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+
+                    <mat-form-field class="">
+                        <input matInput name="task_description" placeholder="Description" formControlName="task_description">
+                    </mat-form-field>
+                    <button type="submit" class="btn btn-info"> Save Task</button>
+
+                </form>
+            </div>
+      
+        
+
 
      <mat-expansion-panel>
          <mat-expansion-panel-header>
@@ -166,7 +244,6 @@
      </mat-expansion-panel>
 
 
-
  <mat-expansion-panel>
          <mat-expansion-panel-header>
                     <mat-panel-title class="label_txt">
@@ -180,10 +257,8 @@
             </div>
         </div>
     </mat-expansion-panel>
-
-
 </mat-accordion>
-               
+
     </div><!-- end mid section -->
 
 </div><!-- End wrapper -->
