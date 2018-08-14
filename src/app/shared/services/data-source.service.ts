@@ -126,6 +126,21 @@ export class DataSourceService {
       return res
     })
   }
+  getReferral(reqObj): Observable<Object> {
+    return this.http.post(`${this.baseUrl}/rfl_list`, reqObj, this.httpOptions).map(res => {
+      return res
+    });
+  }
+  getTaskDetails(reqObj): Observable<Object> {
+    return this.http.post(`${this.baseUrl}/tsk_list`, reqObj, this.httpOptions).map(res => {
+      return res;
+    });
+  }
+  createTask(reqObj): Observable<Object> {
+    return this.http.post(`${this.baseUrl}/tsk_create`, reqObj, this.httpOptions).map(res => {
+      return res;
+    });
+  }
 
 }
 

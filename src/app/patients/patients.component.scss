@@ -3,7 +3,12 @@
     width: 100%;
     height: calc(100vh - 107.6px);
 }
-
+a {
+  padding: 0px 10px;
+  word-wrap: normal;
+  display: inline-block;
+  color: #5bc0de;
+}
 
 .right-side-bar{
     float: right;

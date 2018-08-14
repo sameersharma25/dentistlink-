@@ -95,7 +95,7 @@
         </div>
         </mat-expansion-panel>
 -->
-                <mat-expansion-panel>
+                <mat-expansion-panel [expanded]="patientPanel">
                   <mat-expansion-panel-header>
                     <mat-panel-title class="label_txt">
                      Patient Details
@@ -250,20 +250,27 @@
         <div>
             <div style="border-color: gray; border-width: 2px; border-style: solid; width: 90%;">
                 <label>Cleaning <span style="color: #5bc0de;">Referral Details</span></label>
+                <mat-divider></mat-divider>
                 <div class="_clearfix"></div>
-                <table>
+                <table  >
                     <tr>
                         <th class = "thead">Referral Source</th>
                         <th class = "thead">Urgency</th>
                         <th class = "thead">Appointment Date</th>
                         <th class = "thead">Tasks</th>
                     </tr>
-                    <tr>
+                    <!-- <tr>
                         <th class = "thead" >Self-referral</th>
                         <th class = "thead">Low</th>
                         <th>01/01/2001</th>
                         <th>001</th>
-                    </tr>
+                    </tr> -->
+                    <tr >
+                        <th> Self-Referral  </th>
+                        <th > Low</th>
+                        <th> 08/12/2018 </th>
+                        <th> 1</th>
+                    </tr> 
                     <div class="_clearfix"></div>
                     <a (click)="InputFormR = !InputFormR"> <i class="material-icons">
 add_circle_outline
@@ -317,9 +324,6 @@ add_circle_outline
             Task Description 
       </mat-panel-description>
     </mat-expansion-panel-header>
-    <a (click)="InputFormT = !InputFormT"> <i class="material-icons">
-                                add_circle_outline
-                                </i>Add Task</a>
     <table>
                     <tr>
                         <th class = "thead">Task Type</th>
@@ -372,6 +376,9 @@ add_circle_outline
 
                     </form>
                 </div>
+                 <a (click)="InputFormT = !InputFormT"> <i class="material-icons">
+                                add_circle_outline
+                                </i>Add Task</a>
       
   </mat-expansion-panel>
 </mat-accordion>

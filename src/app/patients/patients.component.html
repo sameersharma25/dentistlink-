@@ -96,7 +96,7 @@
             </div>
             <div class="pull-left h-txt pd_L7" style="padding-left: 20px;">Patients</div>
             <div class="pull-right">
-                <button class="btn btn-info" (click)="openPatientAction(null)">New Patients</button>
+                <button class="btn btn-info" (click)="createData()">New Patients</button>
             </div>
         </div>
         <div class="ap-body">
@@ -136,7 +136,7 @@
      <div class="right-section" [class.expanded]="patientAction.collapsed" [class.more-collapsed]="isCollapsed1">
    <mat-list class="header def_bg">
             <mat-list-item *ngIf="patientAction.label == 'Edit'" class="label_txt"> {{selectedPatient.first_name}} {{selectedPatient.last_name}} 
-                <span matList class ="pull-right"> <a (click)="getData(selectedPatient)">View More</a></span></mat-list-item>
+                <span matList class ="pull-right"> <a (click)="getData(selectedPatient)"> View More</a></span></mat-list-item>
             <mat-list-item *ngIf="patientAction.label == 'Create'" class="label_txt">New Patient</mat-list-item>
             <i class="material-icons close_btn" (click)="patientAction.collapsed = false; isCollapsed1 = false">clear</i>
         </mat-list>

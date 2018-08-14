@@ -4,6 +4,7 @@ import { FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import { CurrentUserService } from '../shared/services/current-user.service';
 import { DataSourceService } from '../shared/services/data-source.service';
 import {ActivatedRoute} from '@angular/router';
+import {CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router, NavigationExtras} from '@angular/router';
 
 
 
@@ -18,6 +19,8 @@ export class PatientPageComponent implements OnInit {
 	pDetails: any = [];
   patientAction: any = {};
   patientDetails:any = {};
+  taskDetails: any = {};
+  referralDetail: any = [];
   //
   panelState: Boolean = true;
   isCollapsed: Boolean = false;
@@ -50,6 +53,7 @@ export class PatientPageComponent implements OnInit {
   // Panel Control
   InputFormR: Boolean = false;
   InputFormT: Boolean = false;
+  patientPanel: Boolean = false; 
 
 
 
@@ -59,6 +63,7 @@ export class PatientPageComponent implements OnInit {
     private dss: DataSourceService,
     private fb: FormBuilder,
     private route: ActivatedRoute,
+    private router: Router,
   	) { }
 
   ngOnInit(){
@@ -69,10 +74,12 @@ export class PatientPageComponent implements OnInit {
       if (id) {
         this.getPatientsDetails(id);
         this.referralDetailForm.value.patient_id = id;
+      } else {
+        this.patientAction.label ='Create'
       }
     });
 
-         this.dateOfBirth.months = [
+    this.dateOfBirth.months = [
       {value: 1, viewValue:'JANUARY'},
       {value: 2, viewValue:'FEBUARY'},
       {value: 3, viewValue:'MARCH'},
@@ -101,10 +108,10 @@ export class PatientPageComponent implements OnInit {
       date++;
 
     }
+    this.patientPanel = true;
+    //this.getReferral();
+
   }
-    
-
-
 
   createForm(){
     this.referralDetailForm = this.fb.group({
@@ -173,9 +180,9 @@ export class PatientPageComponent implements OnInit {
        if (response.status === 'ok') {
 
 
-          (<FormGroup>this.patientDetailsEditForm)
+        (<FormGroup>this.patientDetailsEditForm)
           .patchValue({firstName: this.pDetails.patients_details.first_name}, {onlySelf: true});
-          (<FormGroup>this.patientDetailsEditForm)
+        (<FormGroup>this.patientDetailsEditForm)
           .patchValue({lastName: this.pDetails.patients_details.last_name}, {onlySelf: true});
         (<FormGroup>this.patientDetailsEditForm)
           .patchValue({phoneNumber: this.pDetails.patients_details.ph_number}, {onlySelf: true});
@@ -183,7 +190,6 @@ export class PatientPageComponent implements OnInit {
           .patchValue({email: this.pDetails.patients_details.patient_email}, {onlySelf: true});
         (<FormGroup>this.patientDetailsEditForm)
           .patchValue({patientCoverage: this.pDetails.patients_details.healthcare_coverage}, {onlySelf: true});
-          console.log("DSS PatientDetails", this.patientDetails.healthcare_coverage);
         (<FormGroup>this.patientDetailsEditForm)
           .patchValue({patientCoverageId: this.pDetails.patients_details.patient_coverage_id}, {onlySelf: true});
             const dateObj: any = this.getDateObject(this.pDetails.patients_details.date_of_birth);
@@ -193,18 +199,14 @@ export class PatientPageComponent implements OnInit {
            .patchValue({month: dateObj.month}, {onlySelf: true});
          (<FormGroup>this.patientDetailsEditForm)
            .patchValue({year: dateObj.year}, {onlySelf: true});
-
-
-
          (<FormGroup>this.patientDetailsEditForm)
            .patchValue({preferredContact: this.pDetails.patients_details.mode_of_contact}, {onlySelf: true});
          (<FormGroup>this.patientDetailsEditForm)
            .patchValue({zipCode: this.pDetails.patients_details.patient_zipcode}, {onlySelf: true});
-
          (<FormGroup>this.patientDetailsEditForm)
-           .patchValue({ethnicity: this.patientDetails.ethnicity}, {onlySelf: true});
+           .patchValue({ethnicity: this.pDetails.patients_details.ethnicity}, {onlySelf: true});
          (<FormGroup>this.patientDetailsEditForm)
-           .patchValue({gender: this.patientDetails.gender}, {onlySelf: true});
+           .patchValue({gender: this.pDetails.patients_details.gender}, {onlySelf: true});
          (<FormGroup>this.patientDetailsEditForm)
            .patchValue({patientAddress: this.pDetails.patients_details.patient_address}, {onlySelf: true});
  
@@ -225,6 +227,9 @@ export class PatientPageComponent implements OnInit {
 
     });
   }
+
+
+
 //CRUD USer
   editPatientInfo() {
     if(this.patientAction.label == 'Create'){
@@ -238,22 +243,21 @@ export class PatientPageComponent implements OnInit {
         patient_phone: this.patientDetailsEditForm.value.phoneNumber,
         patient_coverage_id: this.patientDetailsEditForm.value.patientCoverageId,
         healthcare_coverage: this.patientDetailsEditForm.value.patientCoverage,
-
-// added Patient
         mode_of_contact: this.patientDetailsEditForm.value.preferredContact,
         patient_zipcode: this.patientDetailsEditForm.value.zipCode,
         ethnicity: this.patientAppointmentForm.value.ethnicity,
         gender: this.patientAppointmentForm.value.gender,
         patient_address: this.patientAppointmentForm.value.patientAddress
+
       };
       console.log("EditPatientInfo",this.patientDetailsEditForm.value.patientCoverage)
       this.dss.createPatient(reqObj).subscribe(res => {
         let response:any = res;
         if(response.status == 'ok'){
+          this.patientPanel = false ;
 
           alert(response.message);
-          this.patientAction.collapsed = false;
-          this.isCollapsed1 = false;
+          this.router.navigate(['/patients']);
 
         }
       }, err => {
@@ -265,9 +269,9 @@ export class PatientPageComponent implements OnInit {
       this.dss.updatePatient(patientObj).subscribe(res =>{
         let response:any = res;
         if(response.status == 'ok'){
+          this.patientPanel = false ;
           alert(response.message);
-          this.patientAction.collapsed = false;
-          this.isCollapsed1 = false;
+
 
         }
       }, err =>{
@@ -294,10 +298,8 @@ export class PatientPageComponent implements OnInit {
     patientObj.patient_address = formData.value.patientAddress;
     console.log("UPDATE PATIENT",formData.value.patientCoverage)
     console.log("UPDATE PATIENT",formData.value.patientCoverageId)
-
-
     console.log("UPDATE ZIPCODE",formData.value.zipCode)
-
+    this.patientPanel = false; 
 
     return patientObj;
   }
@@ -327,10 +329,17 @@ export class PatientPageComponent implements OnInit {
 
 
 
-
-
-
-
+// getReferral(){
+//   console.log("id", this.patientId)
+//   this.reqObj.email = this.cus.getCurrentUser()
+//   this.reqObj.patient_id = this.patientId
+//   this.dss.getReferral(this.reqObj).subscribe(res => {
+//      const response: any = res;
+//     if (response.status === 'ok') {
+//     this.referralDetail = response.referral_list.value 
+//     console.log("why", this.referralDetail)
+//   })
+// }
 
   createReferral(){
     let reqObj: any = {
@@ -354,7 +363,16 @@ export class PatientPageComponent implements OnInit {
     })
   }
 
+  getTask(){
+    this.reqObj.patient_id = this.patientId
+    this.reqObj.email = this.cus.getCurrentUser()
+    this.reqObj.referral_id = "NEED THIS STILL"
+    this.dss.getTaskDetails(this.reqObj).subscribe(res =>{
+      console.log("task Details", res)
+    })
+  }
 
+// update this
   createTask(){
     let reqObj: any = {
       task_type: this.taskDetailForm.value,

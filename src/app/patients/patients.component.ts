@@ -152,6 +152,10 @@ export class PatientsComponent implements OnInit {
      this.router.navigate(['/patient-page'], navigationExtras);
   }
 
+    createData(){
+     this.router.navigate(['/patient-page']);
+  }
+
   saveProvider(value){
     this.patientAppointmentForm.value.serviceProvider = value;
     console.log("value", value);
