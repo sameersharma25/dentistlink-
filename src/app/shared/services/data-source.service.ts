@@ -155,8 +155,8 @@ export class DataSourceService {
 
   flagPractice(reqObj): Observable<Object> {
     console.log("what i'm sending", reqObj)
-    return this.http.post("https://partial-swiftcare.cs93.force.com/flagprovider/services/apexrest/FlagProvider", reqObj, this.httpOptions).map(res => res);
-  };
+    return this.http.get("https://qxm25470n5.execute-api.us-east-1.amazonaws.com/prod?provider_id=" + reqObj.providerId+ "&providerFlag=" + reqObj.providerFlag).map(res => res);
+  }
 
 }
 
