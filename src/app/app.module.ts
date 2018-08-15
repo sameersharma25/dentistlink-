@@ -4,7 +4,6 @@ import { HttpClientModule,HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { MatCheckboxModule, MatInputModule, MatSelectModule, MatRadioModule, MatExpansionModule, MatListModule } from '@angular/material';
-
 import { ApiInterceptor } from './shared/services/api-interceptor';
 
 import { UserAuthService} from './shared/services/user-auth.service';
@@ -36,6 +35,7 @@ import { AgmCoreModule } from '@agm/core';
 import { AgmSnazzyInfoWindowModule } from '@agm/snazzy-info-window';
 import { InvitationComponent } from './invitation/invitation.component';
 import { PracticesComponent } from './practices/practices.component';
+import { PatientPageComponent } from './patient-page/patient-page.component';
 
 
 
@@ -58,7 +58,8 @@ import { PracticesComponent } from './practices/practices.component';
     AppointmentEditComponent,
     PatientsComponent,
     PracticesComponent,
-    InvitationComponent
+    InvitationComponent,
+    PatientPageComponent
   ],
   imports: [
     BrowserModule,
@@ -78,7 +79,7 @@ import { PracticesComponent } from './practices/practices.component';
     }),
     AgmSnazzyInfoWindowModule
   ],
-  providers: [AuthGuardGuard,UserAuthService, JwtService ,CurrentUserService,DataSourceService,DataCommService,
+  providers: [AuthGuardGuard,UserAuthService, JwtService ,CurrentUserService,DataSourceService,DataCommService,PatientPageComponent,PatientsComponent,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: ApiInterceptor,

@@ -14,6 +14,7 @@ import { AuthGuardGuard } from './shared/services/auth-guard.guard';
 import { PatientsComponent } from './patients/patients.component';
 import { PracticesComponent } from './practices/practices.component';
 import { InvitationComponent } from './invitation/invitation.component';
+import { PatientPageComponent } from './patient-page/patient-page.component';
 
 
 const routes: Routes = [
@@ -49,6 +50,11 @@ const routes: Routes = [
     path: 'patients',
     canActivate: [AuthGuardGuard],
     component: PatientsComponent
+  },
+  {
+    path: 'patient-page',
+    canActivate: [AuthGuardGuard],
+    component: PatientPageComponent
   },
   {
     path: 'practices',

@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import { CurrentUserService } from '../shared/services/current-user.service';
 import { DataSourceService } from '../shared/services/data-source.service';
+import {MatPaginatorModule} from '@angular/material/paginator';
+
 
 @Component({
   selector: 'app-practices',
@@ -16,6 +18,7 @@ export class PracticesComponent implements OnInit {
 	isOpen: Boolean = false;
 	hasOtherOptions: boolean = false;
 	radiusOp: any[];
+  ageOp: any[];
   treatmentOp: any[];
   numLimit = 2;
   zipSearch: string
@@ -24,21 +27,26 @@ export class PracticesComponent implements OnInit {
 	reqObj: any = {};
 	serviceProvider: any = [];
 	selectedProvider: any = [];
+  backitup: any = [];
 	value = '';
   // form values
   formZipcode: string ="&zip="
   formRadius: string ="&radius="
   formAge: string ="&age="
+  formTreatment: string = "&treatment="
   //
   // Map&List
   hideList: boolean = false;
   hideMap: boolean = false;
   lat: number = 47.622537
   lng: number = -122.333854
+  array1: any =[]
+  array2: any = []
 
 
 
 	// Provider Details
+  providerId: string;
   providerFlag: boolean;
   providerDescription: string;
   providerDescription2: string;
@@ -66,6 +74,11 @@ export class PracticesComponent implements OnInit {
   //provider Details
 
 
+  //Pagination
+  iterations: any = [];
+  startS: number = 0;
+  endS: number = 50;
+
 
 
 
@@ -73,8 +86,9 @@ export class PracticesComponent implements OnInit {
   	private cus: CurrentUserService,
     private dss: DataSourceService,
     private fb: FormBuilder,) {
-    this.radiusOp=[5,10,15];
-    this.treatmentOp=["Cleaning","Pain","Extraction","Orthodontist","Dentures"]}
+    this.radiusOp=[10,20,30,40,50];
+    this.ageOp = ["5 or less", "Between 6-20", "Above 20"]
+    this.treatmentOp=["Cleaning","Pain","Extraction","Orthodontics","Dentures"]}
 
   ngOnInit() {
   	this.getProviders();
@@ -91,17 +105,54 @@ export class PracticesComponent implements OnInit {
       treatment: ['']
     })
   }
+
+
+  flagFunc(value){
+    if(confirm("Are you sure to flag this provider?")) {
+    console.log("Implement delete functionality here", value);
+    let reqObj: any = {
+      providerId: this.providerId,
+      providerFlag: true,
+    }
+    this.dss.flagPractice(reqObj).subscribe(res =>{
+   console.log("Flagging",reqObj)
+     let response:any = res;
+     if(response.status == 'ok'){
+       alert("Flagged Provider")
+       //add call for input window to close
+     }
+   }, err => {
+     console.log("Error::"+err)
+   })
+  }
+  }
+
+
   theChecker(){
     var grandURL = ""
     console.log("zipcode",this.searchDetails.value.zipcode)
+    //Z I P C O D E
     if (this.searchDetails.value.zipcode != '') {
       grandURL = grandURL+this.formZipcode+this.searchDetails.value.zipcode
-    }
+    }  // R A D I U S
     if(this.searchDetails.value.radius != ''){
       grandURL = grandURL+this.formRadius+this.searchDetails.value.radius
     }
-    if(this.searchDetails.value.age != '') {
-      grandURL = grandURL+this.formAge+this.searchDetails.value.age
+    // T R E A T M E N T
+    if(this.searchDetails.value.treatment != ''){
+      grandURL = grandURL+this.formTreatment+this.searchDetails.value.treatment
+    }
+    // A G E
+    if(this.searchDetails.value.age == ''){
+      grandURL = grandURL
+    }else if(this.searchDetails.value.age == '5 or less') {
+      grandURL = grandURL+this.formAge+'5_or_less'
+    }else if(this.searchDetails.value.age == 'Between 6-20'){
+        grandURL = grandURL+this.formAge+'between_6-20'
+    }else if(this.searchDetails.value.age == 'Above 20'){
+        grandURL = grandURL+this.formAge+'Above_20'
+    } else {
+      return grandURL
     }
 
     console.log("GRAND",grandURL)
@@ -125,29 +176,51 @@ export class PracticesComponent implements OnInit {
   getProviders(){
   	this.reqObj.email = this.cus.getCurrentUser();
   	this.dss.allProviders(this.reqObj).subscribe(res => {
-  		this.serviceProvider = res
+  		this.serviceProvider = res;
+      this.breakitdown(res);
   		console.log("All Providers", res);
+      this.lat = this.serviceProvider[0].Geolocation__c.latitude
+      this.lng = this.serviceProvider[0].Geolocation__c.longitude
   	})
+
   } //End getProviders
 
-  searchZipcode(value){
 
+  searchZipcode(value){
   	this.reqObj.email = this.cus.getCurrentUser();
   	this.dss.searchZip(this.reqObj,value).subscribe(res => {
   		this.serviceProvider = res;
-  		console.log("Need to set up Location", res)
-  		this.lat = res[0].Geolocation__c.latitude
-  		this.lng = res[0].Geolocation__c.longitude
+      this.breakitdown(res);
   		console.log("can I get a length",this.serviceProvider.length)
   		if(this.serviceProvider.length === 0){
   			alert("There are no practices in this zipcode")
   		}
-      this.zipSearch =''
   	})
+  }
+
+  breakitdown(data){
+    this.backitup = data
+   // for (var i =0; i< this.backitup.length/50; i++ ) {
+   //   //Array[i] = this.backitup.slice(this.startS,this.endS)
+   //   this.iterations.push(this.backitup.slice(this.startS,this.endS))
+   //   console.log("Pagination?",this.iterations)
+   //   this.startS = this.startS+50;
+   //   this.endS =this.endS+50;
+   // }
+    if(this.backitup.length > 50){
+    this.array1 = this.backitup.slice(0,50)
+    } else
+    this.array1 = this.backitup
+
+  }
+  newnewnew(data){
+    console.log(data)
+
   }
 
  openProviderAction(data){
       //Basic Info
+      this.providerId = data.Id
       this.providerName = data.Name
       this.providerFlag = data.Flagged_Provider__c
       this.providerDescription = data.Description
@@ -171,6 +244,7 @@ export class PracticesComponent implements OnInit {
       this.providerExtraction = data.Extractions__c
       this.providerOrtho = data.Orthodontics__c
       this.providerDentures = data.Dentures__c
+
  }
 
 

@@ -1,0 +1,460 @@
+<app-home-navbar></app-home-navbar>
+<div class="p-wrapper">
+    <div class="side-bar" [class.expanded]="isCollapsed">
+        <ul>
+            <li><a routerLink="/appointment" routerLinkActive="active">Appointment</a></li>
+            <li><a routerLink="/patients" routerLinkActive="active">Patients</a></li>
+            <li><a routerLink="/practices" routerLinkActive="active">Practices</a></li>
+            <li><a>Settings</a></li>
+        </ul>
+    </div>
+     <!-- end side panel -->
+
+    <div class="mid-section" [class.left-collapsed]="isCollapsed" [class.right-collapsed]="isCollapsed1">
+        <div class="ap-header">
+            <div class="toggle-sidebar pull-left" (click)="isCollapsed = !isCollapsed">
+                <i class="material-icons">reorder</i>
+            </div>
+            <div class="pull-left h-txt pd_L7" style="padding-left: 20px;">
+                <span style="color: #5bc0de;"> Patients </span> > {{patientName}} {{patientNameLast}}</div>
+
+        </div>
+<div class="_clearfix"></div>
+            
+            <mat-accordion>
+
+           <!--     <mat-expansion-panel>
+                  <mat-expansion-panel-header>
+                    <mat-panel-title class="label_txt">
+                      Patient Details 
+                    </mat-panel-title>
+                  </mat-expansion-panel-header>
+                <div class="ap-body">
+                <table>
+                    <tr >
+                        <th class = "thead">First Name</th>
+                        <th class = "thead">Last Name</th>
+                        <th class = "thead">Date Of Birth</th>
+                    </tr>
+                    <tr >
+                        <th class = "thead"> {{patientName}}</th>
+                        <th>{{patientNameLast}}</th>
+                        <th>{{patientDOB}}</th>
+                    </tr>
+                    <div class="_clearfix"></div>
+                     <tr >
+                        <th>Contact Name</th>
+                        <th>Relation to Patient</th>
+                        <th>Phone Number</th>
+                        <th>Email</th>
+                        <th class = "theadSpecial">Preferred Contact</th>
+                    </tr>
+                    <tr >
+                        <th>CONTACT NAME</th>
+                        <th>HUSBAND</th>
+                        <th class = "thead">{{patientPhone}}</th>
+                        <th class = "thead">{{patientEmail}}</th>
+                        <th class = "theadSpecial">
+                            <mat-radio-group  >
+                                        <mat-radio-button value="call" style="margin-right:10px;">Call</mat-radio-button>
+                                        <mat-radio-button value="text" style="margin-right:10px;">Text</mat-radio-button>
+                                        <mat-radio-button value="email">Email</mat-radio-button>
+                            </mat-radio-group>
+                        </th>
+                    </tr>
+                    <div class="_clearfix"></div>
+                        <tr>
+                        <th class = "thead">Address</th>
+                        <th class = "thead">Zip Code</th>
+
+                    </tr>
+                    <tr >
+                        <th class = "thead">{{patientAddress}} </th>
+                        <th>{{patientZipCode}}</th>
+
+                    </tr>
+                <div class="_clearfix"></div>
+                    <tr>
+                        <th>Insurance Type</th>
+                        <th>ABCD Eligible</th>
+                        <th>ABCD Coordinator</th>
+                        <th class = "theadSpecial">Conditions</th>
+                    </tr>
+                    <tr>
+                        <th>{{patientInsurance}}</th>
+                        <th> ABCD E</th>
+                        <th> ABCD E</th>
+                        <th class = "theadSpecial">
+                            <mat-radio-group  >
+                                        <mat-radio-button value="Diabetes" style="margin-right:10px;">Call</mat-radio-button>
+                                        <mat-radio-button value="Pregnant">Email</mat-radio-button>
+                            </mat-radio-group>
+                        </th>
+                    </tr>
+                </table>
+        </div>
+        </mat-expansion-panel>
+-->
+                <mat-expansion-panel [expanded]="patientPanel">
+                  <mat-expansion-panel-header>
+                    <mat-panel-title class="label_txt">
+                     Patient Details
+                    </mat-panel-title>
+
+                  </mat-expansion-panel-header>
+                  <mat-panel-description>
+                    <form [formGroup]="patientDetailsEditForm" (ngSubmit)="editPatientInfo()">
+
+                        <div class="section-row">
+                                <div class="left-field">
+                                    <mat-form-field class="">
+                                        <input matInput placeholder="First Name" formControlName="firstName">
+                                    </mat-form-field>
+                                </div>
+                                <div class="right-field">
+                                    <mat-form-field class="">
+                                        <input matInput placeholder="Last Name" formControlName="lastName">
+                                    </mat-form-field>
+                                </div>
+                            </div> 
+
+                            <div class="_clearfix"></div>
+                            <div class="section-row">
+                                <div>
+                                    <div class="pull-left" style="width: 100px;margin-right: 10px;">
+                                        <mat-select placeholder="Month" formControlName="month">
+                                            <mat-option *ngFor="let month of dateOfBirth.months" [value]="month.value">
+                                                {{ month.viewValue }}
+                                            </mat-option>
+                                        </mat-select>
+                                    </div>
+                                    <div class="pull-left" style="width: 50px;margin-right: 10px;">
+                                        <mat-select placeholder="Day" formControlName="day">
+                                            <mat-option *ngFor="let day of dateOfBirth.days" [value]="day">
+                                                {{ day }}
+                                            </mat-option>
+                                        </mat-select>
+                                    </div>
+                                    <div class="pull-left" style="width: 50px;margin-right: 10px;">
+                                        <mat-select placeholder="Year" formControlName="year">
+                                            <mat-option *ngFor="let year of dateOfBirth.years" [value]="year">
+                                                {{ year }}
+                                            </mat-option>
+                                         </mat-select>
+                                    </div>
+                                </div>
+                            </div> 
+
+                            <div class="_clearfix"></div>
+
+                            <div class="section-row">
+                                    <div class="left-field">
+                                        <mat-form-field class="">
+                                            <input matInput placeholder="Phone Number" formControlName="phoneNumber">
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="right-field">
+                                        <mat-form-field class="">
+                                            <input matInput placeholder="Email" formControlName="email">
+                                        </mat-form-field>
+                                    </div>
+                                </div> 
+                          <div class="_clearfix"></div>
+
+                          <div class="section-row">
+                            <div class="pull-left" style="width:145px;">Gender</div>
+                            <div class="pull-left" style="width:300px;">
+                              <mat-radio-group formControlName="gender">
+                                <mat-radio-button value="male" style="margin-right:10px;">Male</mat-radio-button>
+                                <mat-radio-button value="female" style="margin-right:10px;">Female</mat-radio-button>
+                              </mat-radio-group>
+                            </div>
+                          </div> 
+
+                          <div class="_clearfix"></div>
+                          
+                         <div class="section-row">
+                                <div class="pull-left" style="width:145px;">Preferred Contact</div>
+                                <div class="pull-left" style="width:300px;">
+                                    <mat-radio-group formControlName="preferredContact">
+                                        <mat-radio-button value="call" style="margin-right:10px;">Call</mat-radio-button>
+                                        <mat-radio-button value="text" style="margin-right:10px;">Text</mat-radio-button>
+                                        <mat-radio-button value="email">Email</mat-radio-button>
+                                    </mat-radio-group>
+                                </div>
+                            </div>
+                          <div class="_clearfix"></div>
+                          <mat-form-field class="" style="width: 430px">
+                            <input matInput placeholder="Address" formControlName="patientAddress">
+                          </mat-form-field>
+
+                      <div class="section-row">
+                            <div class="left-field">
+                              <mat-form-field class="">
+                                <input matInput placeholder="Zipcode" formControlName="zipCode">
+                              </mat-form-field>
+                            </div>
+                          </div>
+                        <div class="_clearfix"></div>
+<!--Patient Info -->
+                       <div class="section-row">
+                            <div class="left-field" style="width:145px;margin-top: 16px; margin-right: 15px;">
+                                <mat-select placeholder="Patients Coverage" formControlName="patientCoverage">
+                                    <mat-option *ngFor="let pc of ['Insurance','money back']" [value]="pc">
+                                        {{ pc }}
+                                    </mat-option>
+                                </mat-select>
+                            </div>
+                            <div class="right-field">
+                                <mat-form-field class="">
+                                    <input matInput placeholder="Patients CoverageId" formControlName="patientCoverageId">
+                                </mat-form-field>
+                            </div>
+                        </div> 
+                          <div class="_clearfix"></div>
+                         <div class="section-row">
+                            <label class="sub-label">Ethnicity</label>
+                            <div class="_clearfix"></div>
+                            <div class="section-row clearfix">
+                              <mat-radio-group formControlName="ethnicity">
+                                <mat-radio-button value="asian" style="margin-right:10px;">Asian</mat-radio-button>
+                                <mat-radio-button value="african_american" style="margin-right:10px;">African American</mat-radio-button>
+                                <mat-radio-button value="hispanic" style="margin-right:10px;">Hispanic</mat-radio-button>
+                                <mat-radio-button value="native_americans" style="margin-right:10px;">Native_Americans</mat-radio-button>
+                                <mat-radio-button value="alaskan" style="margin-right:10px;">Alaskan</mat-radio-button>
+                                <mat-radio-button value="native_hawaiian" style="margin-right:10px;">Native Hawaiian</mat-radio-button>
+                                <mat-radio-button value="other" style="margin-right:10px;">Other</mat-radio-button>
+                              </mat-radio-group>
+                            </div>
+                          </div>  
+                          <div class="_clearfix"></div>
+                            <div class="section-row">
+                             
+                                <button type="submit" class="btn cust_btn success" >Update</button>
+                            </div>
+                        </form> 
+                  </mat-panel-description>
+                </mat-expansion-panel>
+
+
+        <!-- -->
+
+
+        <mat-expansion-panel>
+         <mat-expansion-panel-header>
+                    <mat-panel-title class="label_txt">
+                      Referrals 
+                    </mat-panel-title>
+                  </mat-expansion-panel-header>
+        <div class="ap-body">
+        <div>
+            <div style="border-color: gray; border-width: 2px; border-style: solid; width: 90%;">
+                <label>Cleaning <span style="color: #5bc0de;">Referral Details</span></label>
+                <mat-divider></mat-divider>
+                <div class="_clearfix"></div>
+                <table  >
+                    <tr>
+                        <th class = "thead">Referral Source</th>
+                        <th class = "thead">Urgency</th>
+                        <th class = "thead">Appointment Date</th>
+                        <th class = "thead">Tasks</th>
+                    </tr>
+                    <!-- <tr>
+                        <th class = "thead" >Self-referral</th>
+                        <th class = "thead">Low</th>
+                        <th>01/01/2001</th>
+                        <th>001</th>
+                    </tr> -->
+                    <tr *ngFor ="let rdet of referralDetail" >
+                        <th (click)="getTask(rdet.referral_id)" ><span style="color: #5bc0de;">{{rdet.referral_name}} </span> </th>
+                        <th >{{rdet.urgency}}</th>
+                        <th> {{rdet.due_date}} </th>
+                        <th> {{taskLength}}</th>
+
+                    </tr> 
+                    <div class="_clearfix"></div>
+                    <a (click)="InputFormR = !InputFormR"> <i class="material-icons">
+add_circle_outline
+</i>Add Referral</a>
+                </table>
+
+                <div *ngIf="InputFormR == true">
+                     <form [formGroup]= 'referralDetailForm' (ngSubmit)='createReferral()'>
+                    <label> Referral Details </label><br/>
+
+                    <mat-form-field class="">
+                        <mat-select placeholder ="Source" formControlName="source" >
+                             <mat-option value=""></mat-option>
+                             <mat-option *ngFor =
+                        "let sourcet of sourceType" [value]="sourcet">{{sourcet}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field class="">
+                        <input matInput name="referral_name" placeholder="Referral Name" formControlName="referral_name">
+                    </mat-form-field> 
+
+                    <mat-form-field class="">
+                        <mat-select placeholder ="Urgency" formControlName="urgency">
+                             <mat-option value=""></mat-option>
+                             <mat-option *ngFor ="let urg of urgencyType" [value]="urg"> {{urg}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field class="">
+                        <input matInput name="due_date" placeholder="Due Date" formControlName="due_date">
+                    </mat-form-field> 
+
+
+                    <mat-form-field class="">
+                        <input matInput name="referral_description" placeholder="Description" formControlName="referral_description">
+                    </mat-form-field>  
+
+                      <button type="submit" class="btn btn-info"> Save Referral</button>           
+
+                </form>
+                </div>
+
+            </div>
+        </div> <!-- End 2nd Table -->
+        <div class="_clearfix"></div>
+<mat-accordion>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Task 
+      </mat-panel-title>
+      <mat-panel-description>
+            Task Description 
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <table>
+                    <tr>
+                        <th class = "thead">Task Type</th>
+                        <th class = "thead">Task Status</th>
+                        <th class = "thead">Select Provider</th>
+                        <th class = "thead">Deadline</th>
+                    </tr>
+                  <!--  <tr>
+                        <th class = "thead" >Appointment</th>
+                        <th class = "thead">Pending</th>
+                        <th>Happy Dental Clinic</th>
+                        <th>01/01/2001</th>
+                    </tr> -->
+                    <tr  *ngFor="let tList of taskDetails">
+                        <th>{{tList.task_type}}</th>
+                        <th>{{tList.task_status}}</th>
+                        <th>{{tList.task_id}}</th>
+                        <th>{{tList.task_deadline}}</th>
+                    </tr>
+                    <div class="_clearfix"></div>
+                
+                </table>
+                <div *ngIf = "InputFormT == true">
+                
+                    <form [formGroup]= 'taskDetailForm' (ngSubmit)='createTask()'>
+                        <label>Tasks</label><br/>
+
+                        <mat-form-field class="">
+                            <input matInput name="task_type" placeholder="Task Type" formControlName="task_type">
+                        </mat-form-field> 
+
+                        <mat-form-field class="">
+                            <mat-select placeholder ="Task Status" formControlName="task_status">
+                                 <mat-option value=""></mat-option>
+                                 <mat-option *ngFor="let tsk of taskType" [value]="tsk"> {{tsk}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+                        <mat-form-field class="">
+                            <mat-select placeholder ="Task Owner" formControlName="task_owner">
+                                 <mat-option value=""></mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+
+                        <mat-form-field class="">
+                            <mat-select placeholder ="Task Deadline" formControlName="task_deadline">
+                            <mat-option value=""></mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+
+                        <mat-form-field class="">
+                            <input matInput name="task_description" placeholder="Description" formControlName="task_description">
+                        </mat-form-field>
+                        <button type="submit" class="btn btn-info"> Save Task</button>
+
+                    </form>
+                </div>
+                 <a (click)="InputFormT = !InputFormT"> <i class="material-icons">
+                                add_circle_outline
+                                </i>Add Task</a>
+      
+  </mat-expansion-panel>
+</mat-accordion>
+    </div>
+   
+    </mat-expansion-panel>
+
+     <mat-expansion-panel>
+         <mat-expansion-panel-header>
+                    <mat-panel-title class="label_txt">
+                      Communication
+                    </mat-panel-title>
+                  </mat-expansion-panel-header>
+
+
+          <div class="ap-body">
+         <div>
+            <div>
+                <h4>Communication</h4>
+                <mat-divider></mat-divider>
+            </div>
+            <table>
+                <tr>
+                    <th width="20%">Date</th>
+                    <th width="20%">Type</th>
+                    <th width="20%">Direction</th>
+                    <th>Message</th>
+                </tr>
+                <tr>
+                    <th>June 1</th>
+                    <th> SMS</th>
+                    <th> --></th>
+                    <th>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio.  </th>
+                </tr>
+                
+            </table> 
+            <i class="material-icons">send</i>New Message
+         </div>
+         </div>
+     </mat-expansion-panel>
+
+
+ <mat-expansion-panel>
+         <mat-expansion-panel-header>
+                    <mat-panel-title class="label_txt">
+                      Notes
+                    </mat-panel-title>
+                  </mat-expansion-panel-header>
+         <div class="ap-body">
+            <div>
+                <h4>Notes</h4>
+                <mat-divider></mat-divider>
+            </div>
+        </div>
+    </mat-expansion-panel>
+</mat-accordion>
+
+    </div><!-- end mid section -->
+
+</div><!-- End wrapper -->
+
+
+
+
+
+
+
+                  

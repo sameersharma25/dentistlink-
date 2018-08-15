@@ -118,8 +118,33 @@ export class DataSourceService {
   }
 
   searchZip(reqObj,value):Observable<Object>{
-    return this.http.get("https://je8xej057i.execute-api.us-east-1.amazonaws.com/prod"+value).map(res => res);
+    return this.http.get("https://je8xej057i.execute-api.us-east-1.amazonaws.com/prod?"+value).map(res => res);
   }
+
+  referralCreate(reqObj):Observable<Object>{
+    return this.http.post(`${this.baseUrl}/rfl_create`,reqObj, this.httpOptions).map(res => {
+      return res
+    })
+  }
+  getReferral(reqObj): Observable<Object> {
+    return this.http.post(`${this.baseUrl}/rfl_list`, reqObj, this.httpOptions).map(res => {
+      return res
+    });
+  }
+  getTaskDetails(reqObj): Observable<Object> {
+    return this.http.post(`${this.baseUrl}/tsk_list`, reqObj, this.httpOptions).map(res => {
+      return res;
+    });
+  }
+  createTask(reqObj): Observable<Object> {
+    return this.http.post(`${this.baseUrl}/tsk_create`, reqObj, this.httpOptions).map(res => {
+      return res;
+    });
+  }
+
+  flagPractice(reqObj): Observable<Object> {
+    return this.http.put("https://partial-swiftcare.cs93.force.com/flagprovider/services/apexrest/FlagProvider", reqObj).map(res => res);
+  };
 
 }
 

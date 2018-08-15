@@ -38,7 +38,7 @@
                                     <mat-list-item>
                                     <h2 matLine> <span>Contact Information </span></h2>
                                     <p matLine> <span>{{sp.Provider_Email__c}} </span> </p>
-                                    <p matLine> <span> 555 Oliver Street </span></p>
+                                    <p matLine> <span> {{sp.BillingAddress.street}} </span></p>
                                     </mat-list-item>
                                 </mat-list>
 
@@ -96,7 +96,7 @@
             </div>
             <div class="pull-left h-txt pd_L7" style="padding-left: 20px;">Patients</div>
             <div class="pull-right">
-                <button class="btn btn-info" (click)="openPatientAction(null)">New Patients</button>
+                <button class="btn btn-info" (click)="createData()">New Patients</button>
             </div>
         </div>
         <div class="ap-body">
@@ -135,7 +135,8 @@
     </div>
      <div class="right-section" [class.expanded]="patientAction.collapsed" [class.more-collapsed]="isCollapsed1">
    <mat-list class="header def_bg">
-            <mat-list-item *ngIf="patientAction.label == 'Edit'" class="label_txt"> {{selectedPatient.first_name}} {{selectedPatient.last_name}}</mat-list-item>
+            <mat-list-item *ngIf="patientAction.label == 'Edit'" class="label_txt"> {{selectedPatient.first_name}} {{selectedPatient.last_name}} 
+                <span matList class ="pull-right"> <a (click)="getData(selectedPatient)"> View More</a></span></mat-list-item>
             <mat-list-item *ngIf="patientAction.label == 'Create'" class="label_txt">New Patient</mat-list-item>
             <i class="material-icons close_btn" (click)="patientAction.collapsed = false; isCollapsed1 = false">clear</i>
         </mat-list>
@@ -321,6 +322,53 @@
 
                     <div class="_clearfix"></div>
                 </mat-expansion-panel>
+
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                    <mat-panel-title class="label_txt">
+                      Referrals
+                    </mat-panel-title>
+                  </mat-expansion-panel-header>
+
+                </mat-expansion-panel>
+
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                    <mat-panel-title class="label_txt">
+                      Communication
+                    </mat-panel-title>
+                  </mat-expansion-panel-header>
+                  <mat-divider></mat-divider>
+        <div>
+            <table>
+                <tr>
+                    <th>Date</th>
+                    <th>Type</th>
+                    <th>Direction</th>
+                    <th>Message</th>
+                </tr>
+                <tr>
+                    <th>June 1</th>
+                    <th> SMS</th>
+                    <th> --></th>
+                    <th>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio.  </th>
+                </tr>
+                
+            </table> 
+            <i class="material-icons">send</i>New Message
+         </div>
+                </mat-expansion-panel>
+
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                    <mat-panel-title class="label_txt">
+                      Notes
+                    </mat-panel-title>
+                  </mat-expansion-panel-header>
+                  <mat-divider></mat-divider>
+                  <!-- Content-->
+                </mat-expansion-panel>
+
 <!-- PATIENT FORM-->
             </mat-accordion>
             <div class="_clearfix"></div>
