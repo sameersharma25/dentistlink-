@@ -516,6 +516,7 @@ updateReferral(){
      let response:any = res;
      if(response.status == 'ok'){
        alert("Task Updated")
+       this.getTask(this.referral_id)
        this.taskDetailForm.reset()
        this.editT = false; 
        //add call for input window to close
