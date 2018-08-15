@@ -249,7 +249,7 @@
         <div class="ap-body">
         <div>
             <div style="border-color: gray; border-width: 2px; border-style: solid; width: 90%;">
-                <label>Cleaning <span style="color: #5bc0de;">Referral Details</span></label>
+                <label><span style="color: #5bc0de;">Referral Details</span></label>
                 <mat-divider></mat-divider>
                 <div class="_clearfix"></div>
                 <table  >
@@ -258,6 +258,7 @@
                         <th class = "thead">Urgency</th>
                         <th class = "thead">Appointment Date</th>
                         <th class = "thead">Tasks</th>
+                        <th class = "thead"> Edit</th>
                     </tr>
                     <!-- <tr>
                         <th class = "thead" >Self-referral</th>
@@ -268,8 +269,11 @@
                     <tr *ngFor ="let rdet of referralDetail" >
                         <th (click)="getTask(rdet.referral_id)" ><span style="color: #5bc0de;">{{rdet.referral_name}} </span> </th>
                         <th >{{rdet.urgency}}</th>
-                        <th> {{rdet.due_date}} </th>
-                        <th> {{taskLength}}</th>
+                        <th > {{rdet.due_date}} </th>
+                        <th> To Be Done</th>
+                        <th (click)="editReferral(rdet)"> <i class="material-icons">
+edit
+</i> </th>
 
                     </tr> 
                     <div class="_clearfix"></div>
@@ -308,11 +312,11 @@ add_circle_outline
 
                     <mat-form-field class="">
                         <input matInput name="referral_description" placeholder="Description" formControlName="referral_description">
-                    </mat-form-field>  
+                    </mat-form-field>  <br/>
 
-                      <button type="submit" class="btn btn-info"> Save Referral</button>           
-
+                      <button *ngIf="editR == false" type="submit" class="btn btn-info"> Create Referral</button>         
                 </form>
+                <button *ngIf="editR == true" (click)="updateReferral()" class="btn btn-info"> Update Referral</button>
                 </div>
 
             </div>
@@ -325,7 +329,7 @@ add_circle_outline
         Task 
       </mat-panel-title>
       <mat-panel-description>
-            Task Description 
+            Current Task's
       </mat-panel-description>
     </mat-expansion-panel-header>
     <table>
@@ -334,6 +338,7 @@ add_circle_outline
                         <th class = "thead">Task Status</th>
                         <th class = "thead">Select Provider</th>
                         <th class = "thead">Deadline</th>
+                        <th class= "thead" > Edit</th>
                     </tr>
                   <!--  <tr>
                         <th class = "thead" >Appointment</th>
@@ -346,6 +351,9 @@ add_circle_outline
                         <th>{{tList.task_status}}</th>
                         <th>{{tList.task_id}}</th>
                         <th>{{tList.task_deadline}}</th>
+                        <th (click)="editTask(tList)"><i class="material-icons">
+edit
+</i></th>
                     </tr>
                     <div class="_clearfix"></div>
                 
@@ -374,18 +382,20 @@ add_circle_outline
 
 
                         <mat-form-field class="">
-                            <mat-select placeholder ="Task Deadline" formControlName="task_deadline">
-                            <mat-option value=""></mat-option>
-                            </mat-select>
+                            <input matInput name ="task_deadline" placeholder ="Task Deadline" formControlName="task_deadline">
+
                         </mat-form-field>
 
 
                         <mat-form-field class="">
                             <input matInput name="task_description" placeholder="Description" formControlName="task_description">
                         </mat-form-field>
-                        <button type="submit" class="btn btn-info"> Save Task</button>
+                        <br/>
+                        <button *ngIf="editT == false" type="submit" class="btn btn-info"> Create Task</button>
+
 
                     </form>
+                    <button *ngIf="editT == true" (click)="updateTask()" class="btn btn-info"> Update Task</button> 
                 </div>
                  <a (click)="InputFormT = !InputFormT"> <i class="material-icons">
                                 add_circle_outline
