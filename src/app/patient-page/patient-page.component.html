@@ -265,11 +265,12 @@
                         <th>01/01/2001</th>
                         <th>001</th>
                     </tr> -->
-                    <tr >
-                        <th> Self-Referral  </th>
-                        <th > Low</th>
-                        <th> 08/12/2018 </th>
-                        <th> 1</th>
+                    <tr *ngFor ="let rdet of referralDetail" >
+                        <th (click)="getTask(rdet.referral_id)" ><span style="color: #5bc0de;">{{rdet.referral_name}} </span> </th>
+                        <th >{{rdet.urgency}}</th>
+                        <th> {{rdet.due_date}} </th>
+                        <th> {{taskLength}}</th>
+
                     </tr> 
                     <div class="_clearfix"></div>
                     <a (click)="InputFormR = !InputFormR"> <i class="material-icons">
@@ -282,8 +283,10 @@ add_circle_outline
                     <label> Referral Details </label><br/>
 
                     <mat-form-field class="">
-                        <mat-select placeholder ="Source" formControlName="source">
+                        <mat-select placeholder ="Source" formControlName="source" >
                              <mat-option value=""></mat-option>
+                             <mat-option *ngFor =
+                        "let sourcet of sourceType" [value]="sourcet">{{sourcet}}</mat-option>
                         </mat-select>
                     </mat-form-field>
 
@@ -294,6 +297,7 @@ add_circle_outline
                     <mat-form-field class="">
                         <mat-select placeholder ="Urgency" formControlName="urgency">
                              <mat-option value=""></mat-option>
+                             <mat-option *ngFor ="let urg of urgencyType" [value]="urg"> {{urg}}</mat-option>
                         </mat-select>
                     </mat-form-field>
 
@@ -331,11 +335,17 @@ add_circle_outline
                         <th class = "thead">Select Provider</th>
                         <th class = "thead">Deadline</th>
                     </tr>
-                    <tr>
+                  <!--  <tr>
                         <th class = "thead" >Appointment</th>
                         <th class = "thead">Pending</th>
                         <th>Happy Dental Clinic</th>
                         <th>01/01/2001</th>
+                    </tr> -->
+                    <tr  *ngFor="let tList of taskDetails">
+                        <th>{{tList.task_type}}</th>
+                        <th>{{tList.task_status}}</th>
+                        <th>{{tList.task_id}}</th>
+                        <th>{{tList.task_deadline}}</th>
                     </tr>
                     <div class="_clearfix"></div>
                 
@@ -352,6 +362,7 @@ add_circle_outline
                         <mat-form-field class="">
                             <mat-select placeholder ="Task Status" formControlName="task_status">
                                  <mat-option value=""></mat-option>
+                                 <mat-option *ngFor="let tsk of taskType" [value]="tsk"> {{tsk}}</mat-option>
                             </mat-select>
                         </mat-form-field>
 

@@ -46,6 +46,7 @@ export class PracticesComponent implements OnInit {
 
 
 	// Provider Details
+  providerId: string;
   providerFlag: boolean; 
   providerDescription: string;
   providerDescription2: string;
@@ -104,6 +105,29 @@ export class PracticesComponent implements OnInit {
       treatment: ['']
     })
   }
+
+
+  flagFunc(value){
+    if(confirm("Are you sure to flag this provider?")) {
+    console.log("Implement delete functionality here", value);
+    let reqObj: any = {
+      providerId: this.providerId,
+      providerFlag: true,
+    }
+    this.dss.flagPractice(reqObj).subscribe(res =>{
+   console.log("Flagging",reqObj)
+     let response:any = res;
+     if(response.status == 'ok'){
+       alert("Flagged Provider")
+       //add call for input window to close
+     }
+   }, err => {
+     console.log("Error::"+err)
+   })
+  }
+  }
+
+
   theChecker(){
     var grandURL = ""
     console.log("zipcode",this.searchDetails.value.zipcode)
@@ -196,6 +220,7 @@ export class PracticesComponent implements OnInit {
 
  openProviderAction(data){
       //Basic Info
+      this.providerId = data.Id
       this.providerName = data.Name
       this.providerFlag = data.Flagged_Provider__c
       this.providerDescription = data.Description

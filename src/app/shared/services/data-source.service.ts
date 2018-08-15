@@ -142,6 +142,10 @@ export class DataSourceService {
     });
   }
 
+  flagPractice(reqObj): Observable<Object> {
+    return this.http.put("https://partial-swiftcare.cs93.force.com/flagprovider/services/apexrest/FlagProvider", reqObj).map(res => res);
+  };
+
 }
 
 
