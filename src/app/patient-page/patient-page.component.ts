@@ -26,7 +26,6 @@ export class PatientPageComponent implements OnInit {
   isCollapsed: Boolean = false;
   isCollapsed1: Boolean = false;
   isOpen: Boolean = false;
-
 	//
 	patientName: string;
   patientNameLast: string;
@@ -58,10 +57,8 @@ export class PatientPageComponent implements OnInit {
   editR:Boolean = false;
   selectedTask: any = [];
   selectedReferral: any = [];
-
   referral_id: string;
   taskId: string;
-
   sourceType: any = [];
   taskType: any = [];
   urgencyType: any = [];
@@ -249,6 +246,7 @@ export class PatientPageComponent implements OnInit {
 
 //CRUD USer
   editPatientInfo() {
+
     if(this.patientAction.label == 'Create'){
       let patient_dob = this.getDate(this.patientDetailsEditForm.value);
       let reqObj: any = {
@@ -349,6 +347,7 @@ editReferral(data){
   this.selectedReferral = data;
   this.referral_id = data.referral_id
   console.log("selected Referral", this.selectedReferral);
+
   (<FormGroup>this.referralDetailForm)
     .patchValue({source: this.selectedReferral.source}, {onlySelf: true});
 
@@ -386,6 +385,7 @@ updateReferral(){
         alert("referral updated")
         this.referralDetailForm.reset()
         this.editR = false; 
+        this.getReferral();
         //add call for input window to close
       }
     }, err => {
@@ -424,6 +424,8 @@ updateReferral(){
       if(response.status == 'ok'){
         alert("referral created")
         //add call for input window to close
+        this.referralDetailForm.reset()
+        this.getReferral();
       }
     }, err => {
       console.log("Error::"+err)
@@ -431,7 +433,9 @@ updateReferral(){
   }
 
   getTask(value){
+    this.referralDetailForm.reset();
     this.editT = false;
+    this.editR = false;
     console.log("what is the id value",value)
     this.referral_id = value
     this.reqObj.referral_id = value
@@ -465,6 +469,8 @@ updateReferral(){
      let response:any = res;
      if(response.status == 'ok'){
        alert("Task created")
+       this.getTask(this.referral_id);
+       this.taskDetailForm.reset();   
        //add call for input window to close
      }
    }, err => {

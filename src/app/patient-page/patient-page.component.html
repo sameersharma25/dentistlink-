@@ -240,7 +240,7 @@
         <!-- -->
 
 
-        <mat-expansion-panel>
+        <mat-expansion-panel  >
          <mat-expansion-panel-header>
                     <mat-panel-title class="label_txt">
                       Referrals 
@@ -256,7 +256,7 @@
                     <tr>
                         <th class = "thead">Referral Source</th>
                         <th class = "thead">Urgency</th>
-                        <th class = "thead">Appointment Date</th>
+                        <th width = "25%">Appointment Date</th>
                         <th class = "thead">Tasks</th>
                         <th class = "thead"> Edit</th>
                     </tr>
@@ -277,7 +277,7 @@ edit
 
                     </tr> 
                     <div class="_clearfix"></div>
-                    <a (click)="InputFormR = !InputFormR"> <i class="material-icons">
+                    <a  *ngIf ="patientName" (click)="InputFormR = !InputFormR"> <i class="material-icons">
 add_circle_outline
 </i>Add Referral</a>
                 </table>
@@ -397,7 +397,7 @@ edit
                     </form>
                     <button *ngIf="editT == true" (click)="updateTask()" class="btn btn-info"> Update Task</button> 
                 </div>
-                 <a (click)="InputFormT = !InputFormT"> <i class="material-icons">
+                 <a *ngIf ="referral_id" (click)="InputFormT = !InputFormT"> <i class="material-icons">
                                 add_circle_outline
                                 </i>Add Task</a>
       
