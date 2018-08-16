@@ -306,7 +306,7 @@ add_circle_outline
                     </mat-form-field>
 
                     <mat-form-field class="">
-                        <input matInput name="due_date" placeholder="Due Date" formControlName="due_date">
+                        <input matInput name="due_date" type="date" placeholder="Due Date" formControlName="due_date">
                     </mat-form-field> 
 
 
@@ -349,8 +349,8 @@ add_circle_outline
                     <tr  *ngFor="let tList of taskDetails">
                         <th>{{tList.task_type}}</th>
                         <th>{{tList.task_status}}</th>
-                        <th>{{tList.task_id}}</th>
-                        <th>{{tList.task_deadline}}</th>
+                        <th>TBD</th>
+                        <th>{{tList.task_deadline | date: 'dd/MM/yyyy'}}</th>
                         <th (click)="editTask(tList)"><i class="material-icons">
 edit
 </i></th>
@@ -382,7 +382,7 @@ edit
 
 
                         <mat-form-field class="">
-                            <input matInput name ="task_deadline" placeholder ="Task Deadline" formControlName="task_deadline">
+                            <input matInput name ="task_deadline" type="date" placeholder ="Task Deadline" formControlName="task_deadline">
 
                         </mat-form-field>
 

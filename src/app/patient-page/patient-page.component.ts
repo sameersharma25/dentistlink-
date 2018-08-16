@@ -328,7 +328,6 @@ export class PatientPageComponent implements OnInit {
     return new Date(tempDate);
   }
     getDateObject(date){
-      console.log("Date",date)
     if(date){
       let tempDate:any = date;
       let dateObj: any = {
@@ -369,7 +368,6 @@ editReferral(data){
 } //
 
 updateReferral(){
-  console.log("ID VALIE", this.referral_id)
   let reqObj: any = {
       referral_id: this.referral_id,
       source: this.referralDetailForm.value.source,
@@ -379,7 +377,6 @@ updateReferral(){
       due_date: this.referralDetailForm.value.due_date,
     };
     this.dss.updateReferral(reqObj).subscribe(res => {
-      console.log("what are my values",reqObj)
       let response:any = res;
       if(response.status == 'ok'){
         alert("referral updated")
@@ -395,7 +392,6 @@ updateReferral(){
 
 
  getReferral(){
-   console.log("id", this.patientId)
    this.reqObj.email = this.cus.getCurrentUser()
    this.reqObj.patient_id = this.patientId
    this.dss.getReferral(this.reqObj).subscribe(res => {
@@ -419,7 +415,6 @@ updateReferral(){
       due_date: this.referralDetailForm.value.due_date,
     };
     this.dss.referralCreate(reqObj).subscribe(res => {
-      console.log("what are my values",reqObj)
       let response:any = res;
       if(response.status == 'ok'){
         alert("referral created")
@@ -434,9 +429,9 @@ updateReferral(){
 
   getTask(value){
     this.referralDetailForm.reset();
+    this.taskDetailForm.reset();
     this.editT = false;
     this.editR = false;
-    console.log("what is the id value",value)
     this.referral_id = value
     this.reqObj.referral_id = value
     this.reqObj.email = this.cus.getCurrentUser()
@@ -453,7 +448,6 @@ updateReferral(){
 
 // update this
   createTask(){
-    console.log("creating a task", this.referral_id)
     let reqObj: any = {
       referral_id: this.referral_id,
       task_type: this.taskDetailForm.value.task_type,
@@ -465,7 +459,6 @@ updateReferral(){
     };
    //UPDATE THIS TO THE CORRECT API
    this.dss.createTask(reqObj).subscribe(res => {
-     console.log("what are my values",reqObj)
      let response:any = res;
      if(response.status == 'ok'){
        alert("Task created")
@@ -481,7 +474,6 @@ updateReferral(){
   editTask(data){
     this.editT = true;
     this.InputFormT = true;
-    console.log("Task Data",data)
     this.selectedTask = data;
     this.taskId = this.selectedTask.task_id;
 
@@ -512,7 +504,6 @@ updateReferral(){
       task_description: this.taskDetailForm.value.task_description, 
     };
     this.dss.updateTask(reqObj).subscribe(res => {
-     console.log("Checking An Update",reqObj)
      let response:any = res;
      if(response.status == 'ok'){
        alert("Task Updated")
