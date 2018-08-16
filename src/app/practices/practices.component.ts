@@ -107,15 +107,14 @@ export class PracticesComponent implements OnInit {
   }
 
 
-  flagFunc(value){
+  flagFunc(value1,value2){
+    console.log("What I'm passing", value1,value2)
     if(confirm("Are you sure to flag this provider?")) {
-    console.log("Implement delete functionality here", value);
-    let reqObj: any = {
-      providerId: this.providerId,
-      providerFlag: true,
-    }
-    this.dss.flagPractice(reqObj).subscribe(res =>{
-   console.log("Flagging",reqObj)
+    console.log("Implement delete functionality here", value1);
+      this.reqObj.providerId= value1
+      this.reqObj.providerFlag= value2
+    this.dss.flagPractice(this.reqObj).subscribe(res =>{
+   console.log("Flagging",this.reqObj)
      let response:any = res;
      if(response.status == 'ok'){
        alert("Flagged Provider")

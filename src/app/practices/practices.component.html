@@ -129,10 +129,10 @@ list
         <div class="p-detaitls-wrapper" >
         <mat-list>
     		<h1 matLine><span>{{providerName}}</span>
-            <span style="color: red;" *ngIf = "providerFlag == true"><i class="material-icons">
+            <span style="color: red;" *ngIf = "providerFlag == true" (click)="flagFunc(providerId,false)"><i class="material-icons">
             flag
             </i></span>
-            <span style="color: gray;" *ngIf = "providerFlag == false" (click)="flagFunc(providerId)"><i class="material-icons">
+            <span style="color: gray;" *ngIf = "providerFlag == false" (click)="flagFunc(providerId,true)"><i class="material-icons">
             flag
             </i></span>
 

@@ -26,7 +26,6 @@ export class PatientPageComponent implements OnInit {
   isCollapsed: Boolean = false;
   isCollapsed1: Boolean = false;
   isOpen: Boolean = false;
-
 	//
 	patientName: string;
   patientNameLast: string;
@@ -54,7 +53,12 @@ export class PatientPageComponent implements OnInit {
   InputFormT: Boolean = false;
   patientPanel: Boolean = false; 
   // Task & Referrals
+  editT:Boolean = false;
+  editR:Boolean = false;
+  selectedTask: any = [];
+  selectedReferral: any = [];
   referral_id: string;
+  taskId: string;
   sourceType: any = [];
   taskType: any = [];
   urgencyType: any = [];
@@ -242,6 +246,7 @@ export class PatientPageComponent implements OnInit {
 
 //CRUD USer
   editPatientInfo() {
+
     if(this.patientAction.label == 'Create'){
       let patient_dob = this.getDate(this.patientDetailsEditForm.value);
       let reqObj: any = {
@@ -336,7 +341,57 @@ export class PatientPageComponent implements OnInit {
     return;
   }
 
+editReferral(data){
+  this.editR = true; 
+  this.InputFormR = true;
+  this.selectedReferral = data;
+  this.referral_id = data.referral_id
+  console.log("selected Referral", this.selectedReferral);
 
+  (<FormGroup>this.referralDetailForm)
+    .patchValue({source: this.selectedReferral.source}, {onlySelf: true});
+
+  (<FormGroup>this.referralDetailForm)
+    .patchValue({referral_name: this.selectedReferral.referral_name}, {onlySelf: true});
+
+  (<FormGroup>this.referralDetailForm)
+    .patchValue({urgency: this.selectedReferral.urgency}, {onlySelf: true});
+
+  (<FormGroup>this.referralDetailForm)
+    .patchValue({due_date: this.selectedReferral.due_date}, {onlySelf: true});
+
+  (<FormGroup>this.referralDetailForm)
+    .patchValue({referral_description: this.selectedReferral.referral_description}, {onlySelf: true});
+
+  (<FormGroup>this.referralDetailForm)
+    .patchValue({referral_id: this.selectedReferral.referral_id}, {onlySelf: true});
+
+} //
+
+updateReferral(){
+  console.log("ID VALIE", this.referral_id)
+  let reqObj: any = {
+      referral_id: this.referral_id,
+      source: this.referralDetailForm.value.source,
+      referral_name: this.referralDetailForm.value.referral_name,
+      referral_description: this.referralDetailForm.value.referral_description,
+      urgency: this.referralDetailForm.value.urgency,
+      due_date: this.referralDetailForm.value.due_date,
+    };
+    this.dss.updateReferral(reqObj).subscribe(res => {
+      console.log("what are my values",reqObj)
+      let response:any = res;
+      if(response.status == 'ok'){
+        alert("referral updated")
+        this.referralDetailForm.reset()
+        this.editR = false; 
+        this.getReferral();
+        //add call for input window to close
+      }
+    }, err => {
+      console.log("Error::"+err)
+    })
+}
 
 
  getReferral(){
@@ -369,6 +424,8 @@ export class PatientPageComponent implements OnInit {
       if(response.status == 'ok'){
         alert("referral created")
         //add call for input window to close
+        this.referralDetailForm.reset()
+        this.getReferral();
       }
     }, err => {
       console.log("Error::"+err)
@@ -376,6 +433,9 @@ export class PatientPageComponent implements OnInit {
   }
 
   getTask(value){
+    this.referralDetailForm.reset();
+    this.editT = false;
+    this.editR = false;
     console.log("what is the id value",value)
     this.referral_id = value
     this.reqObj.referral_id = value
@@ -409,11 +469,61 @@ export class PatientPageComponent implements OnInit {
      let response:any = res;
      if(response.status == 'ok'){
        alert("Task created")
+       this.getTask(this.referral_id);
+       this.taskDetailForm.reset();   
        //add call for input window to close
      }
    }, err => {
      console.log("Error::"+err)
    })
   }
+
+  editTask(data){
+    this.editT = true;
+    this.InputFormT = true;
+    console.log("Task Data",data)
+    this.selectedTask = data;
+    this.taskId = this.selectedTask.task_id;
+
+  (<FormGroup>this.taskDetailForm)
+    .patchValue({task_type: this.selectedTask.task_type}, {onlySelf: true});
+
+  (<FormGroup>this.taskDetailForm)
+    .patchValue({task_status: this.selectedTask.task_status}, {onlySelf: true});
+
+  (<FormGroup>this.taskDetailForm)
+    .patchValue({task_owner: this.selectedTask.task_owner}, {onlySelf: true});
+
+  (<FormGroup>this.taskDetailForm)
+    .patchValue({task_deadline: this.selectedTask.task_deadline}, {onlySelf: true});
+
+  (<FormGroup>this.taskDetailForm)
+    .patchValue({task_description: this.selectedTask.task_description}, {onlySelf: true});
+
+ }
+ updateTask(){
+     let reqObj: any = {
+      task_id: this.taskId,
+      task_type: this.taskDetailForm.value.task_type,
+      task_status: this.taskDetailForm.value.task_status,
+      task_owner: this.taskDetailForm.value.task_owner,
+      provider: this.taskDetailForm.value.provider,
+      task_deadline: this.taskDetailForm.value.task_deadline,
+      task_description: this.taskDetailForm.value.task_description, 
+    };
+    this.dss.updateTask(reqObj).subscribe(res => {
+     console.log("Checking An Update",reqObj)
+     let response:any = res;
+     if(response.status == 'ok'){
+       alert("Task Updated")
+       this.getTask(this.referral_id)
+       this.taskDetailForm.reset()
+       this.editT = false; 
+       //add call for input window to close
+     }
+   }, err => {
+     console.log("Error::"+err)
+   })
+ }
 
 }
