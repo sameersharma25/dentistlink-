@@ -61,7 +61,7 @@ export class InvitationComponent implements OnInit {
       this.uAuthService.setPassword(this.reqTokenObj).subscribe(res => {
         this.response = res;
         if (this.response.message == "Password is set") {
-          this.router.navigate(['/home']);
+          this.router.navigate(['/login']);
         }  else {
           alert(this.response.message);
         }

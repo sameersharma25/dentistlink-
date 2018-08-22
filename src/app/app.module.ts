@@ -26,8 +26,6 @@ import { DataSourceService } from './shared/services/data-source.service';
 import { JwtService } from './shared/services/jwt.service';
 import { DataCommService } from './shared/services/data-comm.service';
 import { CreateAppointmentComponent } from './create-appointment/create-appointment.component';
-import { AboutusComponent } from './aboutus/aboutus.component';
-import { ContactusComponent } from './contactus/contactus.component';
 import { AuthGuardGuard } from './shared/services/auth-guard.guard';
 import { AppointmentEditComponent } from './appointment-edit/appointment-edit.component';
 import { PatientsComponent } from './patients/patients.component';
@@ -36,8 +34,6 @@ import { AgmSnazzyInfoWindowModule } from '@agm/snazzy-info-window';
 import { InvitationComponent } from './invitation/invitation.component';
 import { PracticesComponent } from './practices/practices.component';
 import { PatientPageComponent } from './patient-page/patient-page.component';
-
-
 
 @NgModule({
   declarations: [
@@ -53,8 +49,6 @@ import { PatientPageComponent } from './patient-page/patient-page.component';
     FooterComponent,
     ResetPasswordComponent,
     CreateAppointmentComponent,
-    AboutusComponent,
-    ContactusComponent,
     AppointmentEditComponent,
     PatientsComponent,
     PracticesComponent,

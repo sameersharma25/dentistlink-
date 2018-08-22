@@ -8,8 +8,6 @@ import { AdminComponent } from './admin/admin.component';
 import { UsersComponent } from './users/users.component';
 import { AppointmentComponent } from './appointment/appointment.component';
 import { CreateAppointmentComponent } from './create-appointment/create-appointment.component';
-import { AboutusComponent } from './aboutus/aboutus.component';
-import { ContactusComponent } from './contactus/contactus.component';
 import { AuthGuardGuard } from './shared/services/auth-guard.guard';
 import { PatientsComponent } from './patients/patients.component';
 import { PracticesComponent } from './practices/practices.component';
@@ -21,7 +19,7 @@ const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    component: WelcomeComponent
+    component: LoginComponent
   },
   {
     path: 'create-appointment',
@@ -30,11 +28,6 @@ const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent
-  },
-  {
-    path: 'home',
-    canActivate: [AuthGuardGuard],
-    component: HomeComponent
   },
   {
     path: 'admin',
@@ -76,20 +69,12 @@ const routes: Routes = [
     component: UsersComponent
   },
   {
-    path: 'aboutus',
-    component: AboutusComponent
-  },
-  {
-    path: 'contactus',
-    component: ContactusComponent
-  },
-  {
     path: 'invitation',
     component: InvitationComponent
   },
   {
     path: '**',
-    component: WelcomeComponent // can be put path not match component.
+    component: LoginComponent // can be put path not match component.
   }
 ];
 

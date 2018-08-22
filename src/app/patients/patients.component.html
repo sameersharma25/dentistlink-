@@ -1,4 +1,4 @@
-<app-home-navbar></app-home-navbar>
+<app-home-navbar></app-home-navbar> 
 <div class="appointment-wrapper">
     <div class="side-bar" [class.expanded]="isCollapsed">
         <ul>
@@ -9,15 +9,60 @@
         </ul>
     </div>
     <!--TEST -->
+
     <div class="right-side-bar" [class.expanded]="isCollapsed1" [class.randomClass]="randomClass" *ngIf ="isCollapsed === false">
             <div class="p-detaitls-wrapper">
+                <div> <!-- Form Div  -->
+                    <h1>Enter Provider Parameters Here</h1>
+                 <form [formGroup] = "searchDetails" (ngSubmit) = "theChecker()">
+
+                    <mat-form-field class ="">
+                        <input matInput name="searchZipcode" placeholder="Zipcode" formControlName="zipcode" (keyup.enter)="theChecker()">
+                    </mat-form-field>
+
+                    <mat-form-field class="">
+                        <mat-select placeholder ="radius" formControlName ="radius" (keyup.enter)="theChecker()">
+                            <mat-option value=""></mat-option>
+                            <mat-option *ngFor ="let r of radiusOp" [value]="r"> 
+                                {{r}} 
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field class="">
+                        <mat-select placeholder ="age" formControlName ="age" (keyup.enter)="theChecker()">
+                            <mat-option value=""></mat-option>
+                            <mat-option *ngFor ="let a of ageOp" [value]="a"> 
+                                {{a}} 
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field class="">
+                        <mat-select placeholder ="Treatment" formControlName="treatment" (keyup.enter)="theChecker()">
+                             <mat-option value=""></mat-option>
+                            <mat-option *ngFor ="let t of treatmentOp" [value]="t"> 
+                                {{t}} 
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <button class="btn btn-info" (click) ="theChecker()"> Update Search</button>
+                    </form>
+                <button *ngIf= "startA != 0"class="btn btn-info" (click) ="next('down')"> <i class="            material-icons">arrow_back_ios</i>
+                </button>
+
+                <button  class="btn btn-info" (click) ="next('up')"> <i class="          material-icons">arrow_forward_ios</i>
+                </button>
+
+
+                </div> <!-- Form Div -->
 
                 <mat-panel-title class="label_txt">
                   Practice
                 </mat-panel-title>
 
                     <mat-accordion>
-                        <mat-expansion-panel *ngFor="let sp of serviceProvider; let i = index" class ="serviceP" [class.height-expand]="isOpen">
+                        <mat-expansion-panel *ngFor="let sp of array1; let i = index" class ="serviceP" [class.height-expand]="isOpen">
                             <mat-expansion-panel-header>
                                 <mat-list>
                                     <mat-list-item>
@@ -27,7 +72,7 @@
                                     <span style="display: none;"> {{sp.Id}}</span>
                                    </h3>
                                     <h3 matLine>
-                                    <span class="serviceDistance"> {{sp.distance.toFixed(1)}} miles from Patient.   </span>
+                                    <!--<span class="serviceDistance"> {{sp.distance.toFixed(1)}} miles from Patient.   </span> -->
                                     <span class="serviceNumber">    {{sp.Phone}}</span>
                                     </h3>
                                     </mat-list-item>
@@ -70,7 +115,7 @@
                                     <mat-checkbox  [checked]="sp.Periodontic_c === 'Appointment Only'||sp.Extractions__c === true" [disableRipple]="true" style="margin-right:10px;" disabled="true">Periodontic</mat-checkbox>
                                     <mat-checkbox  [checked]="sp.Endodontic_c === 'Appointment Only'||sp.Extractions__c === true" [disableRipple]="true" style="margin-right:10px;" disabled="true">Endodontic</mat-checkbox>
                                     <mat-checkbox [checked]="sp.Oral_Surgery_c === true|| sp.Oral_Surgery_c ==='Appointment Only'" [disableRipple]="true" disabled="true" > Oral Surgery</mat-checkbox><br/>
-                                    <button class ="btn btn-info" type ="button" (click)="saveProvider(sp.Id)">Save Provider</button>
+                                    <button class ="btn btn-info" type ="button" (click)="saveProvider(sp.Name)">Save Provider</button> 
                                 </div>
 
                         </mat-expansion-panel>
@@ -78,8 +123,8 @@
 
 
             </div>
-                 <agm-map [latitude]="lat" [longitude]="lng" style ="margin-right: 5px; padding-right: 5px;" [zoom]="9">
-                  <agm-marker *ngFor="let data of serviceProvider; let i = index" [latitude]="data.Geolocation__c.latitude" [longitude]="data.Geolocation__c.longitude"  > 
+                 <agm-map [latitude]="lat" [longitude]="lng" style ="margin-right: 5px; padding-right: 5px;" [zoom]="5">
+                  <agm-marker *ngFor="let data of mapArray; let i = index" [latitude]="data.Geolocation__c.latitude" [longitude]="data.Geolocation__c.longitude"  > 
                     <agm-snazzy-info-window [maxWidth]="200" [closeWhenOthersOpen]="true">
                       <ng-template>
                         {{ data.Name }}
@@ -281,7 +326,7 @@
                   <!-- <mat-form-field>
                     <input matInput placeholder="First name">
                   </mat-form-field> -->
-                </mat-expansion-panel>
+          <!--      </mat-expansion-panel>
 
                 <div class="_clearfix"></div>
 
@@ -310,7 +355,7 @@
                         <mat-list-item class="label_txt" style="font-size: 13px;" (click)="openPatientAppointment('new', null)">NEW APPOINTMENT <span class="act-cir"></span></mat-list-item>
                     </mat-list>
                     <div class="_clearfix"></div>
-                    <!-- <form [formGroup]="patientEditForm">
+                    <form [formGroup]="patientEditForm">
                         <label class="label_txt">Notes</label>
                         <div class="section-row">
                             <mat-form-field>
@@ -320,7 +365,7 @@
                     </form> -->
 
                     <div class="_clearfix"></div>
-                </mat-expansion-panel>
+                </mat-expansion-panel> 
 
                 <mat-expansion-panel>
                     <mat-expansion-panel-header>
@@ -328,7 +373,172 @@
                       Referrals
                     </mat-panel-title>
                   </mat-expansion-panel-header>
+                
+        <div>
+            <div style="border-color: gray; border-width: 2px; border-style: solid; width: 90%;">
+                <label><span style="color: #5bc0de;">Referral Details</span></label>
+                <mat-divider></mat-divider>
+                <div class="_clearfix"></div>
+                <table  >
+                    <tr>
+                        <th class = "thead">Referral Source</th>
+                        <th class = "thead">Urgency</th>
+                        <th width = "25%">Appointment Date</th>
+                        <th class = "thead">Tasks</th>
+                        <th class = "thead"> Edit</th>
+                    </tr>
+                    <tr *ngFor ="let rdet of referralDetail" >
+                        <th (click)="getTask(rdet.referral_id)" ><span style="color: #5bc0de;">{{rdet.referral_name}} </span> </th>
+                        <th >{{rdet.urgency}}</th>
+                        <th > {{rdet.due_date}} </th>
+                        <th> To Be Done</th>
+                        <th (click)="editReferral(rdet)"> <i class="material-icons">
+edit
+</i> </th>
 
+                    </tr> 
+                    <div class="_clearfix"></div>
+                    <a (click)="InputFormR = !InputFormR"> <i class="material-icons">
+add_circle_outline
+</i>Add Referral</a>
+                </table>
+
+                <div *ngIf = "InputFormR == true">
+                     <form [formGroup]= 'referralDetailForm' (ngSubmit)='createReferral()'>
+                    <label> Referral Details </label><br/>
+
+                    <mat-form-field class="">
+                        <mat-select placeholder ="Source" formControlName="source" >
+                             <mat-option value=""></mat-option>
+                             <mat-option *ngFor =
+                        "let sourcet of sourceType" [value]="sourcet">{{sourcet}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field class="">
+                        <input matInput name="referral_name" placeholder="Referral Name" formControlName="referral_name">
+                    </mat-form-field> 
+
+                    <mat-form-field class="">
+                        <mat-select placeholder ="Urgency" formControlName="urgency">
+                             <mat-option value=""></mat-option>
+                             <mat-option *ngFor ="let urg of urgencyType" [value]="urg"> {{urg}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field class="">
+                        <input matInput name="due_date" type="date" placeholder="Due Date" formControlName="due_date">
+                    </mat-form-field> 
+
+
+                    <mat-form-field class="">
+                        <input matInput name="referral_description" placeholder="Description" formControlName="referral_description">
+                    </mat-form-field>  <br/>
+
+                      <button *ngIf="editR == false" type="submit" class="btn btn-info"> Create Referral</button>         
+                </form>
+                <button *ngIf="editR == true" (click)="updateReferral()" class="btn btn-info"> Update Referral</button>
+                </div>
+
+            </div> 
+        </div> <!-- End 2nd Table -->
+        <div class="_clearfix"></div>
+
+<!-- -->
+<mat-accordion>
+  <mat-expansion-panel [expanded]="taskPanel">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Task 
+      </mat-panel-title>
+      <mat-panel-description>
+            Current Task's
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <table>
+                    <tr>
+                        <th width="20%">Task Type</th>
+                        <th width="20%">Task Status</th>
+                        <th width="20%">Select Provider</th>
+                        <th width="20%">Deadline</th>
+                        <th width="20%" > Edit</th>
+                    </tr>
+                  <!--  <tr>
+                        <th class = "thead" >Appointment</th>
+                        <th class = "thead">Pending</th>
+                        <th>Happy Dental Clinic</th>
+                        <th>01/01/2001</th>
+                    </tr> -->
+                    <tr  *ngFor="let tList of taskDetails">
+                        <th>{{tList.task_type}}</th>
+                        <th>{{tList.task_status}}</th>
+                        <th>{{tList.provider}}</th>
+                        <th>{{tList.task_deadline}}</th>
+                        <th (click)="editTask(tList)"><i class="material-icons">
+edit
+</i></th>
+                    </tr>
+                    <div class="_clearfix"></div>
+                
+                </table>
+                <div *ngIf = "InputFormT == true">
+                
+                    <form [formGroup]= 'taskDetailForm' (ngSubmit)='createTask()'>
+                        <label>Tasks</label><br/>
+
+                        <mat-form-field class="">
+                            <mat-select placeholder ="Task Type" formControlName="task_type" (ngModelChange)="onChange($event)">
+                                 <mat-option value=""></mat-option>
+                                 <mat-option *ngFor="let tsk of taskType" [value]="tsk"> {{tsk}}</mat-option>
+                            </mat-select>
+                        </mat-form-field> 
+
+                        <mat-form-field class="" *ngIf="appointmentFields === true" >
+                            <mat-select placeholder ="Treatment" formControlName="task_treatment">
+                                 <mat-option value=""></mat-option>
+                                 <mat-option *ngFor="let trt of treatmentOp" [value]="trt"> {{trt}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+
+                        <mat-form-field class="">
+                                <input matInput name="task_status" placeholder="Task Status" formControlName="task_status">
+                        </mat-form-field>
+
+                        <mat-form-field class="">
+                            <input matInput name="task_owner" placeholder="Task Owner" formControlName="task_owner">
+                        </mat-form-field>
+
+
+                        <mat-form-field class="">
+                            <input matInput name ="task_deadline" type="date" placeholder ="Task Deadline" formControlName="task_deadline">
+                        </mat-form-field>
+
+                        <mat-form-field class="">
+                            <input matInput name ="provider"  placeholder ="Provider" formControlName="provider">
+                        </mat-form-field>
+
+
+                        <mat-form-field class="">
+                            <input matInput name="task_description" placeholder="Description" formControlName="task_description">
+                        </mat-form-field>
+                        <br/>
+                        
+                    </form>
+                    <button *ngIf ="referral_id" class ="btn btn-info" type ="button" (click)="isCollapsed1 = !isCollapsed1"> Select Provider</button>
+
+                        <button *ngIf="editT == false" type="submit" class="btn btn-info"> Create Task</button>
+                        
+                        <button *ngIf="editT == true" (click)="updateTask()" class="btn btn-info"> Update Task</button> 
+                </div>
+                 <a *ngIf ="referral_id" (click)="InputFormT = !InputFormT"> <i class="material-icons">
+                                add_circle_outline
+                                </i>Add Task</a>
+                               
+      
+  </mat-expansion-panel>
+</mat-accordion>
+<!-- -->
                 </mat-expansion-panel>
 
                 <mat-expansion-panel>

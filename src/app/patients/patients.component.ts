@@ -10,13 +10,13 @@ import { PatientPageComponent } from '../patient-page/patient-page.component';
 
 
 
-@Component({
+@Component({ 
   selector: 'app-patients',
   templateUrl: './patients.component.html',
   styleUrls: ['./patients.component.scss']
 })
 export class PatientsComponent implements OnInit {
-  patientAction: any = {};
+  patientAction: any = {}; 
   patientAptAction: any = {};
   selectedPatient: any = {};
   selectedPatientId: string ='';
@@ -29,6 +29,20 @@ export class PatientsComponent implements OnInit {
   patientEditForm: FormGroup;
   patientDetailsEditForm: FormGroup;
   patientAppointmentForm: FormGroup;
+
+  referralDetailForm: FormGroup
+  taskDetailForm: FormGroup
+  taskDetails: any = [];
+  referralDetail: any = [];
+  selectedTask: any = [];
+  selectedReferral: any = [];
+  referral_id: string;
+  taskId: string;
+  editT:Boolean = false;
+  editR:Boolean = false;
+  InputFormR: Boolean = false;
+  InputFormT: Boolean = false;
+
   isCollapsed: Boolean = false;
   isCollapsed1: Boolean = false;
   isOpen: Boolean = false;
@@ -44,6 +58,25 @@ export class PatientsComponent implements OnInit {
   numLimit = 2;
   searchFlag = false;
   searchPat = '';
+  // PROvider form
+  searchDetails: FormGroup;
+  formZipcode: string ="&zip="
+  formRadius: string ="&radius="
+  formAge: string ="&age="
+  formTreatment: string = "&treatment="
+  radiusOp: any[];
+  ageOp: any[];
+  treatmentOp: any[];
+  backitup: any = []; 
+  array1: any =[];
+  mapArray: any =[];
+  sourceType: any =[];
+  taskType: any =[];
+  urgencyType: any =[];
+  taskPanel:Boolean = false;
+  startA: number = 0;
+  finishA: number = 25;
+  appointmentFields: Boolean = false;
 
 
   constructor(
@@ -52,7 +85,14 @@ export class PatientsComponent implements OnInit {
     private dss: DataSourceService,
     private fb: FormBuilder,
     public ppc: PatientPageComponent
-  ) { }
+  ) { 
+    this.radiusOp=[10,20,30,40,50]; 
+    this.ageOp = ["5 or less", "Between 6-20", "Above 20"];
+    this.treatmentOp=["Cleaning","Pain","Extraction","Orthodontics","Dentures"];
+    this.sourceType =["EHR", "EDR", "ExtCC","Internal", "Self"]
+    this.taskType = ["Appointment","Support","UserDefined","Delegated Referral"]
+    this.urgencyType = ["Critical" ,"High", "Moderate", "Low"]
+  }
 
 
 
@@ -95,6 +135,7 @@ export class PatientsComponent implements OnInit {
 
     this.getAllPatients();
     this.createForm();
+
 
   }
 
@@ -139,11 +180,37 @@ export class PatientsComponent implements OnInit {
       notes: [''],
       serviceProvider: [''],
     });
+
+    this.referralDetailForm = this.fb.group({
+      referral_email: [''],
+      patient_id: [''],
+      source: [''],
+      referral_name: [''],
+      referral_description: [''],
+      urgency: [''],
+      due_date: [''],
+    })
+    this.taskDetailForm = this.fb.group({
+      referral_id: [''],
+      task_type: [''],
+      task_status: [''],
+      task_owner: [''],
+      provider: [''],
+      task_deadline: [''],
+      task_description: [''],
+      task_treatment: ['']
+    })
+    this.searchDetails = this.fb.group({
+      zipcode: [''],
+      radius: [''],
+      age: [''],
+      treatment: ['']
+    })
   };
 
 
    getData(value){
-     console.log("this",value)
+
      const navigationExtras: NavigationExtras = {
        queryParams: {
          'patient_id': value.patient_id
@@ -157,25 +224,14 @@ export class PatientsComponent implements OnInit {
   }
 
   saveProvider(value){
-    this.patientAppointmentForm.value.serviceProvider = value;
-    console.log("value", value);
-    this.setProvider(value);
+    this.isCollapsed1=false;
 
+    (<FormGroup>this.taskDetailForm)
+    .patchValue({provider: value}, {onlySelf: true});
 
-    this.reqObj.appointment_id = this.selectedAppointment.appointment_id
-    //this.reqObj.date_of_appointment = this.getDate(this.patientAppointmentForm.value)
-    this.reqObj.sp_id = value
-    //this.reqObj.reason_for_visit = this.getVisitReason(this.patientAppointmentForm.value.reasonForVisit)
+    this.taskDetailForm.value.provider = value;
 
-        this.dss.updateAppointment(this.reqObj).subscribe(res => {
-        let response:any = res;
-        if(response.status == 'ok'){
-          this.getAllPatients()
-          alert(response.message);
-          this.isCollapsed1=false;
-        }
-      });
-        //RIGHT NOW THIS IS UPDATE THE ENTIRE
+    //this.setProvider(value);
   };
 
 
@@ -223,6 +279,9 @@ export class PatientsComponent implements OnInit {
 
   // right panel action for patient
   openPatientAction(data) {
+
+
+    this.getReferral(data.patient_id);
     this.patientAction.isOpened = false;
     this.patientAction.collapsed = false;
     if (data) {
@@ -248,11 +307,13 @@ export class PatientsComponent implements OnInit {
 
   // open appoint form for patient
   openPatientAppointment(status,data){
+
     this.selectedAppointment = data;
     this.patientAction.isOpened = true;
 
 
     if(status === 'new'){
+      
       this.createForm();
       this.patientAptAction.label = "new";
       this.isCollapsed1 = false;
@@ -266,7 +327,7 @@ export class PatientsComponent implements OnInit {
           .patchValue({email: this.patientDetails.patient_email}, {onlySelf: true});
         (<FormGroup>this.patientDetailsEditForm)
           .patchValue({patientCoverage: this.patientDetails.healthcare_coverage}, {onlySelf: true});
-          console.log("DSS PatientDetails", this.patientDetails.healthcare_coverage);
+
         (<FormGroup>this.patientDetailsEditForm)
           .patchValue({patientCoverageId: this.patientDetails.patient_coverage_id}, {onlySelf: true});
             const dateObj: any = this.getDateObject(this.patientDetails.date_of_birth);
@@ -281,8 +342,8 @@ export class PatientsComponent implements OnInit {
            .patchValue({preferredContact: this.patientDetails.mode_of_contact}, {onlySelf: true});
          (<FormGroup>this.patientDetailsEditForm)
            .patchValue({zipCode: this.patientDetails.patient_zipcode}, {onlySelf: true});
-         const zipParam = this.patientDetails.patient_zipcode
-          this.getProvider(zipParam,[ dateObj.day, dateObj.month, dateObj.year ] );
+         //const zipParam = this.patientDetails.patient_zipcode
+          //this.getProvider(zipParam,[ dateObj.day, dateObj.month, dateObj.year ] );
          (<FormGroup>this.patientDetailsEditForm)
            .patchValue({ethnicity: this.patientDetails.ethnicity}, {onlySelf: true});
          (<FormGroup>this.patientDetailsEditForm)
@@ -325,17 +386,14 @@ export class PatientsComponent implements OnInit {
     }
   }
 
-
-
-
   getPatientsDetails(data: any) {
-
+    this.taskPanel = false;
     this.patientId = data.patient_id;
     this.reqObj.email = this.cus.getCurrentUser();
     this.reqObj.patient_id = this.patientId;
     this.dss.getPatientsDetails(this.reqObj).subscribe(res => {
       const response: any = res;
-      console.log(res);
+      console.log("patient Detail",res);
        if (response.status === 'ok') {
         this.patientDetails = response.patients_details;
         (<FormGroup>this.patientDetailsEditForm)
@@ -351,7 +409,7 @@ export class PatientsComponent implements OnInit {
 //Add Patient Coverage
         (<FormGroup>this.patientDetailsEditForm)
           .patchValue({patientCoverage: this.patientDetails.healthcare_coverage}, {onlySelf: true});
-          console.log("DSS PatientDetails", this.patientDetails.healthcare_coverage);
+
         (<FormGroup>this.patientDetailsEditForm)
           .patchValue({patientCoverageId: this.patientDetails.patient_coverage_id}, {onlySelf: true});
 
@@ -360,7 +418,6 @@ export class PatientsComponent implements OnInit {
 
 
   const dateObj: any = this.getDateObject(this.patientDetails.date_of_birth);
-
          (<FormGroup>this.patientDetailsEditForm)
            .patchValue({day: dateObj.day}, {onlySelf: true});
          (<FormGroup>this.patientDetailsEditForm)
@@ -371,14 +428,23 @@ export class PatientsComponent implements OnInit {
            .patchValue({preferredContact: this.patientDetails.mode_of_contact}, {onlySelf: true});
          (<FormGroup>this.patientDetailsEditForm)
            .patchValue({zipCode: this.patientDetails.patient_zipcode}, {onlySelf: true});
-         const zipParam = this.patientDetails.patient_zipcode
-          this.getProvider(zipParam,[ dateObj.day, dateObj.month, dateObj.year ] );
+         //const zipParam = this.patientDetails.patient_zipcode
+         // this.getProvider(zipParam,[ dateObj.day, dateObj.month, dateObj.year ] );
          (<FormGroup>this.patientDetailsEditForm)
            .patchValue({ethnicity: this.patientDetails.ethnicity}, {onlySelf: true});
          (<FormGroup>this.patientDetailsEditForm)
            .patchValue({gender: this.patientDetails.gender}, {onlySelf: true});
          (<FormGroup>this.patientDetailsEditForm)
            .patchValue({patientAddress: this.patientDetails.patient_address}, {onlySelf: true});
+          
+           //fill practice search parameters
+         (<FormGroup>this.searchDetails)
+          .patchValue({zipcode: this.patientDetails.patient_zipcode}, {onlySelf: true});
+          this.formZipcode = this.formZipcode + this.patientDetails.patient_zipcode
+
+          this.urlBuilder(this.formZipcode,this.patientDetails.age)
+
+
       }
     }, err => {
       console.log(err);
@@ -386,26 +452,97 @@ export class PatientsComponent implements OnInit {
     });
   }
 
+  urlBuilder(zip,age){
+   var initialURL = ""
+   initialURL = initialURL + this.formZipcode 
+   this.formRadius = this.formRadius + "5"
+   initialURL = initialURL + this.formRadius
+   
+   if (age <= 5) {
+     initialURL = initialURL+ this.formAge+'5_or_less'
+   } else if (age >= 20){ 
+     initialURL = initialURL+this.formAge+'Above_20'}
+   else {
+       initialURL = initialURL+this.formAge+'between_6-20'
+   }
+   console.log("URL",initialURL)
+   this.searchZipcode(initialURL)
+  }
+
+  onChange(event){
+    console.log(event)
+    if (event == 'Appointment'){
+      this.appointmentFields = true;
+    }
+    else if (event == 'Support'){
+      this.appointmentFields = false;
+    }
+    else if (event == 'UserDefined'){
+      this.appointmentFields = false;
+    }
+    else if (event == 'Delegated Referral'){
+      this.appointmentFields = false;
+    } else {
+      this.appointmentFields = false;
+    }
+
+}
+
+  //
+  searchZipcode(value){
+    this.reqObj.email = this.cus.getCurrentUser();
+    this.dss.searchZip(this.reqObj,value).subscribe(res => {
+      this.serviceProvider = res;
+      console.log("am i getting a response",this.serviceProvider)
+      this.array1 = this.serviceProvider.slice(0,25)
+      this.mapArray = this.serviceProvider.slice(0,20)
+      this.formZipcode = "&zip="
+      console.log("can I get a length",this.serviceProvider.length)
+      if(this.serviceProvider.length === 0){
+        alert("There are no practices in this zipcode")
+      }
+    })
+  }
+
+
+  next(data){
+    this.backitup = this.serviceProvider
+
+    if (data == "up"){
+      this.startA = this.startA+25
+      this.finishA = this.finishA+25
+      this.array1 = this.backitup.slice(this.startA,this.finishA)
+    } else if (data == "down"){
+      this.startA = this.startA-25
+      this.finishA = this.finishA-25
+      this.array1 = this.backitup.slice(this.startA,this.finishA)
+    } else {
+      this.array1 = this.backitup.slice(this.startA,this.finishA)
+    }
+    console.log("nextup",this.array1)
+  }
+
+
 
   // Pulls providers from AWS LAMDA
-  getProvider(zip, dob) {
-    this.reqObj.zip = zip
-     this.dss.getProvider(this.reqObj, zip, dob).subscribe(res => {
-       console.log("??Checkres",res);
-       this.serviceProvider = res;
-       //TEMPORARY SOLUTION FOR BAD ZIPCODE
-       if (this.serviceProvider.length != 10) {
-       console.log("SHOULD SHOW TEN", this.serviceProvider.length)
-       this.serviceProvider = null
-       alert("There are no service providers here yet.")
-      }
-       //if res.ErrorType
-    }, err => {
-      console.log(err);
-      console.log("Every CLick");
-
-    });
-}
+//  getProvider(zip, dob) {
+//    this.reqObj.zip = zip
+//     this.dss.getProvider(this.reqObj, zip, dob).subscribe(res => {
+//       console.log("??Checkres",res);
+//       this.serviceProvider = res;
+//       //TEMPORARY SOLUTION FOR BAD ZIPCODE
+//       if (this.serviceProvider.length != 10) {
+//       console.log("SHOULD SHOW TEN", this.serviceProvider.length)
+//       this.serviceProvider = null
+//       alert("There are no service providers here yet.")
+//      }
+//       //if res.ErrorType
+//    }, err => {
+//      console.log(err);
+//      console.log("Every CLick");
+//
+//    });
+//}
 
   patientAppointment(appointmentData) {
     if(this.patientAptAction.label == 'new'){
@@ -605,6 +742,229 @@ export class PatientsComponent implements OnInit {
     }
 
   }
+// REFERRALS AND TASK
+
+editReferral(data){
+  this.InputFormR = true;
+  this.selectedReferral = data;
+  this.referral_id = data.referral_id
+  console.log("selected Referral", this.selectedReferral);
+
+  (<FormGroup>this.referralDetailForm)
+    .patchValue({source: this.selectedReferral.source}, {onlySelf: true});
+
+  (<FormGroup>this.referralDetailForm)
+    .patchValue({referral_name: this.selectedReferral.referral_name}, {onlySelf: true});
+
+  (<FormGroup>this.referralDetailForm)
+    .patchValue({urgency: this.selectedReferral.urgency}, {onlySelf: true});
+
+  (<FormGroup>this.referralDetailForm)
+    .patchValue({due_date: this.selectedReferral.due_date}, {onlySelf: true});
+
+  (<FormGroup>this.referralDetailForm)
+    .patchValue({referral_description: this.selectedReferral.referral_description}, {onlySelf: true});
+
+  (<FormGroup>this.referralDetailForm)
+    .patchValue({referral_id: this.selectedReferral.referral_id}, {onlySelf: true});
+
+} //
+
+updateReferral(){
+  let reqObj: any = {
+      referral_id: this.referral_id,
+      source: this.referralDetailForm.value.source,
+      referral_name: this.referralDetailForm.value.referral_name,
+      referral_description: this.referralDetailForm.value.referral_description,
+      urgency: this.referralDetailForm.value.urgency,
+      due_date: this.referralDetailForm.value.due_date,
+    };
+    this.dss.updateReferral(reqObj).subscribe(res => {
+      let response:any = res;
+      if(response.status == 'ok'){
+        alert("referral updated")
+        this.referralDetailForm.reset()
+        this.editR = false; 
+        this.getReferral(this.patientId);
+        //add call for input window to close
+      }
+    }, err => {
+      console.log("Error::"+err)
+    })
+}
+
+
+ getReferral(data){
+   console.log("patientID PLEASE", data)
+   this.reqObj.email = this.cus.getCurrentUser()
+   this.reqObj.patient_id = data
+   this.dss.getReferral(this.reqObj).subscribe(res => {
+      const response: any = res;
+     if (response.status === 'ok') {
+       console.log("Referral response", response)
+     this.referralDetail = response.referral_list 
+ 
+   }
+ })
+ }
+
+  createReferral(){
+    let reqObj: any = {
+      email: this.cus.getCurrentUser(),
+      patient_id: this.patientId,
+      source: this.referralDetailForm.value.source,
+      referral_name: this.referralDetailForm.value.referral_name,
+      referral_description: this.referralDetailForm.value.referral_description,
+      urgency: this.referralDetailForm.value.urgency,
+      due_date: this.referralDetailForm.value.due_date,
+    };
+    this.dss.referralCreate(reqObj).subscribe(res => {
+      let response:any = res;
+      if(response.status == 'ok'){
+        alert("referral created")
+        //add call for input window to close
+        this.referralDetailForm.reset()
+        this.getReferral(this.patientId);
+      }
+    }, err => {
+      console.log("Error::"+err)
+    })
+  }
+
+  getTask(value){
+    this.taskPanel = true;
+    this.InputFormT = true;
+    this.referralDetailForm.reset();
+    this.taskDetailForm.reset();
+
+    this.editT = false;
+    this.editR = false;
+    this.referral_id = value
+    this.reqObj.referral_id = value
+    this.reqObj.email = this.cus.getCurrentUser()
+    this.dss.getTaskDetails(this.reqObj).subscribe(res =>{
+  const response: any = res;
+     if (response.status === 'ok') {
+       console.log("Task response", response)
+     this.taskDetails = response.task_list 
+   }
+
+ })
+ }
+
+// update this
+  createTask(){
+    
+    let reqObj: any = {
+      referral_id: this.referral_id,
+      task_type: this.taskDetailForm.value.task_type,
+      task_status: this.taskDetailForm.value.task_status,
+      task_owner: this.taskDetailForm.value.task_owner,
+      provider: this.taskDetailForm.value.provider,
+      task_deadline: this.taskDetailForm.value.task_deadline,
+      task_description: this.taskDetailForm.value.task_description, 
+    };
+   //UPDATE THIS TO THE CORRECT API
+   this.dss.createTask(reqObj).subscribe(res => {
+     let response:any = res;
+     if(response.status == 'ok'){
+       alert("Task created")
+       this.getTask(this.referral_id);
+       this.taskDetailForm.reset();   
+       //add call for input window to close
+     }
+   }, err => {
+     console.log("Error::"+err)
+   })
+  }
+
+  editTask(data){
+    this.editT = true;
+    this.InputFormT = true;
+    this.selectedTask = data;
+    this.taskId = this.selectedTask.task_id;
+
+  (<FormGroup>this.taskDetailForm)
+    .patchValue({task_type: this.selectedTask.task_type}, {onlySelf: true});
+
+  (<FormGroup>this.taskDetailForm)
+    .patchValue({task_status: this.selectedTask.task_status}, {onlySelf: true});
+  
+  (<FormGroup>this.taskDetailForm)
+    .patchValue({provider: this.selectedTask.provider}, {onlySelf: true});
+
+  (<FormGroup>this.taskDetailForm)
+    .patchValue({task_owner: this.cus.getCurrentUser()}, {onlySelf: true});
+
+  (<FormGroup>this.taskDetailForm)
+    .patchValue({task_deadline: this.selectedTask.task_deadline}, {onlySelf: true});
+
+  (<FormGroup>this.taskDetailForm)
+    .patchValue({task_description: this.selectedTask.task_description}, {onlySelf: true});
+
+ }
+ updateTask(){
+     let reqObj: any = {
+      task_id: this.taskId,
+      task_type: this.taskDetailForm.value.task_type,
+      task_status: this.taskDetailForm.value.task_status,
+      task_owner: this.taskDetailForm.value.task_owner,
+      provider: this.taskDetailForm.value.provider,
+      task_deadline: this.taskDetailForm.value.task_deadline,
+      task_description: this.taskDetailForm.value.task_description, 
+    };
+    this.dss.updateTask(reqObj).subscribe(res => {
+     let response:any = res;
+     if(response.status == 'ok'){
+       alert("Task Updated")
+       this.getTask(this.referral_id)
+       this.taskDetailForm.reset()
+       this.editT = false; 
+       //add call for input window to close
+     }
+   }, err => {
+     console.log("Error::"+err)
+   })
+ }
+
+ theChecker(){
+    var grandURL = ""
+    console.log("zipcode",this.searchDetails.value.zipcode)
+    //Z I P C O D E 
+    if (this.searchDetails.value.zipcode != '') {
+      grandURL = grandURL+this.formZipcode+this.searchDetails.value.zipcode
+    }  // R A D I U S
+    if(this.searchDetails.value.radius != ''){
+      grandURL = grandURL+this.formRadius+this.searchDetails.value.radius
+    } 
+    // T R E A T M E N T
+    if(this.searchDetails.value.treatment != ''){
+      grandURL = grandURL+this.formTreatment+this.searchDetails.value.treatment
+    }
+    // A G E 
+    if(this.searchDetails.value.age == ''){
+      grandURL = grandURL
+    }else if(this.searchDetails.value.age == '5 or less') {
+      grandURL = grandURL+this.formAge+'5_or_less'
+    }else if(this.searchDetails.value.age == 'Between 6-20'){
+        grandURL = grandURL+this.formAge+'between_6-20'
+    }else if(this.searchDetails.value.age == 'Above 20'){
+        grandURL = grandURL+this.formAge+'Above_20'
+    } else {
+      return grandURL
+    }
+
+    console.log("GRAND",grandURL)
+    this.searchZipcode(grandURL)
+  }
+
+
+ //
+
+
+
+
+
   // reset data
   reset():void{
     this.appointmentList = [];
