@@ -422,28 +422,70 @@ edit
 
 
           <div class="ap-body">
-         <div>
-            <div>
-                <h4>Communication</h4>
-                <mat-divider></mat-divider>
-            </div>
-            <table>
-                <tr>
-                    <th width="20%">Date</th>
-                    <th width="20%">Type</th>
-                    <th width="20%">Direction</th>
-                    <th>Message</th>
-                </tr>
-                <tr>
-                    <th>June 1</th>
-                    <th> SMS</th>
-                    <th> --></th>
-                    <th>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio.  </th>
-                </tr>
-                
-            </table> 
             <i class="material-icons">send</i>New Message
-         </div>
+             <div>
+                <div>
+                    <h4>Task_Id Communication Patient Name & Reciever</h4>
+                    <mat-divider></mat-divider>
+                </div>
+
+                        <div class="container">
+                            <i class="material-icons">
+                            group
+                            </i>
+                              <p>Hello. How are you today?</p>
+                              <span class="time-right">11:00</span>
+                            </div>
+
+                            <div class="container darker">
+                              <i class="material-icons right">
+                            face
+                            </i>
+                              <p>Hey! I'm fine. Thanks for asking!</p>
+                              <span class="time-left">11:01</span>
+                            </div>
+
+                            <div class="container">
+                            <i class="material-icons">
+                            group
+                            </i>
+                              <p>Sweet! So, what do you wanna do today?</p>
+                              <span class="time-right">11:02</span>
+                            </div>
+
+                            <div class="container darker">
+                                <i class="material-icons right">
+                            face
+                            </i>
+                              <p>Nah, I dunno. Play soccer.. or learn more coding perhaps?</p>
+                              <span class="time-left">11:05</span>
+                        </div>
+
+                <!-- <table>
+                    <tr>
+                        <th width="20%">Date</th>
+                        <th width="20%">Type</th>
+                        <th width="20%">Direction</th>
+                        <th>Message</th>
+                    </tr>
+                    <tr>
+                        <th>June 1</th>
+                        <th> SMS</th>
+                        <th> </th>
+                        <th>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio.  </th>
+                    </tr>
+                    
+                    </table> -->
+                
+                <form [formGroup]= 'messageForm' (ngSubmit)='sendMessage()'>
+                    <label>Tasks</label><br/>
+
+                        <mat-form-field class="">
+                            <input matInput name="comm_message" placeholder="Message" formControlName="comm_message">
+                        </mat-form-field> 
+                        <button type="submit" class="btn btn-info">SEND</button>
+                </form>
+             </div>
          </div>
      </mat-expansion-panel>
 

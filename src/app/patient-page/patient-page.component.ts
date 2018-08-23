@@ -45,6 +45,7 @@ export class PatientPageComponent implements OnInit {
   taskDetailForm: FormGroup
   patientDetailsEditForm: FormGroup
   patientAppointmentForm: FormGroup
+  messageForm: FormGroup
   //for date
   dateOfBirth: any = {};
   dateOfAppointment: any = {};
@@ -175,6 +176,15 @@ export class PatientPageComponent implements OnInit {
         others: false,
       })
     })
+     this.messageForm = this.fb.group({
+       task_id: [''],
+       sender_id: [''],
+       recipient_id: [''],
+       recipient_type: [''],
+       comm_subject: [''],
+       comm_message: [''],
+
+     })
   }
 
 //Get Patient Info
@@ -510,6 +520,28 @@ updateReferral(){
        this.getTask(this.referral_id)
        this.taskDetailForm.reset()
        this.editT = false; 
+       //add call for input window to close
+     }
+   }, err => {
+     console.log("Error::"+err)
+   })
+ }
+
+ sendMessage(){
+
+   let reqObj: any = {
+     task_id: this.taskId,
+     sender_id: this.cus.getCurrentUser(),
+     recipient_id: this.patientId,
+     recipient_type: "patient", 
+     comm_subject: "blank", 
+     comm_message: this.messageForm.value.comm_message
+   };
+    this.dss.sendMessage(reqObj).subscribe(res => {
+     let response:any = res;
+     if(response.status == 'ok'){
+       alert("Task Updated")
+       this.messageForm.reset()
        //add call for input window to close
      }
    }, err => {

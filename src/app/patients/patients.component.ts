@@ -455,16 +455,16 @@ export class PatientsComponent implements OnInit {
   urlBuilder(zip,age){
    var initialURL = ""
    initialURL = initialURL + this.formZipcode 
-   this.formRadius = this.formRadius + "5"
+   this.formRadius = this.formRadius + "10"
    initialURL = initialURL + this.formRadius
    
-   if (age <= 5) {
-     initialURL = initialURL+ this.formAge+'5_or_less'
-   } else if (age >= 20){ 
-     initialURL = initialURL+this.formAge+'Above_20'}
-   else {
-       initialURL = initialURL+this.formAge+'between_6-20'
-   }
+  // if (age <= 5) {
+  //   initialURL = initialURL+ this.formAge+'5_or_less'
+  // } else if (age >= 20){ 
+  //   initialURL = initialURL+this.formAge+'Above_20'}
+  // else {
+  //     initialURL = initialURL+this.formAge+'between_6-20'
+  // }
    console.log("URL",initialURL)
    this.searchZipcode(initialURL)
   }
@@ -494,8 +494,9 @@ export class PatientsComponent implements OnInit {
     this.dss.searchZip(this.reqObj,value).subscribe(res => {
       this.serviceProvider = res;
       console.log("am i getting a response",this.serviceProvider)
-      this.array1 = this.serviceProvider.slice(0,25)
+      this.array1 = this.serviceProvider.slice(0,20)
       this.mapArray = this.serviceProvider.slice(0,20)
+      console.log("maparray", this.mapArray)
       this.formZipcode = "&zip="
       console.log("can I get a length",this.serviceProvider.length)
       if(this.serviceProvider.length === 0){
