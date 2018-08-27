@@ -111,6 +111,8 @@ export class PracticesComponent implements OnInit {
     console.log("What I'm passing", value1,value2)
     if(confirm("Are you sure to flag this provider?")) {
     console.log("Implement delete functionality here", value1);
+    this.providerFlag = !this.providerFlag
+
       this.reqObj.providerId= value1
       this.reqObj.providerFlag= value2
     this.dss.flagPractice(this.reqObj).subscribe(res =>{
@@ -118,6 +120,7 @@ export class PracticesComponent implements OnInit {
      let response:any = res;
      if(response.status == 'ok'){
        alert("Flagged Provider")
+
        //add call for input window to close
      }
    }, err => {
@@ -189,6 +192,7 @@ export class PracticesComponent implements OnInit {
   	this.reqObj.email = this.cus.getCurrentUser();
   	this.dss.searchZip(this.reqObj,value).subscribe(res => {
   		this.serviceProvider = res;
+      console.log("distance", res)
       this.breakitdown(res);
   		console.log("can I get a length",this.serviceProvider.length)
   		if(this.serviceProvider.length === 0){
@@ -221,7 +225,7 @@ export class PracticesComponent implements OnInit {
       //Basic Info
       this.providerId = data.Id
       this.providerName = data.Name
-      this.providerFlag = data.Flagged_Provider__c
+      this.providerFlag = data.Flagged_Provider__c      
       this.providerDescription = data.Description
       this.providerDescription2 = data.External_Description__c
       this.providerZipCode = data.BillingAddress.postalCode

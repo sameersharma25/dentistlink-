@@ -1,0 +1,105 @@
+<app-home-navbar></app-home-navbar>
+
+<div class="appointment-wrapper">
+    <div class="side-bar" >
+        <ul>
+            <li><a routerLink="/appointment" routerLinkActive="active">Appointment</a></li>
+            <li><a routerLink="/patients" routerLinkActive="active">Patients</a></li> 
+            <li><a routerLink="/practices" routerLinkActive="active">Practices</a></li> 
+            <li><a routerLink="/communication" routerLinkActive="active">Communications</a></li>
+        </ul>
+    </div>
+
+        <div class="mid-section" >
+        <div class="ap-header">
+            <div class="toggle-sidebar pull-left" >
+                <i class="material-icons">reorder</i>
+            </div>
+            <div class="pull-left h-txt pd_L7" style="padding-left: 20px;">Communication</div>
+            <div class="pull-right">
+                <!--<button class="btn btn-info" (click)="openAppointmentAction(null)">New Appointment</button>-->
+            </div>
+        </div>
+        <div class="ap-body">
+            <div class="sub-header">
+                <div class="sub-menu active">Text</div>
+                <div class="sub-menu">Email</div>
+            </div>
+
+
+            <div class="sub-header">
+            	            <form >
+
+			<mat-form-field class ="">
+                <input matInput name="searchZipcode" placeholder="Patient" >
+			</mat-form-field>
+
+			<mat-form-field class="">
+				<mat-select placeholder ="radius" >
+                    <mat-option value=""></mat-option>
+					<mat-option *ngFor ="let r of radiusOp" [value]="r"> 
+						{{r}} 
+					</mat-option>
+				</mat-select>
+			</mat-form-field>
+
+            <mat-form-field class="">
+                <mat-select placeholder ="age" >
+                    <mat-option value=""></mat-option>
+                    <mat-option *ngFor ="let a of ageOp" [value]="a"> 
+                        {{a}} 
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+			<mat-form-field class="">
+				<mat-select placeholder ="Treatment" >
+                     <mat-option value=""></mat-option>
+					<mat-option *ngFor ="let t of treatmentOp" [value]="t"> 
+						{{t}} 
+					</mat-option>
+				</mat-select>
+			</mat-form-field>
+            <button class="btn btn-info"> Temp Search Button</button>
+            </form>
+            </div>
+
+
+            <div class="list-wrapper">
+                <div class="table-row b-txt">
+                    <div class="table-cell c1">From</div>
+                    <div class="table-cell c2">Subject</div>
+                    <div class="table-cell c3">Message</div>
+                    <div class="table-cell c4">Time</div>
+                    <div class="table-cell c5">---</div>
+                </div>
+                <div class="lists">
+                    <div class="table-row n-txt"  >
+                        <div class="table-cell c1">Patient/Provider</div>
+                        <div class="table-cell c2">Task_126</div>
+                        <div class="table-cell c3">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean suscipit non nisl in mollis. </div>
+                        <div class="table-cell c4">11:00AM</div>
+                        <div class="table-cell c5"><a (click)="replyToggle = !replyToggle"> Reply </a></div>
+                    </div>
+                     <div *ngIf ="replyToggle == true" class="table-row n-txt"> <!-- Hidden field that displays on reply-->
+                       <mat-form-field class="">
+                            <input matInput name="comm_message" placeholder="Message" formControlName="comm_message">
+                        </mat-form-field> 
+                        <button type="submit" class="btn btn-info">SEND</button>
+                    </div>
+                    <div class="table-row n-txt"  >
+                        <div class="table-cell c1">Patient/Provider</div>
+                        <div class="table-cell c2">Task_126</div>
+                        <div class="table-cell c3">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean suscipit non nisl in mollis. </div>
+                        <div class="table-cell c4">11:00AM</div>
+                        <div class="table-cell c5"> REPLY</div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div> <!--End Appointment Wrapper -->
+

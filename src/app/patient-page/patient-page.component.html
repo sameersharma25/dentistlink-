@@ -5,7 +5,7 @@
             <li><a routerLink="/appointment" routerLinkActive="active">Appointment</a></li>
             <li><a routerLink="/patients" routerLinkActive="active">Patients</a></li>
             <li><a routerLink="/practices" routerLinkActive="active">Practices</a></li>
-            <li><a>Settings</a></li>
+            <li><a routerLink="/communication" routerLinkActive="active">Communications</a></li>
         </ul>
     </div>
      <!-- end side panel -->
@@ -16,7 +16,7 @@
                 <i class="material-icons">reorder</i>
             </div>
             <div class="pull-left h-txt pd_L7" style="padding-left: 20px;">
-                <span style="color: #5bc0de;"> Patients </span> > {{patientName}} {{patientNameLast}}</div>
+                <span style="color: #38a840;"> Patients </span> > {{patientName}} {{patientNameLast}}</div>
 
         </div>
 <div class="_clearfix"></div>
@@ -249,7 +249,7 @@
         <div class="ap-body">
         <div>
             <div style="border-color: gray; border-width: 2px; border-style: solid; width: 90%;">
-                <label><span style="color: #5bc0de;">Referral Details</span></label>
+                <label><span style="color: #38a840;">Referral Details</span></label>
                 <mat-divider></mat-divider>
                 <div class="_clearfix"></div>
                 <table  >
@@ -267,7 +267,7 @@
                         <th>001</th>
                     </tr> -->
                     <tr *ngFor ="let rdet of referralDetail" >
-                        <th (click)="getTask(rdet.referral_id)" ><span style="color: #5bc0de;">{{rdet.referral_name}} </span> </th>
+                        <th (click)="getTask(rdet.referral_id)" ><span style="color: #38a840;">{{rdet.referral_name}} </span> </th>
                         <th >{{rdet.urgency}}</th>
                         <th > {{rdet.due_date}} </th>
                         <th> To Be Done</th>
@@ -306,7 +306,7 @@ add_circle_outline
                     </mat-form-field>
 
                     <mat-form-field class="">
-                        <input matInput name="due_date" placeholder="Due Date" formControlName="due_date">
+                        <input matInput name="due_date" type="date" placeholder="Due Date" formControlName="due_date">
                     </mat-form-field> 
 
 
@@ -314,16 +314,16 @@ add_circle_outline
                         <input matInput name="referral_description" placeholder="Description" formControlName="referral_description">
                     </mat-form-field>  <br/>
 
-                      <button *ngIf="editR == false" type="submit" class="btn btn-info"> Create Referral</button>         
+                      <button *ngIf="editR == false" type="submit" class="btn cust_btn"> Create Referral</button>         
                 </form>
-                <button *ngIf="editR == true" (click)="updateReferral()" class="btn btn-info"> Update Referral</button>
+                <button *ngIf="editR == true" (click)="updateReferral()" class="btn cust_btn"> Update Referral</button>
                 </div>
 
             </div>
         </div> <!-- End 2nd Table -->
         <div class="_clearfix"></div>
 <mat-accordion>
-  <mat-expansion-panel>
+  <mat-expansion-panel [expanded]="taskPanel">
     <mat-expansion-panel-header>
       <mat-panel-title>
         Task 
@@ -349,41 +349,51 @@ add_circle_outline
                     <tr  *ngFor="let tList of taskDetails">
                         <th>{{tList.task_type}}</th>
                         <th>{{tList.task_status}}</th>
-                        <th>{{tList.task_id}}</th>
-                        <th>{{tList.task_deadline}}</th>
+                        <th>TBD</th>
+                        <th>{{tList.task_deadline | date: 'dd/MM/yyyy'}}</th>
                         <th (click)="editTask(tList)"><i class="material-icons">
 edit
 </i></th>
                     </tr>
                     <div class="_clearfix"></div>
-                
+                                 <a  *ngIf ="referral_id" (click)="InputFormT = !InputFormT"> <i class="material-icons">
+                                add_circle_outline
+                                </i>Add Task</a>
                 </table>
                 <div *ngIf = "InputFormT == true">
                 
                     <form [formGroup]= 'taskDetailForm' (ngSubmit)='createTask()'>
-                        <label>Tasks</label><br/>
 
                         <mat-form-field class="">
-                            <input matInput name="task_type" placeholder="Task Type" formControlName="task_type">
-                        </mat-form-field> 
-
-                        <mat-form-field class="">
-                            <mat-select placeholder ="Task Status" formControlName="task_status">
+                            <mat-select placeholder ="Task Type" formControlName="task_type" (ngModelChange)="onChange($event)">
                                  <mat-option value=""></mat-option>
                                  <mat-option *ngFor="let tsk of taskType" [value]="tsk"> {{tsk}}</mat-option>
                             </mat-select>
-                        </mat-form-field>
+                        </mat-form-field> 
 
-                        <mat-form-field class="">
-                            <mat-select placeholder ="Task Owner" formControlName="task_owner">
+                        <mat-form-field class="" *ngIf="appointmentFields === true" >
+                            <mat-select placeholder ="Treatment" formControlName="task_treatment">
                                  <mat-option value=""></mat-option>
+                                 <mat-option *ngFor="let trt of treatmentOp" [value]="trt"> {{trt}}</mat-option>
                             </mat-select>
                         </mat-form-field>
 
 
                         <mat-form-field class="">
-                            <input matInput name ="task_deadline" placeholder ="Task Deadline" formControlName="task_deadline">
+                                <input matInput name="task_status" placeholder="Task Status" formControlName="task_status">
+                        </mat-form-field>
 
+                        <mat-form-field class="">
+                            <input matInput name="task_owner" placeholder="Task Owner" formControlName="task_owner">
+                        </mat-form-field>
+
+
+                        <mat-form-field class="">
+                            <input matInput name ="task_deadline" type="date" placeholder ="Task Deadline" formControlName="task_deadline">
+                        </mat-form-field>
+
+                        <mat-form-field class="">
+                            <input matInput name ="provider"  placeholder ="Provider" formControlName="provider">
                         </mat-form-field>
 
 
@@ -391,15 +401,12 @@ edit
                             <input matInput name="task_description" placeholder="Description" formControlName="task_description">
                         </mat-form-field>
                         <br/>
-                        <button *ngIf="editT == false" type="submit" class="btn btn-info"> Create Task</button>
-
-
+                        
                     </form>
-                    <button *ngIf="editT == true" (click)="updateTask()" class="btn btn-info"> Update Task</button> 
+                    <button *ngIf="editT == false" type="submit" class="btn cust_btn"> Create Task</button>
+                    <button *ngIf="editT == true" (click)="updateTask()" class="btn cust_btn"> Update Task</button> 
                 </div>
-                 <a *ngIf ="referral_id" (click)="InputFormT = !InputFormT"> <i class="material-icons">
-                                add_circle_outline
-                                </i>Add Task</a>
+
       
   </mat-expansion-panel>
 </mat-accordion>
@@ -416,28 +423,70 @@ edit
 
 
           <div class="ap-body">
-         <div>
-            <div>
-                <h4>Communication</h4>
-                <mat-divider></mat-divider>
-            </div>
-            <table>
-                <tr>
-                    <th width="20%">Date</th>
-                    <th width="20%">Type</th>
-                    <th width="20%">Direction</th>
-                    <th>Message</th>
-                </tr>
-                <tr>
-                    <th>June 1</th>
-                    <th> SMS</th>
-                    <th> --></th>
-                    <th>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio.  </th>
-                </tr>
-                
-            </table> 
             <i class="material-icons">send</i>New Message
-         </div>
+             <div>
+                <div>
+                    <h4>Task_Id Communication Patient Name & Reciever</h4>
+                    <mat-divider></mat-divider>
+                </div>
+
+                        <div class="container">
+                            <i class="material-icons">
+                            group
+                            </i>
+                              <p>Hello. How are you today?</p>
+                              <span class="time-right">11:00</span>
+                            </div>
+
+                            <div class="container darker">
+                              <i class="material-icons right">
+                            face
+                            </i>
+                              <p>Hey! I'm fine. Thanks for asking!</p>
+                              <span class="time-left">11:01</span>
+                            </div>
+
+                            <div class="container">
+                            <i class="material-icons">
+                            group
+                            </i>
+                              <p>Doctor Dentist can see you monday at 2pm, does that work?</p>
+                              <span class="time-right">11:02</span>
+                            </div>
+
+                            <div class="container darker">
+                                <i class="material-icons right">
+                            face
+                            </i>
+                              <p>Yes! Thanks so much for the help</p>
+                              <span class="time-left">11:05</span>
+                        </div>
+
+                <!-- <table>
+                    <tr>
+                        <th width="20%">Date</th>
+                        <th width="20%">Type</th>
+                        <th width="20%">Direction</th>
+                        <th>Message</th>
+                    </tr>
+                    <tr>
+                        <th>June 1</th>
+                        <th> SMS</th>
+                        <th> </th>
+                        <th>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio.  </th>
+                    </tr>
+                    
+                    </table> -->
+                
+                <form [formGroup]= 'messageForm' (ngSubmit)='sendMessage()'>
+                    <label>Send Message</label><br/>
+
+                        <mat-form-field class="">
+                            <input matInput name="comm_message" placeholder="Message" formControlName="comm_message">
+                        </mat-form-field> 
+                        <button type="submit" class="btn cust_btn">SEND</button>
+                </form>
+             </div>
          </div>
      </mat-expansion-panel>
 

@@ -45,6 +45,7 @@ export class PatientPageComponent implements OnInit {
   taskDetailForm: FormGroup
   patientDetailsEditForm: FormGroup
   patientAppointmentForm: FormGroup
+  messageForm: FormGroup
   //for date
   dateOfBirth: any = {};
   dateOfAppointment: any = {};
@@ -62,7 +63,10 @@ export class PatientPageComponent implements OnInit {
   sourceType: any = [];
   taskType: any = [];
   urgencyType: any = [];
+  treatmentOp: any = [];
   taskLength: number;
+  appointmentFields: Boolean = false; 
+  taskPanel:Boolean = false;
 
 
 
@@ -120,6 +124,7 @@ export class PatientPageComponent implements OnInit {
     this.sourceType =["EHR", "EDR", "ExtCC","Internal", "Self"]
     this.taskType = ["Appointment","Support","UserDefined","Delegated Referral"]
     this.urgencyType = ["Critical" ,"High", "Moderate", "Low"]
+    this.treatmentOp=["Cleaning","Pain","Extraction","Orthodontics","Dentures"];
     this.patientPanel = true;
     this.getReferral();
     
@@ -144,6 +149,7 @@ export class PatientPageComponent implements OnInit {
       provider: [''],
       task_deadline: [''],
       task_description: [''],
+      task_treatment: ['']
     })
     this.patientDetailsEditForm = this.fb.group({
       firstName: [''],
@@ -175,6 +181,15 @@ export class PatientPageComponent implements OnInit {
         others: false,
       })
     })
+     this.messageForm = this.fb.group({
+       task_id: [''],
+       sender_id: [''],
+       recipient_id: [''],
+       recipient_type: [''],
+       comm_subject: [''],
+       comm_message: [''],
+
+     })
   }
 
 //Get Patient Info
@@ -328,7 +343,6 @@ export class PatientPageComponent implements OnInit {
     return new Date(tempDate);
   }
     getDateObject(date){
-      console.log("Date",date)
     if(date){
       let tempDate:any = date;
       let dateObj: any = {
@@ -340,6 +354,26 @@ export class PatientPageComponent implements OnInit {
     }
     return;
   }
+
+
+  onChange(event){
+    console.log(event)
+    if (event == 'Appointment'){
+      this.appointmentFields = true;
+    }
+    else if (event == 'Support'){
+      this.appointmentFields = false;
+    }
+    else if (event == 'UserDefined'){
+      this.appointmentFields = false;
+    }
+    else if (event == 'Delegated Referral'){
+      this.appointmentFields = false;
+    } else {
+      this.appointmentFields = false;
+    }
+
+}
 
 editReferral(data){
   this.editR = true; 
@@ -369,7 +403,6 @@ editReferral(data){
 } //
 
 updateReferral(){
-  console.log("ID VALIE", this.referral_id)
   let reqObj: any = {
       referral_id: this.referral_id,
       source: this.referralDetailForm.value.source,
@@ -379,7 +412,6 @@ updateReferral(){
       due_date: this.referralDetailForm.value.due_date,
     };
     this.dss.updateReferral(reqObj).subscribe(res => {
-      console.log("what are my values",reqObj)
       let response:any = res;
       if(response.status == 'ok'){
         alert("referral updated")
@@ -395,7 +427,6 @@ updateReferral(){
 
 
  getReferral(){
-   console.log("id", this.patientId)
    this.reqObj.email = this.cus.getCurrentUser()
    this.reqObj.patient_id = this.patientId
    this.dss.getReferral(this.reqObj).subscribe(res => {
@@ -403,6 +434,8 @@ updateReferral(){
      if (response.status === 'ok') {
        console.log("Referral response", response)
      this.referralDetail = response.referral_list 
+ 
+     console.log("R ID Please", this.referralDetail.referral_id)
  
    }
  })
@@ -419,7 +452,6 @@ updateReferral(){
       due_date: this.referralDetailForm.value.due_date,
     };
     this.dss.referralCreate(reqObj).subscribe(res => {
-      console.log("what are my values",reqObj)
       let response:any = res;
       if(response.status == 'ok'){
         alert("referral created")
@@ -434,9 +466,11 @@ updateReferral(){
 
   getTask(value){
     this.referralDetailForm.reset();
+    this.taskDetailForm.reset();
+    this.InputFormT = true;
+    this.taskPanel = true;
     this.editT = false;
     this.editR = false;
-    console.log("what is the id value",value)
     this.referral_id = value
     this.reqObj.referral_id = value
     this.reqObj.email = this.cus.getCurrentUser()
@@ -453,7 +487,6 @@ updateReferral(){
 
 // update this
   createTask(){
-    console.log("creating a task", this.referral_id)
     let reqObj: any = {
       referral_id: this.referral_id,
       task_type: this.taskDetailForm.value.task_type,
@@ -465,7 +498,6 @@ updateReferral(){
     };
    //UPDATE THIS TO THE CORRECT API
    this.dss.createTask(reqObj).subscribe(res => {
-     console.log("what are my values",reqObj)
      let response:any = res;
      if(response.status == 'ok'){
        alert("Task created")
@@ -481,7 +513,6 @@ updateReferral(){
   editTask(data){
     this.editT = true;
     this.InputFormT = true;
-    console.log("Task Data",data)
     this.selectedTask = data;
     this.taskId = this.selectedTask.task_id;
 
@@ -512,13 +543,34 @@ updateReferral(){
       task_description: this.taskDetailForm.value.task_description, 
     };
     this.dss.updateTask(reqObj).subscribe(res => {
-     console.log("Checking An Update",reqObj)
      let response:any = res;
      if(response.status == 'ok'){
        alert("Task Updated")
        this.getTask(this.referral_id)
        this.taskDetailForm.reset()
        this.editT = false; 
+       //add call for input window to close
+     }
+   }, err => {
+     console.log("Error::"+err)
+   })
+ }
+
+ sendMessage(){
+
+   let reqObj: any = {
+     task_id: this.taskId,
+     sender_id: this.cus.getCurrentUser(),
+     recipient_id: this.patientId,
+     recipient_type: "patient", 
+     comm_subject: "blank", 
+     comm_message: this.messageForm.value.comm_message
+   };
+    this.dss.sendMessage(reqObj).subscribe(res => {
+     let response:any = res;
+     if(response.status == 'ok'){
+       alert("Task Updated")
+       this.messageForm.reset()
        //add call for input window to close
      }
    }, err => {
