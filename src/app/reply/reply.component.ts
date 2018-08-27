@@ -47,11 +47,7 @@ sendReply(){
 	}
 	this.dss.sendReply(this.reqObj).subscribe(res => {
      let response:any = res;
-     if(response.status == 'ok'){
-       alert("Reply Sent")
-       this.messageForm.reset()
-       //add call for input window to close
-     }
+
    }, err => {
      console.log("Error::"+err)
    })
