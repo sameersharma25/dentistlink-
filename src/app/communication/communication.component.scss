@@ -1,0 +1,203 @@
+.appointment-wrapper{
+    width: 100%;
+    height: calc(100vh - 107.6px);
+    overflow: hidden;
+}
+.side-bar, .mid-section{
+    float: left;
+    height: 100%;
+}
+.side-bar{
+    width: 0px;
+    background-color: #071f47;
+    position: relative;
+    transition: all 0.5s ease-in-out;
+}
+.side-bar.expanded{
+    width: 150px;
+    transition: all 0.5s ease-in-out;
+}
+.side-bar.expanded ul{
+    overflow: hidden;
+    transition: all 0.5s ease-in-out;
+}
+.toggle-sidebar{
+    background: #b9babc;
+    padding: 4px 10px 0px 10px;
+    cursor: pointer;
+}
+.side-bar ul{
+    width: 100%;
+    overflow: auto;
+    margin: 0px;
+    padding: 10px 0px;
+    list-style-type: none;
+    transition: all 0.5s ease-in-out;
+}
+.side-bar ul li{
+    display: block;
+    text-align: left;
+    padding: 10px 20px;
+}
+.side-bar ul li:hover, .side-bar ul li.active{
+    cursor: pointer;
+    background-color: #38a840!important;
+}
+.side-bar ul li a{
+    color: #fff;
+    text-decoration: none;
+}
+.mid-section{
+    width: 100%;
+    background-color: #e2e8e7;
+    padding: 0 10px;
+    transition: all 0.5s ease-in-out;
+}
+.mid-section.left-collapsed{
+    width: calc(100% - 150px);
+    transition: all 0.5s ease-in-out;
+}
+.mid-section.right-collapsed{
+    width: calc(100% - 40%);
+    transition: all 0.5s ease-in-out;
+}
+.mid-section.left-collapsed.righ-collapsed, .mid-section.right-collapsed.left-collapsed{
+    width: calc(100% - 40% - 150px);
+    transition: all 0.5s ease-in-out;
+}
+
+.mid-section.left-collapsed .toggle-sidebar{
+    background: initial !important;
+}
+.right-section{
+    width: 0%;
+    height: 0px;
+    display: none;
+    float: right;
+    padding: 0 15px;
+    overflow-y: auto;
+}
+.right-section.expanded{
+    width: 40%;
+    height: 100%;
+    display: block;
+    transition: all 0.5s ease-in-out;
+}
+.ap-header{
+    width: 100%;
+    height: 50px;
+    padding: 8px 0px;
+}
+.ap-body{
+    width: 100%;
+    height: calc(100% - 60px);
+    background-color: #fff;
+}
+.h-txt{
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1.8;
+}
+.sub-header{
+    padding: 7px 0px;
+}
+.sub-menu{
+    display: inline-block;
+    margin: 0 7px;
+    padding: 0 2px;
+    cursor: pointer;
+    color: #bbb;
+}
+.sub-menu.active{
+    border-bottom: 2px solid #38a840;
+    color: #333;
+}
+.sub-menu:hover{
+    color: #333;
+}
+.table-row{
+    display: table;
+    width: 100%;
+    padding: 5px 0;
+}
+.table-cell{
+    display: table-cell;
+    vertical-align: middle;
+}
+.c1{width: 115px;} .c2{width: 20%;} .c3{width: 30%;} .c4{width: calc(60% - 250px);} .c5{width: 20%;}
+.list-wrapper{
+    padding: 0px 7px;
+    height: calc(100% - 35.6px);
+}
+.b-txt{ 
+    font-size: 12px;
+    font-weight: 600;
+    color: #07307a;
+}
+.n-txt{
+    font-size: 12px;
+    font-weight: 500;
+    color: #6c5959;
+}
+.lists{
+    height: calc(100% - 27.15px);
+    overflow-y: auto;
+}
+.lists .table-row:hover, .lists .table-row.active{
+    background-color: #38a840;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+.section-row{
+    margin-bottom: 5px;
+}
+.txt-cell{
+    width: calc(100% - 150px);
+    float: left;
+    line-height: 2.3;
+}
+.sec-action{
+    width: 150px;
+    float: left;
+}
+.btn.cust_btn{
+    background: initial;
+    color: #37c4dc;
+    border-color: #37c4dc;
+    border-radius: 0px;
+    padding: 5px 20px;
+    font-weight: 600;
+}
+.btn.cust_btn:hover{
+    background: #37c4dc;
+    color: #fff;
+}
+.left-field, .right-field{
+    width: 50%;
+    float: left;
+}
+.sub-label{
+    font-size: 13px;
+    color: #bbb;
+}
+.font-color{
+    color: #38A840;
+}
+/* mat radio & checkbox */
+::ng-deep .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle{
+    border-color: #38A840 !important;
+}
+::ng-deep .mat-radio-button.mat-accent .mat-radio-inner-circle {
+    background-color: #38A840 !important;
+}
+::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-background, .mat-checkbox-indeterminate.mat-accent .mat-checkbox-background{
+    background-color: #38A840 !important;
+}
+::ng-deep .mat-ripple-element {
+    background-color:#38a840 !important;
+}
+
+.highlighted {
+  background-color:#38a840 !important;
+  color: white;
+}

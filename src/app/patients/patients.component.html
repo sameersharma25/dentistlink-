@@ -5,7 +5,7 @@
             <li><a routerLink="/appointment" routerLinkActive="active">Appointment</a></li>
             <li><a routerLink="/patients" routerLinkActive="active">Patients</a></li>
             <li><a routerLink="/practices" routerLinkActive="active">Practices</a></li>
-            <li><a>Settings</a></li>
+            <li><a routerLink="/communication" routerLinkActive="active">Communications</a></li>
         </ul>
     </div>
     <!--TEST -->
@@ -116,7 +116,18 @@
                                     <mat-checkbox  [checked]="sp.Endodontic_c === 'Appointment Only'||sp.Extractions__c === true" [disableRipple]="true" style="margin-right:10px;" disabled="true">Endodontic</mat-checkbox>
                                     <mat-checkbox [checked]="sp.Oral_Surgery_c === true|| sp.Oral_Surgery_c ==='Appointment Only'" [disableRipple]="true" disabled="true" > Oral Surgery</mat-checkbox><br/>
                                     <button class ="btn btn-info" type ="button" (click)="saveProvider(sp.Name)">Save Provider</button> 
+                                
+
                                 </div>
+                                <div *ngIf = "taskId">
+                                    <form [formGroup]= 'messageForm' (ngSubmit)='sendMessage(sp.Id)'>
+                                        <label>Message Provider</label><br/>
+                                        <mat-form-field class="">
+                                            <input matInput name="comm_message" placeholder="Message" formControlName="comm_message">
+                                        </mat-form-field> 
+                                        <button type="submit" class="btn cust_btn">SEND</button>
+                                    </form>
+                            </div>
 
                         </mat-expansion-panel>
                     </mat-accordion> 
@@ -479,12 +490,14 @@ edit
 </i></th>
                     </tr>
                     <div class="_clearfix"></div>
+                                     <a *ngIf ="referral_id" (click)="InputFormT = !InputFormT"> <i class="material-icons">
+                                add_circle_outline
+                                </i>Add Task</a>
                 
                 </table>
                 <div *ngIf = "InputFormT == true">
                 
                     <form [formGroup]= 'taskDetailForm' (ngSubmit)='createTask()'>
-                        <label>Tasks</label><br/>
 
                         <mat-form-field class="">
                             <mat-select placeholder ="Task Type" formControlName="task_type" (ngModelChange)="onChange($event)">
@@ -523,17 +536,13 @@ edit
                             <input matInput name="task_description" placeholder="Description" formControlName="task_description">
                         </mat-form-field>
                         <br/>
-                        
+                        <button *ngIf="editT == false" type="submit" class="btn btn-info"> Create Task</button>
                     </form>
                     <button *ngIf ="referral_id" class ="btn btn-info" type ="button" (click)="isCollapsed1 = !isCollapsed1"> Select Provider</button>
-
-                        <button *ngIf="editT == false" type="submit" class="btn btn-info"> Create Task</button>
                         
                         <button *ngIf="editT == true" (click)="updateTask()" class="btn btn-info"> Update Task</button> 
                 </div>
-                 <a *ngIf ="referral_id" (click)="InputFormT = !InputFormT"> <i class="material-icons">
-                                add_circle_outline
-                                </i>Add Task</a>
+
                                
       
   </mat-expansion-panel>

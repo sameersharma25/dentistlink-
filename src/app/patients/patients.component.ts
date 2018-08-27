@@ -77,6 +77,7 @@ export class PatientsComponent implements OnInit {
   startA: number = 0;
   finishA: number = 25;
   appointmentFields: Boolean = false;
+  messageForm: FormGroup;
 
 
   constructor(
@@ -206,6 +207,15 @@ export class PatientsComponent implements OnInit {
       age: [''],
       treatment: ['']
     })
+    this.messageForm = this.fb.group({
+       task_id: [''],
+       sender_id: [''],
+       recipient_id: [''],
+       recipient_type: [''],
+       comm_subject: [''],
+       comm_message: [''],
+
+     })
   };
 
 
@@ -440,11 +450,9 @@ export class PatientsComponent implements OnInit {
            //fill practice search parameters
          (<FormGroup>this.searchDetails)
           .patchValue({zipcode: this.patientDetails.patient_zipcode}, {onlySelf: true});
-          this.formZipcode = this.formZipcode + this.patientDetails.patient_zipcode
-
-          this.urlBuilder(this.formZipcode,this.patientDetails.age)
-
-
+          this.formZipcode = this.formZipcode + this.patientDetails.patient_zipcode;
+          //this.urlBuilder(this.formZipcode,this.patientDetails.age);
+          this.urlBuilder(this.formZipcode);
       }
     }, err => {
       console.log(err);
@@ -452,7 +460,7 @@ export class PatientsComponent implements OnInit {
     });
   }
 
-  urlBuilder(zip,age){
+  urlBuilder(zip){
    var initialURL = ""
    initialURL = initialURL + this.formZipcode 
    this.formRadius = this.formRadius + "10"
@@ -921,6 +929,30 @@ updateReferral(){
        this.getTask(this.referral_id)
        this.taskDetailForm.reset()
        this.editT = false; 
+       //add call for input window to close
+     }
+   }, err => {
+     console.log("Error::"+err)
+   })
+ }
+
+ sendMessage(value){
+   console.log("messge Task_ID",this.taskId)
+
+   let reqObj: any = {
+
+     task_id: this.taskId,
+     sender_id: this.cus.getCurrentUser(),
+     recipient_id: value,
+     recipient_type: "patient", 
+     comm_subject: "blank", 
+     comm_message: this.messageForm.value.comm_message
+   };
+    this.dss.sendMessage(reqObj).subscribe(res => {
+     let response:any = res;
+     if(response.status == 'ok'){
+       alert("Task Updated")
+       this.messageForm.reset()
        //add call for input window to close
      }
    }, err => {

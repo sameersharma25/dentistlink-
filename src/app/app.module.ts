@@ -34,6 +34,8 @@ import { AgmSnazzyInfoWindowModule } from '@agm/snazzy-info-window';
 import { InvitationComponent } from './invitation/invitation.component';
 import { PracticesComponent } from './practices/practices.component';
 import { PatientPageComponent } from './patient-page/patient-page.component';
+import { CommunicationComponent } from './communication/communication.component';
+import { ReplyComponent } from './reply/reply.component';
 
 @NgModule({
   declarations: [
@@ -53,7 +55,9 @@ import { PatientPageComponent } from './patient-page/patient-page.component';
     PatientsComponent,
     PracticesComponent,
     InvitationComponent,
-    PatientPageComponent
+    PatientPageComponent,
+    CommunicationComponent,
+    ReplyComponent
   ],
   imports: [
     BrowserModule,

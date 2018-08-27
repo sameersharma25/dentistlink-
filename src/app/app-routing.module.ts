@@ -13,6 +13,8 @@ import { PatientsComponent } from './patients/patients.component';
 import { PracticesComponent } from './practices/practices.component';
 import { InvitationComponent } from './invitation/invitation.component';
 import { PatientPageComponent } from './patient-page/patient-page.component';
+import { CommunicationComponent } from './communication/communication.component';
+import { ReplyComponent } from './reply/reply.component';
 
 
 const routes: Routes = [
@@ -28,6 +30,10 @@ const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent
+  },
+  {
+    path: 'communication',
+    component: CommunicationComponent
   },
   {
     path: 'admin',
@@ -54,6 +60,12 @@ const routes: Routes = [
     canActivate: [AuthGuardGuard],
     component: PracticesComponent
   },
+    {
+    path: 'reply',
+    canActivate: [AuthGuardGuard],
+    component: ReplyComponent
+  },
+
   {
     path: 'create-appointment',
     canActivate: [AuthGuardGuard],

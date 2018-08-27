@@ -63,7 +63,10 @@ export class PatientPageComponent implements OnInit {
   sourceType: any = [];
   taskType: any = [];
   urgencyType: any = [];
+  treatmentOp: any = [];
   taskLength: number;
+  appointmentFields: Boolean = false; 
+  taskPanel:Boolean = false;
 
 
 
@@ -121,6 +124,7 @@ export class PatientPageComponent implements OnInit {
     this.sourceType =["EHR", "EDR", "ExtCC","Internal", "Self"]
     this.taskType = ["Appointment","Support","UserDefined","Delegated Referral"]
     this.urgencyType = ["Critical" ,"High", "Moderate", "Low"]
+    this.treatmentOp=["Cleaning","Pain","Extraction","Orthodontics","Dentures"];
     this.patientPanel = true;
     this.getReferral();
     
@@ -145,6 +149,7 @@ export class PatientPageComponent implements OnInit {
       provider: [''],
       task_deadline: [''],
       task_description: [''],
+      task_treatment: ['']
     })
     this.patientDetailsEditForm = this.fb.group({
       firstName: [''],
@@ -350,6 +355,26 @@ export class PatientPageComponent implements OnInit {
     return;
   }
 
+
+  onChange(event){
+    console.log(event)
+    if (event == 'Appointment'){
+      this.appointmentFields = true;
+    }
+    else if (event == 'Support'){
+      this.appointmentFields = false;
+    }
+    else if (event == 'UserDefined'){
+      this.appointmentFields = false;
+    }
+    else if (event == 'Delegated Referral'){
+      this.appointmentFields = false;
+    } else {
+      this.appointmentFields = false;
+    }
+
+}
+
 editReferral(data){
   this.editR = true; 
   this.InputFormR = true;
@@ -410,6 +435,8 @@ updateReferral(){
        console.log("Referral response", response)
      this.referralDetail = response.referral_list 
  
+     console.log("R ID Please", this.referralDetail.referral_id)
+ 
    }
  })
  }
@@ -440,6 +467,8 @@ updateReferral(){
   getTask(value){
     this.referralDetailForm.reset();
     this.taskDetailForm.reset();
+    this.InputFormT = true;
+    this.taskPanel = true;
     this.editT = false;
     this.editR = false;
     this.referral_id = value
