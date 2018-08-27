@@ -937,27 +937,36 @@ updateReferral(){
  }
 
  sendMessage(value){
+   console.log(value)
    console.log("messge Task_ID",this.taskId)
+   console.log("Patient ID present?", this.patientId)
+   let recpType: number;
+   if (value == "toPat"){
+     recpType = this.patientId
+   } else {
+     recpType = value
+   }
+
 
    let reqObj: any = {
 
      task_id: this.taskId,
      sender_id: this.cus.getCurrentUser(),
-     recipient_id: value,
+     recipient_id: recpType,
      recipient_type: "patient", 
      comm_subject: "blank", 
      comm_message: this.messageForm.value.comm_message
-   };
-    this.dss.sendMessage(reqObj).subscribe(res => {
-     let response:any = res;
-     if(response.status == 'ok'){
-       alert("Message Sent")
-       this.messageForm.reset()
-       //add call for input window to close
-     }
-   }, err => {
-     console.log("Error::"+err)
-   })
+    };
+   this.dss.sendMessage(reqObj).subscribe(res => {
+    let response:any = res;
+    if(response.status == 'ok'){
+      alert("Message Sent")
+      this.messageForm.reset()
+      //add call for input window to close
+    }
+  }, err => {
+    console.log("Error::"+err)
+  })
  }
 
  theChecker(){
