@@ -62,7 +62,6 @@ const routes: Routes = [
   },
     {
     path: 'reply',
-    canActivate: [AuthGuardGuard],
     component: ReplyComponent
   },
 
