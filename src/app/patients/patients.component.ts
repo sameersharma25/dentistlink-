@@ -946,10 +946,8 @@ updateReferral(){
    } else {
      recpType = value
    }
-
-
+   console.log("passing value", recpType)
    let reqObj: any = {
-
      task_id: this.taskId,
      sender_id: this.cus.getCurrentUser(),
      recipient_id: recpType,
@@ -957,16 +955,16 @@ updateReferral(){
      comm_subject: "blank", 
      comm_message: this.messageForm.value.comm_message
     };
-   this.dss.sendMessage(reqObj).subscribe(res => {
-    let response:any = res;
-    if(response.status == 'ok'){
-      alert("Message Sent")
-      this.messageForm.reset()
-      //add call for input window to close
-    }
-  }, err => {
-    console.log("Error::"+err)
-  })
+    this.dss.sendMessage(reqObj).subscribe(res => {
+     let response:any = res;
+     if(response.status == 'ok'){
+       //alert("Message Sent")
+       this.messageForm.reset()
+       //add call for input window to close
+     }
+   }, err => {
+     console.log("Error::"+err)
+   })
  }
 
  theChecker(){
