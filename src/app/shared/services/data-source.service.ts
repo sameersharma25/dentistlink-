@@ -156,7 +156,12 @@ export class DataSourceService {
     console.log("what i'm sending", reqObj)
     return this.http.get("https://qxm25470n5.execute-api.us-east-1.amazonaws.com/prod?provider_id=" + reqObj.providerId+ "&providerFlag=" + reqObj.providerFlag).map(res => res);
   }
-    sendMessage(reqObj): Observable<Object> {
+  commList(reqObj): Observable<Object> {
+    return this.http.post(`${this.baseUrl}/msg_list`, reqObj, this.httpOptions).map(res => {
+      return res;
+    });
+  }
+  sendMessage(reqObj): Observable<Object> {
     return this.http.post(`${this.baseUrl}/msg_send`, reqObj, this.httpOptions).map(res => {
       return res;
     });

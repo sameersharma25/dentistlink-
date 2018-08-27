@@ -3,7 +3,7 @@ import { Component, OnInit} from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import { CurrentUserService } from '../shared/services/current-user.service';
 import { DataSourceService } from '../shared/services/data-source.service';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Params} from '@angular/router';
 import {CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router, NavigationExtras} from '@angular/router';
 
 
@@ -127,7 +127,6 @@ export class PatientPageComponent implements OnInit {
     this.treatmentOp=["Cleaning","Pain","Extraction","Orthodontics","Dentures"];
     this.patientPanel = true;
     this.getReferral();
-    
 
   }
 
@@ -569,7 +568,7 @@ updateReferral(){
     this.dss.sendMessage(reqObj).subscribe(res => {
      let response:any = res;
      if(response.status == 'ok'){
-       alert("Task Updated")
+       alert("Message Sent")
        this.messageForm.reset()
        //add call for input window to close
      }

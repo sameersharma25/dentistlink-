@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import { CurrentUserService } from '../shared/services/current-user.service';
 import { DataSourceService } from '../shared/services/data-source.service';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Params} from '@angular/router';
 import {CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router, NavigationExtras} from '@angular/router';
 
 @Component({
@@ -13,6 +13,7 @@ import {CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router, Naviga
 export class ReplyComponent implements OnInit {
 	messageForm: FormGroup
 	reqObj: any = {};
+	communication_id: string 
 
   constructor(
   	private cus: CurrentUserService,
@@ -23,6 +24,12 @@ export class ReplyComponent implements OnInit {
 
   ngOnInit() {
   	this.createForm();
+
+  	  this.route.queryParams.subscribe(params => {
+      let comm_id = params['comm_id']
+      this.communication_id = comm_id
+      console.log("Comm ID ID ID", comm_id)
+    })
   }
 
 createForm(){
@@ -33,14 +40,15 @@ createForm(){
 }
 
 sendReply(){
+  console.log(this.communication_id)
 	this.reqObj = {
-		comm_id: this.messageForm.value.comm_id,
+		comm_id: this.communication_id,
 		message: this.messageForm.value.message,
 	}
 	this.dss.sendReply(this.reqObj).subscribe(res => {
      let response:any = res;
      if(response.status == 'ok'){
-       alert("Message Sent")
+       alert("Reply Sent")
        this.messageForm.reset()
        //add call for input window to close
      }
