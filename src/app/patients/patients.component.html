@@ -558,22 +558,46 @@ edit
                   </mat-expansion-panel-header>
                   <mat-divider></mat-divider>
         <div>
-            <table>
-                <tr>
-                    <th>Date</th>
-                    <th>Type</th>
-                    <th>Direction</th>
-                    <th>Message</th>
-                </tr>
-                <tr>
-                    <th>June 1</th>
-                    <th> SMS</th>
-                    <th> --></th>
-                    <th>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio.  </th>
-                </tr>
+                        <div class="container">
+                            <i class="material-icons">
+                            group
+                            </i>
+                              <p>Hello. How are you today?</p>
+                              <span class="time-right">11:00</span>
+                            </div>
+
+                            <div class="container darker">
+                              <i class="material-icons right">
+                            face
+                            </i>
+                              <p>Hey! I'm fine. Thanks for asking!</p>
+                              <span class="time-left">11:01</span>
+                            </div>
+
+                            <div class="container">
+                            <i class="material-icons">
+                            group
+                            </i>
+                              <p>Doctor Dentist can see you monday at 2pm, does that work?</p>
+                              <span class="time-right">11:02</span>
+                            </div>
+
+                            <div class="container darker">
+                                <i class="material-icons right">
+                            face
+                            </i>
+                              <p>Yes! Thanks so much for the help</p>
+                              <span class="time-left">11:05</span>
+                        </div>
                 
-            </table> 
-            <i class="material-icons">send</i>New Message
+                <form [formGroup]= 'messageForm' (ngSubmit)='sendMessage()'>
+                    <label>Send Message</label><br/>
+
+                        <mat-form-field class="">
+                            <input matInput name="comm_message" placeholder="Message" formControlName="comm_message">
+                        </mat-form-field> 
+                        <button type="submit" class="btn cust_btn">SEND</button>
+                </form>
          </div>
                 </mat-expansion-panel>
 

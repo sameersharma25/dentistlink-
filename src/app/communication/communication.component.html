@@ -34,32 +34,7 @@
                 <input matInput name="searchZipcode" placeholder="Patient" >
 			</mat-form-field>
 
-			<mat-form-field class="">
-				<mat-select placeholder ="radius" >
-                    <mat-option value=""></mat-option>
-					<mat-option *ngFor ="let r of radiusOp" [value]="r"> 
-						{{r}} 
-					</mat-option>
-				</mat-select>
-			</mat-form-field>
 
-            <mat-form-field class="">
-                <mat-select placeholder ="age" >
-                    <mat-option value=""></mat-option>
-                    <mat-option *ngFor ="let a of ageOp" [value]="a"> 
-                        {{a}} 
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-
-			<mat-form-field class="">
-				<mat-select placeholder ="Treatment" >
-                     <mat-option value=""></mat-option>
-					<mat-option *ngFor ="let t of treatmentOp" [value]="t"> 
-						{{t}} 
-					</mat-option>
-				</mat-select>
-			</mat-form-field>
             <button class="btn btn-info"> Temp Search Button</button>
             </form>
             </div>
@@ -73,27 +48,23 @@
                     <div class="table-cell c4">Time</div>
                     <div class="table-cell c5">---</div>
                 </div>
+
                 <div class="lists">
-                    <div class="table-row n-txt"  >
+                    <div class="table-row n-txt" *ngFor = "let data of messages">
                         <div class="table-cell c1">Patient/Provider</div>
-                        <div class="table-cell c2">Task_126</div>
-                        <div class="table-cell c3">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean suscipit non nisl in mollis. </div>
+                        <div class="table-cell c2">{{data.subject}}</div>
+                        <div class="table-cell c3">{{data.message}}</div>
                         <div class="table-cell c4">11:00AM</div>
                         <div class="table-cell c5"><a (click)="replyToggle = !replyToggle"> Reply </a></div>
                     </div>
+
                      <div *ngIf ="replyToggle == true" class="table-row n-txt"> <!-- Hidden field that displays on reply-->
                        <mat-form-field class="">
                             <input matInput name="comm_message" placeholder="Message" formControlName="comm_message">
                         </mat-form-field> 
                         <button type="submit" class="btn btn-info">SEND</button>
                     </div>
-                    <div class="table-row n-txt"  >
-                        <div class="table-cell c1">Patient/Provider</div>
-                        <div class="table-cell c2">Task_126</div>
-                        <div class="table-cell c3">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean suscipit non nisl in mollis. </div>
-                        <div class="table-cell c4">11:00AM</div>
-                        <div class="table-cell c5"> REPLY</div>
-                    </div>
+                    
 
                 </div>
             </div>

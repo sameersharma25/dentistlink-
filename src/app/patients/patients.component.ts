@@ -951,7 +951,7 @@ updateReferral(){
     this.dss.sendMessage(reqObj).subscribe(res => {
      let response:any = res;
      if(response.status == 'ok'){
-       alert("Task Updated")
+       alert("Message Sent")
        this.messageForm.reset()
        //add call for input window to close
      }
