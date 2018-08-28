@@ -17,7 +17,7 @@ export class ReplyComponent implements OnInit {
 
   constructor(
   	private cus: CurrentUserService,
-    private dss: DataSourceService,
+    public dss: DataSourceService,
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,) { }
@@ -47,6 +47,8 @@ sendReply(){
 	}
 	this.dss.sendReply(this.reqObj).subscribe(res => {
      let response:any = res;
+     window.close()
+
 
    }, err => {
      console.log("Error::"+err)

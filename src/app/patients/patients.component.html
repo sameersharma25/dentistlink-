@@ -558,11 +558,11 @@ edit
                   </mat-expansion-panel-header>
                   <mat-divider></mat-divider>
         <div>
-                        <div class="container">
+                        <div class="container" *ngFor ="let msg of messages">
                             <i class="material-icons">
                             group
                             </i>
-                              <p>Hello. How are you today?</p>
+                              <p>{{msg.message}}</p>
                               <span class="time-right">11:00</span>
                             </div>
 
@@ -573,22 +573,6 @@ edit
                               <p>Hey! I'm fine. Thanks for asking!</p>
                               <span class="time-left">11:01</span>
                             </div>
-
-                            <div class="container">
-                            <i class="material-icons">
-                            group
-                            </i>
-                              <p>Doctor Dentist can see you monday at 2pm, does that work?</p>
-                              <span class="time-right">11:02</span>
-                            </div>
-
-                            <div class="container darker">
-                                <i class="material-icons right">
-                            face
-                            </i>
-                              <p>Yes! Thanks so much for the help</p>
-                              <span class="time-left">11:05</span>
-                        </div>
                 
                 <form [formGroup]= 'messageForm' (ngSubmit)='sendMessage("toPat")'>
                     <label>Send Message</label><br/>

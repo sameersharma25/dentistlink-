@@ -78,6 +78,7 @@ export class PatientsComponent implements OnInit {
   finishA: number = 25;
   appointmentFields: Boolean = false;
   messageForm: FormGroup;
+  messages: any = [];
 
 
   constructor(
@@ -136,6 +137,7 @@ export class PatientsComponent implements OnInit {
 
     this.getAllPatients();
     this.createForm();
+    
 
 
   }
@@ -290,7 +292,7 @@ export class PatientsComponent implements OnInit {
   // right panel action for patient
   openPatientAction(data) {
 
-
+    this.getCommunication(data.patient_id);
     this.getReferral(data.patient_id);
     this.patientAction.isOpened = false;
     this.patientAction.collapsed = false;
@@ -755,6 +757,7 @@ export class PatientsComponent implements OnInit {
 
 editReferral(data){
   this.InputFormR = true;
+  this.editR = true;
   this.selectedReferral = data;
   this.referral_id = data.referral_id
   console.log("selected Referral", this.selectedReferral);
@@ -965,6 +968,20 @@ updateReferral(){
    }, err => {
      console.log("Error::"+err)
    })
+ }
+
+  getCommunication(data){
+    console.log("Patient ID",data)
+   this.reqObj.patient_id = data
+   this.reqObj.email = this.cus.getCurrentUser()
+   this.dss.commList(this.reqObj).subscribe(res => {
+      const response: any = res;
+     if (response.status === 'ok') {
+       console.log("Communcation response", response)
+     this.messages = response.comm_data
+     console.log("message", this.messages) 
+   }
+ })
  }
 
  theChecker(){

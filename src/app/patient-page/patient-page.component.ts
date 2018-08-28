@@ -67,6 +67,8 @@ export class PatientPageComponent implements OnInit {
   taskLength: number;
   appointmentFields: Boolean = false; 
   taskPanel:Boolean = false;
+  //messages
+  messages: any = [];
 
 
 
@@ -127,6 +129,7 @@ export class PatientPageComponent implements OnInit {
     this.treatmentOp=["Cleaning","Pain","Extraction","Orthodontics","Dentures"];
     this.patientPanel = true;
     this.getReferral();
+    this.getCommunication();
 
   }
 
@@ -553,6 +556,20 @@ updateReferral(){
    }, err => {
      console.log("Error::"+err)
    })
+ }
+
+  getCommunication(){
+   this.reqObj.patient_id = this.patientId;
+   this.reqObj.email = this.cus.getCurrentUser()
+   this.dss.commList(this.reqObj).subscribe(res => {
+      const response: any = res;
+     if (response.status === 'ok') {
+       console.log("Communcation response", response)
+     this.messages = response.comm_data
+     console.log("message", this.messages) 
+   }
+
+ })
  }
 
  sendMessage(){
