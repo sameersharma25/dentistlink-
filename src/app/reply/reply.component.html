@@ -1,8 +1,23 @@
-<form [formGroup]= 'messageForm' (ngSubmit)='sendReply()'>
-        <label>Reply Message</label><br/>
+<section class="fSection">
+    <div class="row">
+        <div class="col-sm-5">
+	      <div class="navbar-header">
+	          <a class="navbar-brand" ><img src="http://dentistlink.org/wp-content/uploads/2017/10/Arcora-300x72.png"></a>
+	      </div>
+        </div>
+    </div> 
+</section>
+<br/>
+<br/>
 
-            <mat-form-field class="">
-                <input matInput name="comm_message" placeholder="Message" formControlName="message">
-            </mat-form-field> 
-            <button type="submit" (click) ="sendReply()" class="btn cust_btn">SEND</button>
-    </form>
+<div class = "box">
+	<form [formGroup]= 'messageForm' (ngSubmit)='sendReply()'>
+	        <label>Reply Message</label><br/>
+
+	            <mat-form-field class="">
+	                <input matInput name="comm_message" placeholder="Message" formControlName="message">
+	            </mat-form-field> 
+	            <button type="submit" class="btn cust_btn">SEND</button>
+
+	</form>
+</div>

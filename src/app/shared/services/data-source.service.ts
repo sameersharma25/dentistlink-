@@ -167,7 +167,7 @@ export class DataSourceService {
     });
   }
   sendReply(reqObj): Observable<Object> {
-    return this.http.post(`${this.baseUrl}/msg_get`, reqObj, this.httpOptions).map(res => {
+    return this.http.post(`${this.baseUrl}/msg_get`, reqObj).map(res => {
       return res;
     });
   }

@@ -22,79 +22,6 @@
 <div class="_clearfix"></div>
             
             <mat-accordion>
-
-           <!--     <mat-expansion-panel>
-                  <mat-expansion-panel-header>
-                    <mat-panel-title class="label_txt">
-                      Patient Details 
-                    </mat-panel-title>
-                  </mat-expansion-panel-header>
-                <div class="ap-body">
-                <table>
-                    <tr >
-                        <th class = "thead">First Name</th>
-                        <th class = "thead">Last Name</th>
-                        <th class = "thead">Date Of Birth</th>
-                    </tr>
-                    <tr >
-                        <th class = "thead"> {{patientName}}</th>
-                        <th>{{patientNameLast}}</th>
-                        <th>{{patientDOB}}</th>
-                    </tr>
-                    <div class="_clearfix"></div>
-                     <tr >
-                        <th>Contact Name</th>
-                        <th>Relation to Patient</th>
-                        <th>Phone Number</th>
-                        <th>Email</th>
-                        <th class = "theadSpecial">Preferred Contact</th>
-                    </tr>
-                    <tr >
-                        <th>CONTACT NAME</th>
-                        <th>HUSBAND</th>
-                        <th class = "thead">{{patientPhone}}</th>
-                        <th class = "thead">{{patientEmail}}</th>
-                        <th class = "theadSpecial">
-                            <mat-radio-group  >
-                                        <mat-radio-button value="call" style="margin-right:10px;">Call</mat-radio-button>
-                                        <mat-radio-button value="text" style="margin-right:10px;">Text</mat-radio-button>
-                                        <mat-radio-button value="email">Email</mat-radio-button>
-                            </mat-radio-group>
-                        </th>
-                    </tr>
-                    <div class="_clearfix"></div>
-                        <tr>
-                        <th class = "thead">Address</th>
-                        <th class = "thead">Zip Code</th>
-
-                    </tr>
-                    <tr >
-                        <th class = "thead">{{patientAddress}} </th>
-                        <th>{{patientZipCode}}</th>
-
-                    </tr>
-                <div class="_clearfix"></div>
-                    <tr>
-                        <th>Insurance Type</th>
-                        <th>ABCD Eligible</th>
-                        <th>ABCD Coordinator</th>
-                        <th class = "theadSpecial">Conditions</th>
-                    </tr>
-                    <tr>
-                        <th>{{patientInsurance}}</th>
-                        <th> ABCD E</th>
-                        <th> ABCD E</th>
-                        <th class = "theadSpecial">
-                            <mat-radio-group  >
-                                        <mat-radio-button value="Diabetes" style="margin-right:10px;">Call</mat-radio-button>
-                                        <mat-radio-button value="Pregnant">Email</mat-radio-button>
-                            </mat-radio-group>
-                        </th>
-                    </tr>
-                </table>
-        </div>
-        </mat-expansion-panel>
--->
                 <mat-expansion-panel [expanded]="patientPanel">
                   <mat-expansion-panel-header>
                     <mat-panel-title class="label_txt">
@@ -430,11 +357,11 @@ edit
                     <mat-divider></mat-divider>
                 </div>
 
-                        <div class="container">
+                        <div class="container" *ngFor ="let msg of messages">
                             <i class="material-icons">
                             group
                             </i>
-                              <p>Hello. How are you today?</p>
+                              <p>{{msg.message}}</p>
                               <span class="time-right">11:00</span>
                             </div>
 
@@ -446,21 +373,7 @@ edit
                               <span class="time-left">11:01</span>
                             </div>
 
-                            <div class="container">
-                            <i class="material-icons">
-                            group
-                            </i>
-                              <p>Doctor Dentist can see you monday at 2pm, does that work?</p>
-                              <span class="time-right">11:02</span>
-                            </div>
 
-                            <div class="container darker">
-                                <i class="material-icons right">
-                            face
-                            </i>
-                              <p>Yes! Thanks so much for the help</p>
-                              <span class="time-left">11:05</span>
-                        </div>
 
                 <!-- <table>
                     <tr>
