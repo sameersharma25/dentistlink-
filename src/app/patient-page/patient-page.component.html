@@ -241,7 +241,7 @@ add_circle_outline
                         <input matInput name="referral_description" placeholder="Description" formControlName="referral_description">
                     </mat-form-field>  <br/>
 
-                      <button *ngIf="editR == false" type="submit" class="btn cust_btn"> Create Referral</button>         
+                      <button *ngIf="editR == false"  type="submit" class="btn cust_btn"> Create Referral</button>         
                 </form>
                 <button *ngIf="editR == true" (click)="updateReferral()" class="btn cust_btn"> Update Referral</button>
                 </div>
@@ -261,11 +261,12 @@ add_circle_outline
     </mat-expansion-panel-header>
     <table>
                     <tr>
-                        <th class = "thead">Task Type</th>
-                        <th class = "thead">Task Status</th>
-                        <th class = "thead">Select Provider</th>
-                        <th class = "thead">Deadline</th>
-                        <th class= "thead" > Edit</th>
+                        <th width ="15%">Task Type</th>
+                        <th width ="15%" >Task Status</th>
+                        <th width ="15%" >Select Provider</th>
+                        <th width ="15%" >Deadline</th>
+                        <th width ="15%" > Edit</th>
+                        <th width ="20%" > See Messages</th>
                     </tr>
                   <!--  <tr>
                         <th class = "thead" >Appointment</th>
@@ -279,8 +280,9 @@ add_circle_outline
                         <th>TBD</th>
                         <th>{{tList.task_deadline | date: 'dd/MM/yyyy'}}</th>
                         <th (click)="editTask(tList)"><i class="material-icons">
-edit
-</i></th>
+                            edit</i>
+                        </th>
+                        <th> <a (click)="getCommunication(tList.task_id)"> Link </a></th>
                     </tr>
                     <div class="_clearfix"></div>
                                  <a  *ngIf ="referral_id" (click)="InputFormT = !InputFormT"> <i class="material-icons">
@@ -328,10 +330,11 @@ edit
                             <input matInput name="task_description" placeholder="Description" formControlName="task_description">
                         </mat-form-field>
                         <br/>
-                        
+
                     </form>
-                    <button *ngIf="editT == false" type="submit" class="btn cust_btn"> Create Task</button>
-                    <button *ngIf="editT == true" (click)="updateTask()" class="btn cust_btn"> Update Task</button> 
+                    
+                    <button *ngIf="editT == false" (click)="createTask()" type="submit" class="btn btn-info"> Create Task</button>
+                    <button *ngIf="editT == true" (click)="updateTask()" class="btn btn-info"> Update Task</button>
                 </div>
 
       
@@ -341,7 +344,7 @@ edit
    
     </mat-expansion-panel>
 
-     <mat-expansion-panel>
+     <mat-expansion-panel [expanded]="msgPanel">
          <mat-expansion-panel-header>
                     <mat-panel-title class="label_txt">
                       Communication
@@ -350,48 +353,37 @@ edit
 
 
           <div class="ap-body">
-            <i class="material-icons">send</i>New Message
+            <i class="material-icons">send</i><a (click)="passMsgID(1)">Message Patient</a>
              <div>
-                <div>
-                    <h4>Task_Id Communication Patient Name & Reciever</h4>
-                    <mat-divider></mat-divider>
-                </div>
-
-                        <div class="container" *ngFor ="let msg of messages">
-                            <i class="material-icons">
-                            group
-                            </i>
-                              <p>{{msg.message}}</p>
-                              <span class="time-right">11:00</span>
-                            </div>
-
-                            <div class="container darker">
-                              <i class="material-icons right">
-                            face
-                            </i>
-                              <p>Hey! I'm fine. Thanks for asking!</p>
-                              <span class="time-left">11:01</span>
-                            </div>
-
-
-
-                <!-- <table>
-                    <tr>
-                        <th width="20%">Date</th>
-                        <th width="20%">Type</th>
-                        <th width="20%">Direction</th>
-                        <th>Message</th>
-                    </tr>
-                    <tr>
-                        <th>June 1</th>
-                        <th> SMS</th>
-                        <th> </th>
-                        <th>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio.  </th>
-                    </tr>
                     
-                    </table> -->
+                    <div class ="commContainer">
+
+
+                            <div class="container" *ngFor ="let msg of messages">
+                            
+                                    <div *ngIf ="msg.from_cc == true; else fromPr" >
+                                        <i class="material-icons">
+                                        group
+                                        </i>
+                                          <p>{{msg.message}}</p>
+                                          <span class="time-right">11:00</span>
+                                    </div>
+
+
+                                    <ng-template #fromPr>
+                                      <i class="material-icons right">
+                                        face
+                                        </i>
+                                          <p>{{msg.message}} <a (click)="passMsgID(msg.id)">Reply</a></p>
+                                          <span class="time-left">11:01</span>
+
+                                    </ng-template>
+
+
+                            </div>
+                    </div> 
                 
-                <form [formGroup]= 'messageForm' (ngSubmit)='sendMessage()'>
+                <form *ngIf ="replyMSG === true" [formGroup]= 'messageForm' (ngSubmit)='sendMessage()'>
                     <label>Send Message</label><br/>
 
                         <mat-form-field class="">
