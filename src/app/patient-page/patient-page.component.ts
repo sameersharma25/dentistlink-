@@ -572,7 +572,6 @@ updateReferral(){
      if (response.status === 'ok') {
        console.log("Communcation response", response)
      this.messages = response.comm_data
-     this.msgPanel = false;
      console.log("message", this.messages) 
    }
 
