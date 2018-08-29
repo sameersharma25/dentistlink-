@@ -47,8 +47,7 @@ sendReply(){
 	}
 	this.dss.sendReply(this.reqObj).subscribe(res => {
      let response:any = res;
-     window.close()
-
+     
 
    }, err => {
      console.log("Error::"+err)

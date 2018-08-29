@@ -533,11 +533,13 @@
                     <input matInput name="task_description" placeholder="Description" formControlName="task_description">
                   </mat-form-field>
                   <br/>
-                  <button *ngIf="editT == false" type="submit" class="btn btn-info"> Create Task</button>
+
                 </form>
+                <button *ngIf="editT == false" (click)="createTask()" type="submit" class="btn btn-info"> Create Task</button>
+                <button *ngIf="editT == true" (click)="updateTask()" class="btn btn-info"> Update Task</button>
                 <button *ngIf ="referral_id" class ="btn btn-info" type ="button" (click)="isCollapsed1 = !isCollapsed1"> Select Provider</button>
 
-                <button *ngIf="editT == true" (click)="updateTask()" class="btn btn-info"> Update Task</button>
+
               </div>
 
 
@@ -556,19 +558,23 @@
           <mat-divider></mat-divider>
           <div>
             <div class="container" *ngFor ="let msg of messages">
-              <i class="material-icons">
-                group
-              </i>
-              <p>{{msg.message}}</p>
-              <span class="time-right">11:00</span>
-            </div>
 
-            <div class="container darker">
-              <i class="material-icons right">
-                face
-              </i>
-              <p>Hey! I'm fine. Thanks for asking!</p>
-              <span class="time-left">11:01</span>
+              <div *ngIf ="msg.from_cc == true; else fromPr" >
+                <i class="material-icons">
+                  group
+                </i>
+                <p>{{msg.message}}</p>
+                <span class="time-right">11:00</span>
+              </div>
+
+              <ng-template #fromPr>
+                <i class="material-icons right">
+                  face
+                </i>
+                <p>{{msg.message}}</p>
+                <span class="time-left">11:01</span>
+              </ng-template>
+
             </div>
 
             <form [formGroup]= 'messageForm' (ngSubmit)='sendMessage("toPat")'>

@@ -69,6 +69,9 @@ export class PatientPageComponent implements OnInit {
   taskPanel:Boolean = false;
   //messages
   messages: any = [];
+  msgPanel: Boolean = false;
+  replyMSG: Boolean = false;
+  replyID: string; 
 
 
 
@@ -129,7 +132,7 @@ export class PatientPageComponent implements OnInit {
     this.treatmentOp=["Cleaning","Pain","Extraction","Orthodontics","Dentures"];
     this.patientPanel = true;
     this.getReferral();
-    this.getCommunication();
+    
 
   }
 
@@ -498,14 +501,12 @@ updateReferral(){
       task_deadline: this.taskDetailForm.value.task_deadline,
       task_description: this.taskDetailForm.value.task_description, 
     };
-   //UPDATE THIS TO THE CORRECT API
    this.dss.createTask(reqObj).subscribe(res => {
      let response:any = res;
      if(response.status == 'ok'){
        alert("Task created")
        this.getTask(this.referral_id);
        this.taskDetailForm.reset();   
-       //add call for input window to close
      }
    }, err => {
      console.log("Error::"+err)
@@ -558,8 +559,13 @@ updateReferral(){
    })
  }
 
-  getCommunication(){
-   this.reqObj.patient_id = this.patientId;
+  getCommunication(value){
+    this.replyMSG = false;
+    this.taskId = value
+    this.msgPanel = true;
+   console.log("looking for task_id",value)
+  // this.reqObj.patient_id = this.patientId;
+   this.reqObj.task_id = value
    this.reqObj.email = this.cus.getCurrentUser()
    this.dss.commList(this.reqObj).subscribe(res => {
       const response: any = res;
@@ -571,27 +577,44 @@ updateReferral(){
 
  })
  }
+ passMsgID(data){
+   this.replyMSG = true;
+   console.log("lksjfdlaskfd",data)
+   this.replyID = data;
+
+ }
 
  sendMessage(){
 
-   let reqObj: any = {
-     task_id: this.taskId,
-     sender_id: this.cus.getCurrentUser(),
-     recipient_id: this.patientId,
-     recipient_type: "patient", 
-     comm_subject: "blank", 
-     comm_message: this.messageForm.value.comm_message
+   if (this.replyID.length > 1) {
+     console.log("message to SP")
+     this.reqObj = {
+         comm_message: this.messageForm.value.comm_message,
+         comm_id: this.replyID
+         };
+         } else {
+           console.log("message to Patient")
+           this.reqObj = {
+           task_id: this.taskId,
+           sender_id: this.cus.getCurrentUser(),
+           recipient_id: this.patientId,
+           recipient_type: "patient", 
+           comm_subject: "blank", 
+           comm_message: this.messageForm.value.comm_message,
+           };
    };
-    this.dss.sendMessage(reqObj).subscribe(res => {
-     let response:any = res;
-     if(response.status == 'ok'){
-       alert("Message Sent")
-       this.messageForm.reset()
-       //add call for input window to close
-     }
-   }, err => {
-     console.log("Error::"+err)
-   })
+   console.log("What i'm messaging",this.reqObj)
+   this.dss.sendMessage(this.reqObj).subscribe(res => {
+    let response:any = res;
+    if(response.status == 'ok'){
+      alert("Message Sent")
+      this.messageForm.reset()
+      this.getCommunication(this.taskId);
+      //add call for input window to close
+    }
+  }, err => {
+    console.log("Error::"+err)
+  })
  }
 
 }

@@ -5,7 +5,7 @@
     border-radius: 5px;
     padding: 10px;
     margin: 10px 0;
-    height: 35px;
+
 }
 
 /* Darker chat container */
@@ -47,6 +47,11 @@
 .time-left {
     float: left;
     color: #999;
+}
+
+.commContainer{
+    height: 450px;
+    overflow: auto;
 }
 
 
