@@ -181,11 +181,12 @@
                 <div class="_clearfix"></div>
                 <table  >
                     <tr>
-                        <th class = "thead">Referral Source</th>
-                        <th class = "thead">Urgency</th>
-                        <th width = "25%">Appointment Date</th>
-                        <th class = "thead">Tasks</th>
-                        <th class = "thead"> Edit</th>
+                        <th width = "16%">Referral Source</th>
+                        <th width = "16%">Urgency</th>
+                        <th width = "20%">Appointment Date</th>
+                        <th width = "16%">Tasks</th>
+                        <th width = "10%"> Edit</th>
+                        <th width = "16%"> See Tasks</th>
                     </tr>
                     <!-- <tr>
                         <th class = "thead" >Self-referral</th>
@@ -194,13 +195,12 @@
                         <th>001</th>
                     </tr> -->
                     <tr *ngFor ="let rdet of referralDetail" >
-                        <th (click)="getTask(rdet.referral_id)" ><span style="color: #38a840;">{{rdet.referral_name}} </span> </th>
+                        <th>{{rdet.referral_name}} </th>
                         <th >{{rdet.urgency}}</th>
                         <th > {{rdet.due_date}} </th>
                         <th> To Be Done</th>
-                        <th (click)="editReferral(rdet)"> <i class="material-icons">
-edit
-</i> </th>
+                        <th (click)="editReferral(rdet)"> <i class="material-icons">edit</i> </th>
+                        <th (click)="getTask(rdet.referral_id)"> <span style="color: #38a840;">Click Here</span></th>
 
                     </tr> 
                     <div class="_clearfix"></div>
@@ -308,8 +308,11 @@ add_circle_outline
                         </mat-form-field>
 
 
-                        <mat-form-field class="">
-                                <input matInput name="task_status" placeholder="Task Status" formControlName="task_status">
+                        <mat-form-field class="" >
+                            <mat-select placeholder="Task Status" formControlName="task_status">
+                                <mat-option value=""></mat-option>
+                                 <mat-option *ngFor="let sType of statusType" [value]="sType"> {{sType}}</mat-option>
+                            </mat-select>
                         </mat-form-field>
 
                         <mat-form-field class="">
