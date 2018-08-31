@@ -64,6 +64,7 @@ export class PatientPageComponent implements OnInit {
   taskType: any = [];
   urgencyType: any = [];
   treatmentOp: any = [];
+  statusType: any =[];
   taskLength: number;
   appointmentFields: Boolean = false; 
   taskPanel:Boolean = false;
@@ -130,6 +131,7 @@ export class PatientPageComponent implements OnInit {
     this.taskType = ["Appointment","Support","UserDefined","Delegated Referral"]
     this.urgencyType = ["Critical" ,"High", "Moderate", "Low"]
     this.treatmentOp=["Cleaning","Pain","Extraction","Orthodontics","Dentures"];
+    this.statusType =["New","Pending","Urgent","Closed"]
     this.patientPanel = true;
     this.getReferral();
     
@@ -561,7 +563,7 @@ updateReferral(){
 
   getCommunication(value){
     this.replyMSG = false;
-    this.taskId = value
+    this.taskId = value;
     this.msgPanel = true;
    console.log("looking for task_id",value)
   // this.reqObj.patient_id = this.patientId;
@@ -590,7 +592,8 @@ updateReferral(){
      console.log("message to SP")
      this.reqObj = {
          comm_message: this.messageForm.value.comm_message,
-         comm_id: this.replyID
+         comm_id: this.replyID,
+         sender_id: this.cus.getCurrentUser(),
          };
          } else {
            console.log("message to Patient")

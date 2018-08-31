@@ -13,7 +13,7 @@
   <div class="right-side-bar" [class.expanded]="isCollapsed1" [class.randomClass]="randomClass" *ngIf ="isCollapsed === false">
     <div class="p-detaitls-wrapper">
       <div> <!-- Form Div  -->
-        <h1>Enter Provider Parameters Here</h1>
+        <h1>Update Search</h1>
         <form [formGroup] = "searchDetails" (ngSubmit) = "theChecker()">
 
           <mat-form-field class ="">
@@ -389,20 +389,20 @@
               <div class="_clearfix"></div>
               <table  >
                 <tr>
-                  <th class = "thead">Referral Source</th>
-                  <th class = "thead">Urgency</th>
-                  <th width = "25%">Appointment Date</th>
-                  <th class = "thead">Tasks</th>
-                  <th class = "thead"> Edit</th>
+                  <th width = "16%">Referral Source</th>
+                  <th width = "16%">Urgency</th>
+                  <th width = "20%">Appointment Date</th>
+                  <th width = "16%">Tasks</th>
+                  <th width = "10%"> Edit</th>
+                  <th width = "16%"> See Tasks</th>
                 </tr>
                 <tr *ngFor ="let rdet of referralDetail" >
-                  <th (click)="getTask(rdet.referral_id)" ><span style="color: #5bc0de;">{{rdet.referral_name}} </span> </th>
+                  <th>{{rdet.referral_name}} </th>
                   <th >{{rdet.urgency}}</th>
                   <th > {{rdet.due_date}} </th>
                   <th> To Be Done</th>
-                  <th (click)="editReferral(rdet)"> <i class="material-icons">
-                    edit
-                  </i> </th>
+                  <th (click)="editReferral(rdet)"> <i class="material-icons">edit</i> </th>
+                  <th (click)="getTask(rdet.referral_id)"> <span style="color: #38a840;">Click Here</span></th>
 
                 </tr>
                 <div class="_clearfix"></div>
@@ -465,11 +465,12 @@
               </mat-expansion-panel-header>
               <table>
                 <tr>
-                  <th width="20%">Task Type</th>
-                  <th width="20%">Task Status</th>
-                  <th width="20%">Select Provider</th>
-                  <th width="20%">Deadline</th>
-                  <th width="20%" > Edit</th>
+                  <th width ="15%">Task Type</th>
+                  <th width ="15%" >Task Status</th>
+                  <th width ="15%" >Select Provider</th>
+                  <th width ="15%" >Deadline</th>
+                  <th width ="15%" > Edit</th>
+                  <th width ="20%" > See Messages</th>
                 </tr>
                 <!--  <tr>
                       <th class = "thead" >Appointment</th>
@@ -480,11 +481,12 @@
                 <tr  *ngFor="let tList of taskDetails">
                   <th>{{tList.task_type}}</th>
                   <th>{{tList.task_status}}</th>
-                  <th>{{tList.provider}}</th>
-                  <th>{{tList.task_deadline}}</th>
+                  <th>TBD</th>
+                  <th>{{tList.task_deadline | date: 'dd/MM/yyyy'}}</th>
                   <th (click)="editTask(tList)"><i class="material-icons">
-                    edit
-                  </i></th>
+                    edit</i>
+                  </th>
+                  <th> <a (click)="getCommunication(tList.task_id)"> Link </a></th>
                 </tr>
                 <div class="_clearfix"></div>
                 <a *ngIf ="referral_id" (click)="InputFormT = !InputFormT"> <i class="material-icons">
@@ -511,8 +513,11 @@
                   </mat-form-field>
 
 
-                  <mat-form-field class="">
-                    <input matInput name="task_status" placeholder="Task Status" formControlName="task_status">
+                  <mat-form-field class="" >
+                    <mat-select placeholder="Task Status" formControlName="task_status">
+                      <mat-option value=""></mat-option>
+                      <mat-option *ngFor="let sType of statusType" [value]="sType"> {{sType}}</mat-option>
+                    </mat-select>
                   </mat-form-field>
 
                   <mat-form-field class="">
@@ -549,7 +554,7 @@
           <!-- -->
         </mat-expansion-panel>
 
-        <mat-expansion-panel>
+        <mat-expansion-panel [expanded]="msgPanel">
           <mat-expansion-panel-header>
             <mat-panel-title class="label_txt">
               Communication
@@ -557,27 +562,31 @@
           </mat-expansion-panel-header>
           <mat-divider></mat-divider>
           <div>
-            <div class="container" *ngFor ="let msg of messages">
+            <div class ="commContainer">
+              <div class="container" *ngFor ="let msg of messages">
 
-              <div *ngIf ="msg.from_cc == true; else fromPr" >
-                <i class="material-icons">
-                  group
-                </i>
-                <p>{{msg.message}}</p>
-                <span class="time-right">11:00</span>
+                <div *ngIf ="msg.from_cc == true; else fromPr" >
+                  <i class="material-icons">
+                    group
+                  </i>
+                  <p>{{msg.message}}</p>
+                  <span class="time-right">11:00</span>
+                </div>
+
+                <ng-template #fromPr>
+                  <i class="material-icons right">
+                    face
+                  </i>
+                  <p>{{msg.message}} <a (click)="passMsgID(msg.id)">Reply</a></p>
+                  <span class="time-left">11:01</span>
+
+                </ng-template>
+
+
               </div>
-
-              <ng-template #fromPr>
-                <i class="material-icons right">
-                  face
-                </i>
-                <p>{{msg.message}}</p>
-                <span class="time-left">11:01</span>
-              </ng-template>
-
             </div>
 
-            <form [formGroup]= 'messageForm' (ngSubmit)='sendMessage("toPat")'>
+            <form *ngIf ="replyMSG === true" [formGroup]= 'messageForm' (ngSubmit)='sendMessage("toPat")'>
               <label>Send Message</label><br/>
 
               <mat-form-field class="">

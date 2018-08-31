@@ -73,12 +73,16 @@ export class PatientsComponent implements OnInit {
   sourceType: any =[];
   taskType: any =[];
   urgencyType: any =[];
+  statusType: any =[];
   taskPanel:Boolean = false;
   startA: number = 0;
   finishA: number = 25;
   appointmentFields: Boolean = false;
   messageForm: FormGroup;
   messages: any = [];
+  msgPanel: Boolean = false;
+  replyMSG: Boolean = false;
+  replyID: string; 
 
 
   constructor(
@@ -94,6 +98,7 @@ export class PatientsComponent implements OnInit {
     this.sourceType =["EHR", "EDR", "ExtCC","Internal", "Self"]
     this.taskType = ["Appointment","Support","UserDefined","Delegated Referral"]
     this.urgencyType = ["Critical" ,"High", "Moderate", "Low"]
+    this.statusType =["New","Pending","Urgent","Closed"]
   }
 
 
@@ -137,9 +142,6 @@ export class PatientsComponent implements OnInit {
 
     this.getAllPatients();
     this.createForm();
-    
-
-
   }
 
 
@@ -291,8 +293,6 @@ export class PatientsComponent implements OnInit {
 
   // right panel action for patient
   openPatientAction(data) {
-
-    this.getCommunication(data.patient_id);
     this.getReferral(data.patient_id);
     this.patientAction.isOpened = false;
     this.patientAction.collapsed = false;
@@ -938,18 +938,21 @@ updateReferral(){
      console.log("Error::"+err)
    })
  }
+ passMsgID(data){
+   this.replyMSG = true;
+   console.log("lksjfdlaskfd",data)
+   this.replyID = data;
+
+ }
 
  sendMessage(value){
-   console.log(value)
-   console.log("messge Task_ID",this.taskId)
-   console.log("Patient ID present?", this.patientId)
    let recpType: number;
    if (value == "toPat"){
      recpType = this.patientId
    } else {
      recpType = value
    }
-   console.log("passing value", recpType)
+
    let reqObj: any = {
      task_id: this.taskId,
      sender_id: this.cus.getCurrentUser(),
@@ -971,15 +974,18 @@ updateReferral(){
  }
 
   getCommunication(data){
-    console.log("Patient ID",data)
-   this.reqObj.patient_id = data
+    this.replyMSG = false;
+    this.taskId = data;
+    this.msgPanel = true;
+
+   this.reqObj.task_id = data
    this.reqObj.email = this.cus.getCurrentUser()
    this.dss.commList(this.reqObj).subscribe(res => {
       const response: any = res;
      if (response.status === 'ok') {
        console.log("Communcation response", response)
      this.messages = response.comm_data
-     console.log("message", this.messages) 
+
    }
  })
  }

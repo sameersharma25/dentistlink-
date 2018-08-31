@@ -10,14 +10,15 @@
 <br/>
 <br/>
 
-<div class = "box">
+<div class = "box" *ngIf = "msgForm == false">
 	<form [formGroup]= 'messageForm' (ngSubmit)='sendReply()'>
 	        <label>Reply Message</label><br/>
-
 	            <mat-form-field class="">
 	                <input matInput name="comm_message" placeholder="Message" formControlName="message">
 	            </mat-form-field> 
 	            <button type="submit" class="btn cust_btn">SEND</button>
-
 	</form>
 </div>
+	 <div>
+			<h1>{{sendResponse}}</h1>
+	</div>

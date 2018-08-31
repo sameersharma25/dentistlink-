@@ -14,6 +14,8 @@ export class ReplyComponent implements OnInit {
 	messageForm: FormGroup
 	reqObj: any = {};
 	communication_id: string 
+  msgForm: Boolean = false;
+  sendResponse: string;
 
   constructor(
   	private cus: CurrentUserService,
@@ -40,6 +42,8 @@ createForm(){
 }
 
 sendReply(){
+  this.msgForm = true;
+  this.sendResponse = "Your message has been sent. Thank you!"
   console.log(this.communication_id)
 	this.reqObj = {
 		comm_id: this.communication_id,
