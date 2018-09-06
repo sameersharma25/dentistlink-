@@ -15,7 +15,7 @@ import {CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router, Naviga
 })
 export class PatientPageComponent implements OnInit {
 	patientId: any = [];
-	reqObj: any = {};
+	reqObj: any = {}; 
 	pDetails: any = [];
   patientAction: any = {};
   patientDetails:any = {};
@@ -567,7 +567,7 @@ updateReferral(){
 
   getCommunication(value){
     console.log("no value",value)
-    if (value === undefined) {
+    if (value === null) {
       value = this.taskId
       console.log("What is my value",this.taskId)
     }

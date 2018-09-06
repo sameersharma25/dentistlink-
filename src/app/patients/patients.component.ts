@@ -995,7 +995,7 @@ updateReferral(){
 
   getCommunication(data){
     console.log("no value",data)
-    if (data === undefined) {
+    if (data === null) {
       data = this.taskId
       console.log("What is my value",this.taskId)
     }

@@ -54,7 +54,7 @@
                     <input matInput name="searchName" placeholder="Enter Name" formControlName="name" >
                 </mat-form-field>
                 <button (click) ="sbn()" class="btn btn-info">Find Name</button>
-                <button (click) ="searchZipcode()" class="btn btn-info">Reset</button>
+                <button (click) ="searchZipcode()" class="btn btn-info">Reset</button> 
             </form>
 <!-- end -->
                 <button *ngIf= "startA != 0"class="btn btn-info" (click) ="next('down')"> <i class="            material-icons">arrow_back_ios</i>
@@ -573,7 +573,7 @@ add_circle_outline
                     </mat-panel-title>
                   </mat-expansion-panel-header>
                   <mat-divider></mat-divider>
-                  <i class="material-icons">refresh</i><a (click)="getCommunication()">Refresh</a>
+                  <i class="material-icons">refresh</i><a (click)="getCommunication(null)">Refresh</a>
         <div>
                     <div class ="commContainer" style="overflow: scroll;" #scrollMe [scrollTop]="scrollMe.scrollHeight">
                         
