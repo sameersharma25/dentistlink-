@@ -24,7 +24,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: #333;
+  background-color: #32B0D5;
   -webkit-animation: sk-foldCubeAngle 2.4s infinite linear both;
           animation: sk-foldCubeAngle 2.4s infinite linear both;
   -webkit-transform-origin: 100% 100%;
@@ -98,8 +98,8 @@
 }
 .listview {
     height: 95%;
-    margin-bottom: 15px;
-    padding-bottom: 15px;
+    margin-bottom: 50px;
+    padding-bottom: 50px;
 }
 .listview.list {
     display: none; 
@@ -160,7 +160,7 @@
 
 .appointment-wrapper{
     width: 100%;
-    height: calc(100vh - 107.6px);
+    
 }
 .side-bar, .mid-section{
     float: left;
