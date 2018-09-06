@@ -284,12 +284,12 @@ export class PatientPageComponent implements OnInit {
         healthcare_coverage: this.patientDetailsEditForm.value.patientCoverage,
         mode_of_contact: this.patientDetailsEditForm.value.preferredContact,
         patient_zipcode: this.patientDetailsEditForm.value.zipCode,
-        ethnicity: this.patientAppointmentForm.value.ethnicity,
-        gender: this.patientAppointmentForm.value.gender,
-        patient_address: this.patientAppointmentForm.value.patientAddress
+        ethnicity: this.patientDetailsEditForm.value.ethnicity,
+        gender: this.patientDetailsEditForm.value.gender,
+        patient_address: this.patientDetailsEditForm.value.patientAddress
 
       };
-      console.log("EditPatientInfo",this.patientDetailsEditForm.value.patientCoverage)
+      console.log("EditPatientInfo",this.patientDetailsEditForm)
       this.dss.createPatient(reqObj).subscribe(res => {
         let response:any = res;
         if(response.status == 'ok'){

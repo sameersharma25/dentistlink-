@@ -237,7 +237,7 @@ export class PracticesComponent implements OnInit {
       }
     };
     this.serviceProvider = this.theResult
-    this.array1 = this.theResult
+    this.next(null)
     console.log("results",this.theResult)
     this.theResult = [];
   }

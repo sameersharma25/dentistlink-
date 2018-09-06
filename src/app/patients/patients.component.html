@@ -566,13 +566,14 @@ add_circle_outline
 <!-- -->
                 </mat-expansion-panel>
 
-                <mat-expansion-panel [expanded]="msgPanel">
+                <mat-expansion-panel [expanded]="msgPanel" *ngIf="taskId">
                     <mat-expansion-panel-header>
                     <mat-panel-title class="label_txt">
                       Communication
                     </mat-panel-title>
                   </mat-expansion-panel-header>
                   <mat-divider></mat-divider>
+                   <i class="material-icons">send</i><a (click)="passMsgID(1)">Message Patient</a>
                   <i class="material-icons">refresh</i><a (click)="getCommunication(null)">Refresh</a>
         <div>
                     <div class ="commContainer" style="overflow: scroll;" #scrollMe [scrollTop]="scrollMe.scrollHeight">
