@@ -307,7 +307,6 @@ export class PatientsComponent implements OnInit {
       this.selectedPatient = data;
       this.selectedPatientId = data.patient_id;
       this.getPatientsDetails(data);
-
       this.getAppointments(data);
       //this.isAppointmentEdit = true;
 
@@ -324,7 +323,7 @@ export class PatientsComponent implements OnInit {
   }
 
   // open appoint form for patient
-  openPatientAppointment(status,data){
+  openPatientAppointment(status,data){ 
 
     this.selectedAppointment = data;
     this.patientAction.isOpened = true;
@@ -483,6 +482,10 @@ export class PatientsComponent implements OnInit {
   // }
    console.log("URL",initialURL)
    this.searchZipcode(initialURL)
+  this.formZipcode="&zip="
+  this.formRadius ="&radius="
+  this.formTreatment = "&treatment="
+
   }
 
   onChange(event){

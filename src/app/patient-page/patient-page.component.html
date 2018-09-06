@@ -157,7 +157,7 @@
                           <div class="_clearfix"></div>
                             <div class="section-row">
                              
-                                <button type="submit" class="btn cust_btn success" >Update</button>
+                                <button type="submit" class="btn cust_btn success" >Save</button>
                             </div>
                         </form> 
                   </mat-panel-description>
@@ -256,7 +256,7 @@ add_circle_outline
         Task 
       </mat-panel-title>
       <mat-panel-description>
-            Current Task's
+            Current Tasks
       </mat-panel-description>
     </mat-expansion-panel-header>
     <table>
@@ -347,7 +347,7 @@ add_circle_outline
    
     </mat-expansion-panel>
 
-     <mat-expansion-panel [expanded]="msgPanel">
+     <mat-expansion-panel [expanded]="msgPanel" *ngIf ="taskId">
          <mat-expansion-panel-header>
                     <mat-panel-title class="label_txt">
                       Communication
