@@ -17,7 +17,7 @@
             </div>
             <div class="pull-left h-txt pd_L7" style="padding-left: 20px;">Practices</div>
             <div class="pull-right">
-                <button style =" margin-bottom: 10px;" class="btn btn-info" (click)= mapFunction()><i class="material-icons">
+                <button style =" margin-bottom: 10px;" class="btn btn-info" (click)= mapFunction() ><i class="material-icons">
 map
 </i></button>
                 <button style ="margin-bottom: 10px;" class="btn btn-info" (click)=listFunction()><i class="material-icons">
@@ -61,9 +61,24 @@ list
 					</mat-option>
 				</mat-select>
 			</mat-form-field>
-            <button class="btn btn-info" (click) ="theChecker()"> Temp Search Button</button>
+            <button class="btn btn-info" (click) ="theChecker()">Search</button>
             </form>
-            
+
+<!--  SEARCH NAME -->
+            <form [formGroup] = "searchName" (ngSubmit) = "sbn()">
+                <mat-form-field class ="">
+                    <input matInput name="searchName" placeholder="Enter Name" formControlName="name" >
+                </mat-form-field>
+                <button (click) ="sbn()" class="btn btn-info">Find Name</button>
+                <button (click) ="getProviders()" class="btn btn-info">Reset</button>
+            </form>
+
+            <!-- pag buttons -->
+            <button *ngIf= "startA != 0"class="btn btn-info" (click) ="next('down')"> <i class="            material-icons">arrow_back_ios</i>
+                </button>
+
+                <button  *ngIf = "hideList === true"  class="btn btn-info" (click) ="next('up')"> <i class="          material-icons">arrow_forward_ios</i>
+                </button>
   
             <div class ="listview" [class.list]="hideList" >
                     <div class="list-wrapper">

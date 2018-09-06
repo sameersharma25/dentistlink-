@@ -23,12 +23,15 @@ export class PracticesComponent implements OnInit {
   numLimit = 2;
   zipSearch: string 
   searchDetails: FormGroup;
+  searchName: FormGroup;
 	//
 	reqObj: any = {};
 	serviceProvider: any = [];
 	selectedProvider: any = [];
   backitup: any = []; 
 	value = ''; 
+  startA: number = 0;
+  finishA: number = 25;
   // form values
   formZipcode: string ="&zip="
   formRadius: string ="&radius="
@@ -42,8 +45,6 @@ export class PracticesComponent implements OnInit {
   lng: number = -122.333854
   array1: any =[]
   array2: any = []
-
-
 
 	// Provider Details
   providerId: string;
@@ -78,6 +79,8 @@ export class PracticesComponent implements OnInit {
   startS: number = 0;
   endS: number = 50;
 
+  theResult: any =[]; 
+
 
   
 
@@ -103,6 +106,10 @@ export class PracticesComponent implements OnInit {
       radius: [''],
       age: [''],
       treatment: ['']
+
+    })
+    this.searchName = this.fb.group({
+      name: [''],
     })
   }
 
@@ -175,11 +182,11 @@ export class PracticesComponent implements OnInit {
   	this.hideMap = true;
   }
 
-  getProviders(){
+  getProviders(){ 
   	this.reqObj.email = this.cus.getCurrentUser();
   	this.dss.allProviders(this.reqObj).subscribe(res => {
   		this.serviceProvider = res;
-      this.breakitdown(res);
+      this.next(null);
   		console.log("All Providers", res);
       this.lat = this.serviceProvider[0].Geolocation__c.latitude 
       this.lng = this.serviceProvider[0].Geolocation__c.longitude 
@@ -192,30 +199,46 @@ export class PracticesComponent implements OnInit {
   	this.reqObj.email = this.cus.getCurrentUser();
   	this.dss.searchZip(this.reqObj,value).subscribe(res => {
   		this.serviceProvider = res;
+      
       console.log("distance", res)
-      this.breakitdown(res);
   		console.log("can I get a length",this.serviceProvider.length)
   		if(this.serviceProvider.length === 0){
   			alert("There are no practices in this zipcode")
   		}
   	})
   }
+  next(data){
+    this.backitup = this.serviceProvider
 
-  breakitdown(data){
-    this.backitup = data
-   // for (var i =0; i< this.backitup.length/50; i++ ) {
-   //   //Array[i] = this.backitup.slice(this.startS,this.endS)
-   //   this.iterations.push(this.backitup.slice(this.startS,this.endS))
-   //   console.log("Pagination?",this.iterations)
-   //   this.startS = this.startS+50;
-   //   this.endS =this.endS+50;
-   // }
-    if(this.backitup.length > 50){
-    this.array1 = this.backitup.slice(0,50)
-    } else
-    this.array1 = this.backitup
-
+    if (data == "up"){
+      this.startA = this.startA+25
+      this.finishA = this.finishA+25
+      this.array1 = this.backitup.slice(this.startA,this.finishA)
+    } else if (data == "down"){
+      this.startA = this.startA-25
+      this.finishA = this.finishA-25
+      this.array1 = this.backitup.slice(this.startA,this.finishA)
+    } else {
+      this.array1 = this.backitup.slice(this.startA,this.finishA)
+    }
+    console.log("nextup",this.array1)
   }
+
+
+  // Works for exact name entry //
+  sbn(){
+    console.log("Name",this.searchName.value.name)
+    for (var i = 0; i < this.serviceProvider.length ; i++) {
+      if(this.serviceProvider[i].Name.toUpperCase().includes(this.searchName.value.name.toUpperCase())) {
+        this.theResult.push(this.serviceProvider[i])
+      }
+    };
+    this.serviceProvider = this.theResult
+    this.array1 = this.theResult
+    console.log("results",this.theResult)
+    this.theResult = [];
+  }
+
   newnewnew(data){
     console.log(data)
     

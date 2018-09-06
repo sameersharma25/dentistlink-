@@ -293,6 +293,7 @@ export class PatientsComponent implements OnInit {
 
   // right panel action for patient
   openPatientAction(data) {
+    this.isCollapsed1=false;
     this.getReferral(data.patient_id);
     this.patientAction.isOpened = false;
     this.patientAction.collapsed = false;
@@ -966,6 +967,7 @@ updateReferral(){
      if(response.status == 'ok'){
        //alert("Message Sent")
        this.messageForm.reset()
+       this.getCommunication(this.taskId);
        //add call for input window to close
      }
    }, err => {
@@ -974,6 +976,11 @@ updateReferral(){
  }
 
   getCommunication(data){
+    console.log("no value",data)
+    if (data === undefined) {
+      data = this.taskId
+      console.log("What is my value",this.taskId)
+    }
     this.replyMSG = false;
     this.taskId = data;
     this.msgPanel = true;

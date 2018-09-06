@@ -564,8 +564,10 @@ add_circle_outline
                     </mat-panel-title>
                   </mat-expansion-panel-header>
                   <mat-divider></mat-divider>
+                  <i class="material-icons">refresh</i><a (click)="getCommunication()">Refresh</a>
         <div>
-                    <div class ="commContainer">
+                    <div class ="commContainer" style="overflow: scroll;" #scrollMe [scrollTop]="scrollMe.scrollHeight">
+                        
                             <div class="container" *ngFor ="let msg of messages">
                             
                                     <div *ngIf ="msg.from_cc == true; else fromPr" >

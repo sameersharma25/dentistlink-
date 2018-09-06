@@ -282,7 +282,7 @@ add_circle_outline
                         <th (click)="editTask(tList)"><i class="material-icons">
                             edit</i>
                         </th>
-                        <th> <a (click)="getCommunication(tList.task_id)"> Link </a></th>
+                        <th> <a (click)="getCommunication(tList.task_id)"><span style="color: #38a840;"> Link </span></a></th>
                     </tr>
                     <div class="_clearfix"></div>
                                  <a  *ngIf ="referral_id" (click)="InputFormT = !InputFormT"> <i class="material-icons">
@@ -357,12 +357,13 @@ add_circle_outline
 
           <div class="ap-body">
             <i class="material-icons">send</i><a (click)="passMsgID(1)">Message Patient</a>
+            <i class="material-icons">refresh</i><a (click)="getCommunication()">Refresh</a>
              <div>
                     
-                    <div class ="commContainer">
+                    <div class ="commContainer" style="overflow: scroll;" #scrollMe [scrollTop]="scrollMe.scrollHeight" >
 
 
-                            <div class="container" *ngFor ="let msg of messages">
+                            <div class="container" *ngFor ="let msg of messages" >
                             
                                     <div *ngIf ="msg.from_cc == true; else fromPr" >
                                         <i class="material-icons">
