@@ -181,10 +181,10 @@
                 <div class="_clearfix"></div>
                 <table  >
                     <tr>
-                        <th width = "16%">Referral Source</th>
+                        <th width = "16%">Referral Name</th>
                         <th width = "16%">Urgency</th>
                         <th width = "20%">Appointment Date</th>
-                        <th width = "16%">Tasks</th>
+
                         <th width = "10%"> Edit</th>
                         <th width = "16%"> See Tasks</th>
                     </tr>
@@ -198,7 +198,7 @@
                         <th>{{rdet.referral_name}} </th>
                         <th >{{rdet.urgency}}</th>
                         <th > {{rdet.due_date}} </th>
-                        <th> To Be Done</th>
+
                         <th (click)="editReferral(rdet)"> <i class="material-icons">edit</i> </th>
                         <th (click)="getTask(rdet.referral_id)"> <span style="color: #38a840;">Click Here</span></th>
 
@@ -277,8 +277,8 @@ add_circle_outline
                     <tr  *ngFor="let tList of taskDetails">
                         <th>{{tList.task_type}}</th>
                         <th>{{tList.task_status}}</th>
-                        <th>TBD</th>
-                        <th>{{tList.task_deadline | date: 'dd/MM/yyyy'}}</th>
+                        <th>{{tList.provider}}</th>
+                        <th>{{tList.task_deadline | date: 'MM/dd/yyyy'}}</th>
                         <th (click)="editTask(tList)"><i class="material-icons">
                             edit</i>
                         </th>

@@ -29,6 +29,7 @@ list
 
 
         <div class="ap-body">
+
             <form [formGroup] = "searchDetails" (ngSubmit) = "theChecker()">
 
 			<mat-form-field class ="">
@@ -89,6 +90,12 @@ list
                       <div class="table-cell c3" >PHONE NUMBER</div>
                     <div class="table-cell c4" >ACCEPTING SERVICES</div>
                 </div>
+                            <div *ngIf ="showSpinner === true" class="sk-folding-cube">
+  <div class="sk-cube1 sk-cube"></div>
+  <div class="sk-cube2 sk-cube"></div>
+  <div class="sk-cube4 sk-cube"></div>
+  <div class="sk-cube3 sk-cube"></div>
+</div>
                 <div class="lists">
                    <div class="table-row n-txt" *ngFor="let sList of serviceProvider; let i=index" (click)="openProviderAction(sList)">
                         <div class="table-cell c1">{{sList.Name}}</div>
@@ -116,6 +123,7 @@ list
                 </div>
             </div>
             </div> <!-- End List View--> 
+
         
             <!--<div> MAP PAGINATION
                 <div *ngFor = "let i of iterations; let j = index" >

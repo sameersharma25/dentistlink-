@@ -79,7 +79,8 @@ export class PracticesComponent implements OnInit {
   startS: number = 0;
   endS: number = 50;
 
-  theResult: any =[]; 
+  theResult: any =[];
+  showSpinner: Boolean = true; 
 
 
   
@@ -186,6 +187,7 @@ export class PracticesComponent implements OnInit {
   	this.reqObj.email = this.cus.getCurrentUser();
   	this.dss.allProviders(this.reqObj).subscribe(res => {
   		this.serviceProvider = res;
+      this.showSpinner = false;
       this.next(null);
   		console.log("All Providers", res);
       this.lat = this.serviceProvider[0].Geolocation__c.latitude 
@@ -199,6 +201,7 @@ export class PracticesComponent implements OnInit {
   	this.reqObj.email = this.cus.getCurrentUser();
   	this.dss.searchZip(this.reqObj,value).subscribe(res => {
   		this.serviceProvider = res;
+      this.showSpinner = false;
       
       console.log("distance", res)
   		console.log("can I get a length",this.serviceProvider.length)

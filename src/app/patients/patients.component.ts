@@ -79,10 +79,12 @@ export class PatientsComponent implements OnInit {
   finishA: number = 25;
   appointmentFields: Boolean = false;
   messageForm: FormGroup;
+  searchName: FormGroup;
   messages: any = [];
   msgPanel: Boolean = false;
   replyMSG: Boolean = false;
   replyID: string; 
+  theResult: any = [];
 
 
   constructor(
@@ -220,6 +222,9 @@ export class PatientsComponent implements OnInit {
        comm_message: [''],
 
      })
+    this.searchName = this.fb.group({
+      name: [''],
+    })
   };
 
 
@@ -514,6 +519,19 @@ export class PatientsComponent implements OnInit {
         alert("There are no practices in this zipcode")
       }
     })
+  }
+
+  sbn(){
+    console.log("Name",this.searchName.value.name)
+    for (var i = 0; i < this.serviceProvider.length ; i++) {
+      if(this.serviceProvider[i].Name.toUpperCase().includes(this.searchName.value.name.toUpperCase())) {
+        this.theResult.push(this.serviceProvider[i])
+      }
+    };
+    this.serviceProvider = this.theResult
+    this.array1 = this.theResult
+    console.log("results",this.theResult)
+    this.theResult = [];
   }
 
 
