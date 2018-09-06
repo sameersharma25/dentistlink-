@@ -42,8 +42,7 @@ createForm(){
 }
 
 sendReply(){
-  this.msgForm = true;
-  this.sendResponse = "Your message has been sent. Thank you!"
+  
   console.log(this.communication_id)
 	this.reqObj = {
 		comm_id: this.communication_id,
@@ -51,6 +50,10 @@ sendReply(){
 	}
 	this.dss.sendReply(this.reqObj).subscribe(res => {
      let response:any = res;
+     if(response.status ==='ok'){
+this.msgForm = true;
+  this.sendResponse = "Your message has been sent. Thank you!"
+     }
      
 
    }, err => {

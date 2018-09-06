@@ -1,229 +1,259 @@
 <app-home-navbar></app-home-navbar>
 <div class="appointment-wrapper">
-    <div class="side-bar" [class.expanded]="isCollapsed">
-        <ul>
-            <li><a routerLink="/appointment" routerLinkActive="active">Appointment</a></li>
-            <li><a routerLink="/patients" routerLinkActive="active">Patients</a></li>
-            <li><a routerLink="/practices" routerLinkActive="active">Practices</a></li>
-            <li><a routerLink="/communication" routerLinkActive="active">Communications</a></li>
-        </ul>
+  <div class="side-bar" [class.expanded]="isCollapsed">
+    <ul>
+      <li><a routerLink="/appointment" routerLinkActive="active">Appointment</a></li>
+      <li><a routerLink="/patients" routerLinkActive="active">Patients</a></li>
+      <li><a routerLink="/practices" routerLinkActive="active">Practices</a></li>
+      <li><a routerLink="/communication" routerLinkActive="active">Communications</a></li>
+    </ul>
+  </div>
+  <!-- end side panel -->
+
+  <div class="mid-section" [class.left-collapsed]="isCollapsed" [class.right-collapsed]="isCollapsed1">
+    <div class="ap-header">
+      <div class="toggle-sidebar pull-left" (click)="isCollapsed = !isCollapsed">
+        <i class="material-icons">reorder</i>
+      </div>
+      <div class="pull-left h-txt pd_L7" style="padding-left: 20px;">Practices</div>
+      <div class="pull-right">
+        <button style =" margin-bottom: 10px;" class="btn btn-info" (click)= mapFunction() ><i class="material-icons">
+          map
+        </i></button>
+        <button style ="margin-bottom: 10px;" class="btn btn-info" (click)=listFunction()><i class="material-icons">
+          list
+        </i></button>
+      </div>
+
     </div>
-     <!-- end side panel -->
 
-    <div class="mid-section" [class.left-collapsed]="isCollapsed" [class.right-collapsed]="isCollapsed1">
-        <div class="ap-header">
-            <div class="toggle-sidebar pull-left" (click)="isCollapsed = !isCollapsed">
-                <i class="material-icons">reorder</i>
-            </div>
-            <div class="pull-left h-txt pd_L7" style="padding-left: 20px;">Practices</div>
-            <div class="pull-right">
-                <button style =" margin-bottom: 10px;" class="btn btn-info" (click)= mapFunction()><i class="material-icons">
-map
-</i></button>
-                <button style ="margin-bottom: 10px;" class="btn btn-info" (click)=listFunction()><i class="material-icons">
-list
-</i></button>
-            </div>
 
+    <div class="ap-body">
+
+      <form [formGroup] = "searchDetails" (ngSubmit) = "theChecker()">
+
+        <mat-form-field class ="">
+          <input matInput name="searchZipcode" placeholder="Zipcode" formControlName="zipcode" (keyup.enter)="theChecker()">
+        </mat-form-field>
+
+        <mat-form-field class="">
+          <mat-select placeholder ="radius" formControlName ="radius" (keyup.enter)="theChecker()">
+            <mat-option value=""></mat-option>
+            <mat-option *ngFor ="let r of radiusOp" [value]="r">
+              {{r}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="">
+          <mat-select placeholder ="age" formControlName ="age" (keyup.enter)="theChecker()">
+            <mat-option value=""></mat-option>
+            <mat-option *ngFor ="let a of ageOp" [value]="a">
+              {{a}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="">
+          <mat-select placeholder ="Treatment" formControlName="treatment" (keyup.enter)="theChecker()">
+            <mat-option value=""></mat-option>
+            <mat-option *ngFor ="let t of treatmentOp" [value]="t">
+              {{t}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <button class="btn btn-info" (click) ="theChecker()">Search</button>
+      </form>
+
+      <!--  SEARCH NAME -->
+      <form [formGroup] = "searchName" (ngSubmit) = "sbn()">
+        <mat-form-field class ="">
+          <input matInput name="searchName" placeholder="Enter Name" formControlName="name" >
+        </mat-form-field>
+        <button (click) ="sbn()" class="btn btn-info">Find Name</button>
+        <button (click) ="getProviders()" class="btn btn-info">Reset</button>
+      </form>
+
+      <!-- pag buttons -->
+      <button *ngIf= "startA != 0"class="btn btn-info" (click) ="next('down')"> <i class="            material-icons">arrow_back_ios</i>
+      </button>
+
+      <button  *ngIf = "hideList === true"  class="btn btn-info" (click) ="next('up')"> <i class="          material-icons">arrow_forward_ios</i>
+      </button>
+
+      <div class ="listview" [class.list]="hideList" >
+        <div class="list-wrapper">
+          <div class="table-row b-txt">
+            <div class="table-cell c1">PRACTICE</div>
+            <div class="table-cell c2" >DISTANCE FROM ZIPCODE</div>
+            <div class="table-cell c2" >COUNTY</div>
+            <div class="table-cell c3" >PHONE NUMBER</div>
+            <div class="table-cell c4" >ACCEPTING SERVICES</div>
+          </div>
+          <div *ngIf ="showSpinner === true" class="sk-folding-cube">
+            <div class="sk-cube1 sk-cube"></div>
+            <div class="sk-cube2 sk-cube"></div>
+            <div class="sk-cube4 sk-cube"></div>
+            <div class="sk-cube3 sk-cube"></div>
+          </div>
+          <div class="lists">
+            <div class="table-row n-txt" *ngFor="let sList of serviceProvider; let i=index" (click)="openProviderAction(sList)">
+              <div class="table-cell c1">{{sList.Name}}</div>
+
+              <div class="table-cell c2"> {{sList.distance? sList.distance:'--'}} miles </div>
+
+              <div class="table-cell c2" > {{sList.county__c}} </div>
+              <div class="table-cell c3" > {{sList.Phone}}</div>
+
+
+              <div class="table-cell c4" >
+                <mat-list>
+                  <mat-list-item>
+                    <p style="font-size: 0.8em;">
+                      <span *ngIf ="sList.Cleaning__c === true">Cleaning</span>
+                      <span *ngIf ="sList.Pain__c === true">Pain</span>
+                      <span *ngIf ="sList.Extractions__c === true">Extraction</span>
+                      <span *ngIf ="sList.Orthodontics__c === 'Appointment Only'">Orthodontics</span>
+                      <span *ngIf ="sList.Dentures__c === 'Appointment Only'">Dentures</span>
+                    </p>
+                  </mat-list-item>
+                </mat-list>
+              </div>
+            </div>
+          </div>
         </div>
+      </div> <!-- End List View-->
 
 
-        <div class="ap-body">
-            <form [formGroup] = "searchDetails" (ngSubmit) = "theChecker()">
-
-			<mat-form-field class ="">
-                <input matInput name="searchZipcode" placeholder="Zipcode" formControlName="zipcode" (keyup.enter)="theChecker()">
-			</mat-form-field>
-
-			<mat-form-field class="">
-				<mat-select placeholder ="radius" formControlName ="radius" (keyup.enter)="theChecker()">
-                    <mat-option value=""></mat-option>
-					<mat-option *ngFor ="let r of radiusOp" [value]="r">
-						{{r}}
-					</mat-option>
-				</mat-select>
-			</mat-form-field>
-
-            <mat-form-field class="">
-                <mat-select placeholder ="age" formControlName ="age" (keyup.enter)="theChecker()">
-                    <mat-option value=""></mat-option>
-                    <mat-option *ngFor ="let a of ageOp" [value]="a">
-                        {{a}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-
-			<mat-form-field class="">
-				<mat-select placeholder ="Treatment" formControlName="treatment" (keyup.enter)="theChecker()">
-                     <mat-option value=""></mat-option>
-					<mat-option *ngFor ="let t of treatmentOp" [value]="t">
-						{{t}}
-					</mat-option>
-				</mat-select>
-			</mat-form-field>
-            <button class="btn btn-info" (click) ="theChecker()"> Temp Search Button</button>
-            </form>
-
-            <div class ="listview" [class.list]="hideList" >
-                    <div class="list-wrapper">
-                <div class="table-row b-txt">
-                    <div class="table-cell c1">PRACTICE</div>
-                    <div class="table-cell c2" >DISTANCE FROM ZIPCODE</div>
-                     <div class="table-cell c2" >COUNTY</div>
-                      <div class="table-cell c3" >PHONE NUMBER</div>
-                    <div class="table-cell c4" >ACCEPTING SERVICES</div>
-                </div>
-                <div class="lists">
-                   <div class="table-row n-txt" *ngFor="let sList of serviceProvider; let i=index" (click)="openProviderAction(sList)">
-                        <div class="table-cell c1">{{sList.Name}}</div>
-
-                        <div class="table-cell c2"> {{sList.distance? sList.distance:'--'}} miles </div>
-
-                         <div class="table-cell c2" > {{sList.county__c}} </div>
-                          <div class="table-cell c3" > {{sList.Phone}}</div>
+      <!--<div> MAP PAGINATION
+          <div *ngFor = "let i of iterations; let j = index" >
+              <button (click) = "newnewnew(j)">{{j}}</button>
+          </div>
+      </div> -->
 
 
-                        <div class="table-cell c4" >
-                            <mat-list>
-                                <mat-list-item>
-                                    <p style="font-size: 0.8em;">
-                                        <span *ngIf ="sList.Cleaning__c === true">Cleaning</span>
-                                        <span *ngIf ="sList.Pain__c === true">Pain</span>
-                                        <span *ngIf ="sList.Extractions__c === true">Extraction</span>
-                                        <span *ngIf ="sList.Orthodontics__c === 'Appointment Only'">Orthodontics</span>
-                                        <span *ngIf ="sList.Dentures__c === 'Appointment Only'">Dentures</span>
-                                    </p>
-                                </mat-list-item>
-                            </mat-list>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            </div> <!-- End List View-->
+      <div class = "mapview" id="mapview" [class.list]="hideMap" *ngIf = "hideList === true" >
+        <agm-map [latitude]="lat || 47.622537" [longitude]="lng || -122.333854" style ="margin-right: 5px; padding-right: 5px;" [zoom]="10">
 
+          <agm-marker *ngFor="let data of array1" [latitude]="data.Geolocation__c.latitude" [longitude]="data.Geolocation__c.longitude"  (markerClick)="updatePanel(data)" >
+            <agm-snazzy-info-window [maxWidth]="200" [closeWhenOthersOpen]="true">
+              <ng-template>
+                {{ data.Name }}
+              </ng-template>
+            </agm-snazzy-info-window>
+          </agm-marker>
+        </agm-map><br/>
+      </div><!-- end map view -->
 
-            <div class = "mapview" id="mapview" [class.list]="hideMap" *ngIf = "hideList === true" >
-                 <agm-map [latitude]="lat || 47.622537" [longitude]="lng || -122.333854" style ="margin-right: 5px; padding-right: 5px;" [zoom]="10">
-
-                <agm-marker *ngFor="let data of array1" [latitude]="data.Geolocation__c.latitude" [longitude]="data.Geolocation__c.longitude"  (markerClick)="updatePanel(data)" >
-                <agm-snazzy-info-window [maxWidth]="200" [closeWhenOthersOpen]="true">
-                      <ng-template>
-                        {{ data.Name }}
-                      </ng-template>
-                    </agm-snazzy-info-window>
-                </agm-marker>
-                </agm-map><br/>
-            </div><!-- end map view -->
-
-        </div> <!-- End AP Body -->
+    </div> <!-- End AP Body -->
 
 
 
 
-    </div> <!-- mid-section -->
+  </div> <!-- mid-section -->
 
-    <div class="right-section" [class.expanded]="isCollapsed1">
-        <mat-list class="header def_bg">
-            <i class="material-icons close_btn" (click)="isCollapsed1 = false">clear</i>
-        </mat-list>
-        <div class="p-detaitls-wrapper" >
-        <mat-list>
-    		<h1 matLine><span>{{providerName}}</span>
-            <span style="color: red;" *ngIf = "providerFlag == true" (click)="flagFunc(providerId,false)"><i class="material-icons">
+  <div class="right-section" [class.expanded]="isCollapsed1">
+    <mat-list class="header def_bg">
+      <i class="material-icons close_btn" (click)="isCollapsed1 = false">clear</i>
+    </mat-list>
+    <div class="p-detaitls-wrapper" >
+      <mat-list>
+        <h1 matLine><span>{{providerName}}</span>
+          <span style="color: red;" *ngIf = "providerFlag == true" (click)="flagFunc(providerId,false)"><i class="material-icons">
             flag
             </i></span>
-            <span style="color: gray;" *ngIf = "providerFlag == false" (click)="flagFunc(providerId,true)"><i class="material-icons">
+          <span style="color: gray;" *ngIf = "providerFlag == false" (click)="flagFunc(providerId,true)"><i class="material-icons">
             flag
             </i></span>
 
-            </h1>
-        </mat-list>
+        </h1>
+      </mat-list>
 
-    		<mat-list>
-    			<mat-list-item>
-    				<h2 matLine style="color:#51AFC6"> {{providerAddress}},  {{providerCity}},  {{providerState}}  {{providerZipCode}} </h2>
+      <mat-list>
+        <mat-list-item>
+          <h2 matLine style="color:#51AFC6"> {{providerAddress}},  {{providerCity}},  {{providerState}}  {{providerZipCode}} </h2>
 
-    				<p matLine> {{providerDescription}} </p><p matLine>{{providerDescription2}} </p>
-    			</mat-list-item>
-    		</mat-list>
+          <p matLine> {{providerDescription}} </p><p matLine>{{providerDescription2}} </p>
+        </mat-list-item>
+      </mat-list>
 
-    		 <mat-list>
-    			<mat-list-item>
-    				<h3 matLine style="margin-bottom: 5px;">
-    					<span style="font-weight: bold;">Contact Information</span>
-    				</h3>
+      <mat-list>
+        <mat-list-item>
+          <h3 matLine style="margin-bottom: 5px;">
+            <span style="font-weight: bold;">Contact Information</span>
+          </h3>
 
-    				<h2 matLine style="color:#51AFC6">
-    					<span style="padding-right: 15px;"> {{providerPhone}} </span>
-    					<span> {{providerEmail}} </span>
-    				</h2>
-    			</mat-list-item>
-    		</mat-list>
-             <br/>
-             <br/>
-    		<mat-list>
-    			<mat-list-item>
-    				<h3 matLine>
-    					<span style="font-weight: bold;">Accepted Insurance</span>
-    				</h3>
-    			</mat-list-item>
-    		</mat-list>
+          <h2 matLine style="color:#51AFC6">
+            <span style="padding-right: 15px;"> {{providerPhone}} </span>
+            <span> {{providerEmail}} </span>
+          </h2>
+        </mat-list-item>
+      </mat-list>
+      <br/>
+      <br/>
+      <mat-list>
+        <mat-list-item>
+          <h3 matLine>
+            <span style="font-weight: bold;">Accepted Insurance</span>
+          </h3>
+        </mat-list-item>
+      </mat-list>
 
-    			<div>
-						<mat-checkbox disabled="true"  [checked]="providerApple === true" style="margin-right:10px;">Apple Health</mat-checkbox>
-						<mat-checkbox disabled="true" [checked]="providerDelta === true" style="margin-right:10px;">Delta Dental of WA</mat-checkbox>
-						<mat-checkbox disabled="true" style="margin-right:10px;">Uninsured</mat-checkbox>
-				</div>
-			<mat-list>
-    			<mat-list-item>
-    				<h3 matLine>
-    					<span style="font-weight: bold;">Accepting Patients</span>
-    				</h3>
-    			</mat-list-item>
-    		</mat-list>
-    			<div>
-						<mat-checkbox disabled="true" [checked]="providerPediatric === 'Appointment Only'" style="margin-right:10px;">Pediatric</mat-checkbox>
-						<mat-checkbox  disabled="true" [checked]="providerAdult === 'Appointment Only'"style="margin-right:10px;">Adult</mat-checkbox>
-				</div>
+      <div>
+        <mat-checkbox disabled="true"  [checked]="providerApple === true" style="margin-right:10px;">Apple Health</mat-checkbox>
+        <mat-checkbox disabled="true" [checked]="providerDelta === true" style="margin-right:10px;">Delta Dental of WA</mat-checkbox>
+        <mat-checkbox disabled="true" style="margin-right:10px;">Uninsured</mat-checkbox>
+      </div>
+      <mat-list>
+        <mat-list-item>
+          <h3 matLine>
+            <span style="font-weight: bold;">Accepting Patients</span>
+          </h3>
+        </mat-list-item>
+      </mat-list>
+      <div>
+        <mat-checkbox disabled="true" [checked]="providerPediatric === 'Appointment Only'" style="margin-right:10px;">Pediatric</mat-checkbox>
+        <mat-checkbox  disabled="true" [checked]="providerAdult === 'Appointment Only'"style="margin-right:10px;">Adult</mat-checkbox>
+      </div>
 
-			<mat-list>
-    			<mat-list-item>
-    				<h3 matLine>
-    					<span>Services</span>
-    				</h3>
-    			</mat-list-item>
-    		</mat-list>
-    			<div>
-						<mat-checkbox disabled="true" [checked]="providerCleaning === true"style="margin-right:10px;">Cleaning</mat-checkbox>
+      <mat-list>
+        <mat-list-item>
+          <h3 matLine>
+            <span>Services</span>
+          </h3>
+        </mat-list-item>
+      </mat-list>
+      <div>
+        <mat-checkbox disabled="true" [checked]="providerCleaning === true"style="margin-right:10px;">Cleaning</mat-checkbox>
 
-						<mat-checkbox disabled="true" [checked]="providerPain === true" style="margin-right:10px;">Pain/Toothache</mat-checkbox>
-						<mat-checkbox disabled="true" [checked]="providerExtraction === true" style="margin-right:10px;">Extraction</mat-checkbox>
-				</div>
-				<div>
-						<mat-checkbox disabled="true" [checked]="providerOrtho === 'Appointment Only'" style="margin-right:10px;">Orthodontics</mat-checkbox>
-						<mat-checkbox disabled="true" [checked]="providerDentures !== 'Not Accepting'" style="margin-right:10px;">Dentures</mat-checkbox>
-				</div>
-			<mat-list>
-				<mat-list-item>
-					<h5 matList> Notes</h5>
-				</mat-list-item>
-			</mat-list>
-				<div >
+        <mat-checkbox disabled="true" [checked]="providerPain === true" style="margin-right:10px;">Pain/Toothache</mat-checkbox>
+        <mat-checkbox disabled="true" [checked]="providerExtraction === true" style="margin-right:10px;">Extraction</mat-checkbox>
+      </div>
+      <div>
+        <mat-checkbox disabled="true" [checked]="providerOrtho === 'Appointment Only'" style="margin-right:10px;">Orthodontics</mat-checkbox>
+        <mat-checkbox disabled="true" [checked]="providerDentures !== 'Not Accepting'" style="margin-right:10px;">Dentures</mat-checkbox>
+      </div>
+      <mat-list>
+        <mat-list-item>
+          <h5 matList> Notes</h5>
+        </mat-list-item>
+      </mat-list>
+      <div >
 					<textarea disabled="true" rows="4" cols="50" style="border-color: #51AFC6; border-width: 2px; ">
 
 					</textarea>
-				</div>
-			<mat-list>
-				<mat-list-item>
-					<h5 matList>
-						<span>DentistList Patients</span>
-						<span> # Active Patients</span>
-					</h5>
-				</mat-list-item>
-			</mat-list>
+      </div>
+      <mat-list>
+        <mat-list-item>
+          <h5 matList>
+            <span>DentistList Patients</span>
+            <span> # Active Patients</span>
+          </h5>
+        </mat-list-item>
+      </mat-list>
 
 
-        </div><!-- END Panel-->
-    </div>
+    </div><!-- END Panel-->
+  </div>
 
 </div> <!-- final div -->

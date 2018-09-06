@@ -73,6 +73,7 @@ export class PatientPageComponent implements OnInit {
   msgPanel: Boolean = false;
   replyMSG: Boolean = false;
   replyID: string; 
+  interval: any; 
 
 
 
@@ -134,9 +135,10 @@ export class PatientPageComponent implements OnInit {
     this.statusType =["New","Pending","Urgent","Closed"]
     this.patientPanel = true;
     this.getReferral();
-    
 
   }
+
+
 
   createForm(){
     this.referralDetailForm = this.fb.group({
@@ -434,6 +436,7 @@ updateReferral(){
 
 
  getReferral(){
+   console.log("patientID",this.patientId)
    this.reqObj.email = this.cus.getCurrentUser()
    this.reqObj.patient_id = this.patientId
    this.dss.getReferral(this.reqObj).subscribe(res => {
@@ -502,6 +505,7 @@ updateReferral(){
       provider: this.taskDetailForm.value.provider,
       task_deadline: this.taskDetailForm.value.task_deadline,
       task_description: this.taskDetailForm.value.task_description, 
+      additional_fields: this.taskDetailForm.value.task_treatment
     };
    this.dss.createTask(reqObj).subscribe(res => {
      let response:any = res;
@@ -562,6 +566,11 @@ updateReferral(){
  }
 
   getCommunication(value){
+    console.log("no value",value)
+    if (value === undefined) {
+      value = this.taskId
+      console.log("What is my value",this.taskId)
+    }
     this.replyMSG = false;
     this.taskId = value;
     this.msgPanel = true;
@@ -573,15 +582,20 @@ updateReferral(){
       const response: any = res;
      if (response.status === 'ok') {
        console.log("Communcation response", response)
-     this.messages = response.comm_data
+     this.messages = response.comm_data;
      console.log("message", this.messages) 
    }
 
  })
  }
+
+//independent function to reload the data
+
+
+
  passMsgID(data){
    this.replyMSG = true;
-   console.log("lksjfdlaskfd",data)
+   console.log("Message ID",data)
    this.replyID = data;
 
  }

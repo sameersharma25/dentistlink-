@@ -79,10 +79,12 @@ export class PatientsComponent implements OnInit {
   finishA: number = 25;
   appointmentFields: Boolean = false;
   messageForm: FormGroup;
+  searchName: FormGroup;
   messages: any = [];
   msgPanel: Boolean = false;
   replyMSG: Boolean = false;
   replyID: string; 
+  theResult: any = [];
 
 
   constructor(
@@ -220,6 +222,9 @@ export class PatientsComponent implements OnInit {
        comm_message: [''],
 
      })
+    this.searchName = this.fb.group({
+      name: [''],
+    })
   };
 
 
@@ -293,6 +298,7 @@ export class PatientsComponent implements OnInit {
 
   // right panel action for patient
   openPatientAction(data) {
+    this.isCollapsed1=false;
     this.getReferral(data.patient_id);
     this.patientAction.isOpened = false;
     this.patientAction.collapsed = false;
@@ -513,6 +519,19 @@ export class PatientsComponent implements OnInit {
         alert("There are no practices in this zipcode")
       }
     })
+  }
+
+  sbn(){
+    console.log("Name",this.searchName.value.name)
+    for (var i = 0; i < this.serviceProvider.length ; i++) {
+      if(this.serviceProvider[i].Name.toUpperCase().includes(this.searchName.value.name.toUpperCase())) {
+        this.theResult.push(this.serviceProvider[i])
+      }
+    };
+    this.serviceProvider = this.theResult
+    this.array1 = this.theResult
+    console.log("results",this.theResult)
+    this.theResult = [];
   }
 
 
@@ -966,6 +985,7 @@ updateReferral(){
      if(response.status == 'ok'){
        //alert("Message Sent")
        this.messageForm.reset()
+       this.getCommunication(this.taskId);
        //add call for input window to close
      }
    }, err => {
@@ -974,6 +994,11 @@ updateReferral(){
  }
 
   getCommunication(data){
+    console.log("no value",data)
+    if (data === undefined) {
+      data = this.taskId
+      console.log("What is my value",this.taskId)
+    }
     this.replyMSG = false;
     this.taskId = data;
     this.msgPanel = true;
