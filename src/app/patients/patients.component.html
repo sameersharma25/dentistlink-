@@ -66,6 +66,13 @@
 
                 </div> <!-- Form Div -->
 
+<div *ngIf ="showSpinner === true" class="sk-folding-cube">
+  <div class="sk-cube1 sk-cube"></div>
+  <div class="sk-cube2 sk-cube"></div>
+  <div class="sk-cube4 sk-cube"></div>
+  <div class="sk-cube3 sk-cube"></div>
+</div>
+
                 <mat-panel-title class="label_txt">
                   Practice
                 </mat-panel-title>
@@ -233,6 +240,7 @@
                                 </div>
                             </div>
                             <div class="_clearfix"></div>
+                            <p>DOB:</p>
                             <div class="section-row">
                                 <div>
                                     <div class="pull-left" style="width: 100px;margin-right: 10px;">
@@ -472,7 +480,7 @@ add_circle_outline
         Task 
       </mat-panel-title>
       <mat-panel-description>
-            Current Task's
+            Current Tasks
       </mat-panel-description>
     </mat-expansion-panel-header>
     <table>

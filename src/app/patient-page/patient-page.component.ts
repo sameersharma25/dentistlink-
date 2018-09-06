@@ -270,7 +270,7 @@ export class PatientPageComponent implements OnInit {
 
 //CRUD USer
   editPatientInfo() {
-
+    console.log("address",this.patientDetailsEditForm.value.patientAddress)
     if(this.patientAction.label == 'Create'){
       let patient_dob = this.getDate(this.patientDetailsEditForm.value);
       let reqObj: any = {
@@ -531,8 +531,8 @@ updateReferral(){
   (<FormGroup>this.taskDetailForm)
     .patchValue({task_status: this.selectedTask.task_status}, {onlySelf: true});
 
-  (<FormGroup>this.taskDetailForm)
-    .patchValue({task_owner: this.selectedTask.task_owner}, {onlySelf: true});
+(<FormGroup>this.taskDetailForm)
+    .patchValue({task_owner: this.cus.getCurrentUser()}, {onlySelf: true});
 
   (<FormGroup>this.taskDetailForm)
     .patchValue({task_deadline: this.selectedTask.task_deadline}, {onlySelf: true});
@@ -542,6 +542,7 @@ updateReferral(){
 
  }
  updateTask(){
+   console.log("look", this.taskDetailForm.value.task_treatment)
      let reqObj: any = {
       task_id: this.taskId,
       task_type: this.taskDetailForm.value.task_type,
@@ -550,6 +551,8 @@ updateReferral(){
       provider: this.taskDetailForm.value.provider,
       task_deadline: this.taskDetailForm.value.task_deadline,
       task_description: this.taskDetailForm.value.task_description, 
+      additional_fields: [this.taskDetailForm.value.task_treatment], 
+      
     };
     this.dss.updateTask(reqObj).subscribe(res => {
      let response:any = res;
