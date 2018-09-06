@@ -85,6 +85,7 @@ export class PatientsComponent implements OnInit {
   replyMSG: Boolean = false;
   replyID: string; 
   theResult: any = [];
+  showSpinner: Boolean = true;
 
 
   constructor(
@@ -509,14 +510,17 @@ export class PatientsComponent implements OnInit {
 
   //
   searchZipcode(value){
+    this.showSpinner = true;
     this.reqObj.email = this.cus.getCurrentUser();
     this.dss.searchZip(this.reqObj,value).subscribe(res => {
       this.serviceProvider = res;
+      this.showSpinner = false;
       console.log("am i getting a response",this.serviceProvider)
       this.array1 = this.serviceProvider.slice(0,20)
       this.mapArray = this.serviceProvider.slice(0,20)
       console.log("maparray", this.mapArray)
       this.formZipcode = "&zip="
+
       console.log("can I get a length",this.serviceProvider.length)
       if(this.serviceProvider.length === 0){
         alert("There are no practices in this zipcode")
@@ -1019,6 +1023,7 @@ updateReferral(){
  }
 
  theChecker(){
+   this.showSpinner = true; 
     var grandURL = ""
     console.log("zipcode",this.searchDetails.value.zipcode)
     //Z I P C O D E 
